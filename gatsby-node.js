@@ -1,49 +1,5 @@
 const path = require('path')
 
-const createTagPages = (createPage, posts) => {
-
-  const allTagsIndexTemplate = path.resolve('src/templates/allTagsIndex.js')
-  const singleTagIndexTemplate = path.resolve('src/templates/singleTagIndex.js')
-
-  const postsByTag = {}
-
-  posts.forEach(({ node }) => {
-    if (node.frontmatter.tags) {
-      node.frontmatter.tags.forEach(tag => {
-        if (!postsByTag[tag]) {
-          postsByTag[tag] = []
-        }
-
-        postsByTag[tag].push(node)
-      })
-    }
-  })
-
-  const tags = Object.keys(postsByTag)
-
-  createPage({
-    path: '/tags',
-    component: allTagsIndexTemplate,
-    context: {
-      tags: tags.sort()
-    }
-  })
-
-  tags.forEach(tagName => {
-    const posts = postsByTag[tagName]
-
-    createPage({
-      path: `/tags/${tagName}`,
-      component: singleTagIndexTemplate,
-      context: {
-        posts,
-        tagName,
-      }
-    })
-  })
-}
-
-
 exports.createPages = (({ graphql, actions }) => {
   const { createPage } = actions
 
@@ -53,15 +9,12 @@ exports.createPages = (({ graphql, actions }) => {
 
     resolve(
       graphql(`
-        query {
-          allMarkdownRemark(sort: { order: ASC, fields: [frontmatter___date] }) {
+        {
+          allOrga {
             edges {
               node {
-                frontmatter {
-                  title
-                  date
-                  path
-                  tags
+                fields {
+                  slug
                 }
               }
             }
@@ -69,21 +22,17 @@ exports.createPages = (({ graphql, actions }) => {
         }
       `
       ).then(result => {
-        const posts = result.data.allMarkdownRemark.edges
+        // createTagPages(createPage, posts)
 
-        createTagPages(createPage, posts)
-
-        posts.forEach(({ node }, index) => {
-          const { path } = node.frontmatter
-
+        result.data.allOrga.edges.forEach(edge => {
+          const { slug } = edge.node.fields
           createPage({
-            path,
+            path: slug,
             component: blogPostTemplate,
             context: {
-              // using "pathSlug" bc "path" is a reserved keyword
-              pathSlug: path,
-              prev: index === 0 ? null : posts[index - 1].node,
-              next: index === (posts.length - 1) ? null : posts[index + 1].node,
+              slug,
+              // prev: index === 0 ? null : posts[index - 1].node,
+              // next: index === (posts.length - 1) ? null : posts[index + 1].node,
             }
           })
 
@@ -93,4 +42,30 @@ exports.createPages = (({ graphql, actions }) => {
     )
   })
 })
+
+// Add custom url pathname for blog posts
+exports.onCreateNode = ({
+  node,
+  actions,
+  getNode
+}) => {
+  const { createNodeField } = actions
+
+  if (node.internal.type === `File`) {
+    const folder = node.relativeDirectory
+    // why do we need to parse here?
+    const fileName = path.parse(node.absolutePath).name
+    const slug = `/${path.join(folder, fileName)}/`
+    createNodeField({ node, name: `slug`, value: slug })
+  } else if (
+    node.internal.type === `Orga` && typeof node.slug === `undefined`
+  ) {
+    const fileNode = getNode(node.parent)
+    createNodeField({
+      node,
+      name: `slug`,
+      value: fileNode.fields.slug,
+    })
+  }
+}
 

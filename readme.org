@@ -36,3 +36,9 @@ Inside the pages directory create a directory for each post. Inside each, write 
 Run =gatsby develop= and then navigate to =localhost:8000/___graphql=
 
 
+
+* Upgrading from markdown to org-mode
+
+Currently the [[https://github.com/xiaoxinghu/gatsby-orga][gatsby-orga]] plugin has not made the migration from Gatsby 1 to 2, as of <2018-11-15 Thu>.
+
+Branch =org-mode= put on hold until this changes.

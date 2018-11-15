@@ -4,7 +4,8 @@ module.exports = {
     description: 'This is where I write, mostly about programming-related things but sometimes books stuff also.',
   },
   plugins: [
-    `gatsby-transformer-remark`,
+    // `gatsby-transformer-remark`,
+    `gatsby-transformer-orga`,
     `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-source-filesystem`,
