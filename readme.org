@@ -1,0 +1,37 @@
+#+TITLE: Blog Readme
+#+AUTHOR: Andrew Jarrett
+
+* Gatsby Blog
+
+** Install Gatsby
+
+Install =gatsby@next= and =gatsby-cli@next= globally.
+
+Then from =blog= do:
+
+#+BEGIN_SRC shell
+  gatsby new thegrepper-blog
+#+END_SRC
+
+
+
+** Install dependencies
+
+#+BEGIN_SRC shell
+  gatsby-source-filesystem@next gatsby-transformer-remark@next
+#+END_SRC
+
+Then create =gatsby-config.js= in the root of the project.
+
+For now I assign a dummy title and description to the =siteMetadata= key on the object that we export.
+
+** Bring in MD
+
+*** TODO Change to support org-mode files
+
+Inside the pages directory create a directory for each post. Inside each, write your blog post in the =index.md= file.
+
+** GraphiQl
+
+Run =gatsby develop= and then navigate to =localhost:8000/__graphql=
+
