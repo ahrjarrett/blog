@@ -27,6 +27,10 @@ const Layout = ({ data }) => {
 	    </div>
 	  )
 	})}
+
+        <div style={{ marginTop: '2rem' }}>
+          <Link to='/tags'>Browse all tags</Link>
+        </div>
       </div>
     </div>
   )
@@ -35,7 +39,7 @@ const Layout = ({ data }) => {
 export const query = graphql`
 query HomePageQuery {
   allMarkdownRemark(
-    sort: { order: DESC, fields: [frontmatter___date] }
+    sort: { order: ASC, fields: [frontmatter___date] }
   ) {
     edges {
       node {

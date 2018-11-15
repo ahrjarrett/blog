@@ -1,11 +1,15 @@
 import React from 'react'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import { MAIN_FONT } from '../constants'
 
-const Template = ({ data }) => {
+// pageContext is being passed via context object in gatsby-node.js
+const Template = ({ data, pageContext }) => {
   const { markdownRemark } = data
   const { title } = markdownRemark.frontmatter
   const { html } = markdownRemark
+  const { prev, next } = pageContext
+
+  console.log(pageContext)
 
   return (
     <div style={{ fontFamily: MAIN_FONT }}>
@@ -14,6 +18,10 @@ const Template = ({ data }) => {
 	className="blogpost"
 	dangerouslySetInnerHTML={{ __html: html }}
 	/>
+      <div style={{ marginBottom: '1rem' }}>
+	{ prev && <Link to={prev.frontmatter.path}>Previous {prev.frontmatter.title}</Link>}
+	{ next && <Link to={next.frontmatter.path}>Next {next.frontmatter.title}</Link>}
+      </div>
     </div>
   )
 }
