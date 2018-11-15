@@ -1,30 +1,27 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import { MAIN_FONT } from '../constants'
 
-const style = {
-  fontFamily: MAIN_FONT,
-}
+import Layout from '../components/Layout'
 
 const AllTagsTemplate = ({ data, pageContext }) => {
-  const { tags } = pageContext
+	const { tags } = pageContext
 
-  return (
-    <div style={style}>
-      <div>
-	<ul style={{listStyle: 'none'}}>
-	  {tags.map((tagName, index) => {
-	    return (
-	      <li key={index}>
-		<Link to={`/tags/${tagName}`}>{ tagName }</Link>
-	      </li>
-	    )
-	  })}
-	</ul>
-      </div>
-    </div>
-  )
+	return (
+		<Layout>
+			<div>
+				<p>All tags:</p>
+				<ul style={{ listStyle: 'none' }}>
+					{tags.map((tagName, index) => {
+						return (
+							<li key={index}>
+								<Link to={`/tags/${tagName}`}>{tagName}</Link>
+							</li>
+						)
+					})}
+				</ul>
+			</div>
+		</Layout>
+	)
 }
 
 export default AllTagsTemplate
-

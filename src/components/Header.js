@@ -1,21 +1,20 @@
 import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
-import { MAIN_FONT } from '../constants'
+import styled from 'styled-components'
 
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  fontFamily: MAIN_FONT,
-}
+const TitleAndDescriptionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
 const TitleAndDescription = ({ data }) => {
   const { title, description } = data.site.siteMetadata
   return (
-    <div style={style}>
+		<TitleAndDescriptionWrapper>
       <h2>{title}</h2>
       <p>{description}</p>
-    </div>
+		</TitleAndDescriptionWrapper>
   )
 }
 

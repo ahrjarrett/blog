@@ -1,40 +1,43 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
+import styled from 'styled-components'
+
+import Layout from '../components/Layout'
 import Header from '../components/Header'
-import { MAIN_FONT } from '../constants'
 
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  fontFamily: MAIN_FONT,
-}
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  alignItems: center;
+`
 
-const Layout = ({ data }) => {
+const Index = ({ data }) => {
   const { edges } = data.allMarkdownRemark
 
   return (
-    <div>
-      <Header />
-      <div style={style}>
-        {edges.map(edge => {
-          const { frontmatter } = edge.node
-          return (
-            <div key={frontmatter.path}>
-              <Link to={frontmatter.path}>
-                {frontmatter.title}
-              </Link>
-            </div>
-          )
-        })}
-        <div style={{ margin: '2rem 0' }}>
-          <Link to='/tags'>Browse all tags</Link>
-        </div>
+    <Layout>
+      <HeaderWrapper>
+        <Header />
         <div>
-          This blog was built with GraphQL and Gatsby 2.0. <a href="https://github.com/ahrjarrett/blog" target="_blank" rel="noopener noreferrer">View the source code</a> on GitHub.
+          {edges.map(edge => {
+            const { frontmatter } = edge.node
+            return (
+              <div key={frontmatter.path}>
+                <Link to={frontmatter.path}>
+                  {frontmatter.title}
+                </Link>
+              </div>
+            )
+          })}
+          <div style={{ margin: '2rem 0' }}>
+            <Link to='/tags'>Browse all tags</Link>
+          </div>
+          <div>
+            This blog was built with GraphQL and Gatsby 2.0. <a href="https://github.com/ahrjarrett/blog" target="_blank" rel="noopener noreferrer">View the source code</a> on GitHub.
         </div>
-      </div>
-    </div>
+        </div>
+      </HeaderWrapper>
+    </Layout>
   )
 }
 
@@ -55,5 +58,5 @@ query HomePageQuery {
   }
 }`
 
-export default Layout
+export default Index
 

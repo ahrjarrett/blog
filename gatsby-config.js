@@ -5,11 +5,12 @@ module.exports = {
   },
   plugins: [
     `gatsby-transformer-remark`,
+    `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-	name: `pages`,
-	path: `${__dirname}/src/pages`,
+        name: `pages`,
+        path: `${__dirname}/src/pages`,
       },
     }
   ]
