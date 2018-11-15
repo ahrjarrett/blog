@@ -33,5 +33,6 @@ Inside the pages directory create a directory for each post. Inside each, write 
 
 ** GraphiQl
 
-Run =gatsby develop= and then navigate to =localhost:8000/__graphql=
+Run =gatsby develop= and then navigate to =localhost:8000/___graphql=
+
 
