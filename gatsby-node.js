@@ -1,6 +1,5 @@
 const path = require('path')
 
-
 const query = `
 query {
   allMarkdownRemark {
@@ -28,6 +27,7 @@ exports.createPages = (({ graphql, actions }) => {
 	  createPage({
 	    path,
 	    component: blogPostTemplate,
+	    // "context" available in component props as "pageContext"
 	    context: {
 	      // using "pathSlug" bc path is a reserved keyword
 	      pathSlug: path

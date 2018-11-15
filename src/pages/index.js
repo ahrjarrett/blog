@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
 import Header from '../components/Header'
-import { MAIN_FONT } from '../contants'
+import { MAIN_FONT } from '../constants'
 
 const style = {
   display: 'flex',

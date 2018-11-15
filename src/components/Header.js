@@ -1,6 +1,6 @@
 import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
-import { MAIN_FONT } from '../contants'
+import { MAIN_FONT } from '../constants'
 
 const query = graphql`
 query {
