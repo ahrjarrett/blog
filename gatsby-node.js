@@ -46,7 +46,6 @@ const createTagPages = (createPage, posts) => {
 
   tags.forEach(tagName => {
     const posts = postsByTag[tagName]
-    console.log('POSTS', posts)
 
     createPage({
       path: `/tags/${tagName}`,

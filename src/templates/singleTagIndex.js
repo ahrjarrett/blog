@@ -1,11 +1,17 @@
 import React from 'react'
-import { graphql, Link } from 'gatsby'
+import { Link } from 'gatsby'
+import { MAIN_FONT } from '../constants'
+
+const style = {
+  fontFamily: MAIN_FONT,
+  margin: '40px',
+}
 
 const SingleTagTemplate = ({ data, pageContext }) => {
   const { posts, tagName } = pageContext
 
   return (
-    <div>
+    <div style={style}>
       <div>
 	Posts about {tagName}
       </div>

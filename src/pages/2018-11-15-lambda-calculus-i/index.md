@@ -1,0 +1,180 @@
+---
+path: '/lambda-calculus-i'
+date: '2018-11-15'
+title: 'Lambda Calculus I'
+tags: ['lambda calculus', 'functional programming', 'beta reduction']
+excerpt: 'After watching Gabriel Lebec’s excellent talk on the fundamentals of lambda calculus, I decided to implement the types and combinators that he covered.'
+---
+
+After watching Gabriel Lebec’s [excellent talk on the fundamentals of lambda calculus](https://www.youtube.com/watch?v=3VQ382QG-y4), I decided to implement all of the types and combinators that he covered.
+
+[His talk](https://www.youtube.com/watch?v=3VQ382QG-y4) Lebec recommends a couple books, one of which is [To Mock a Mockingbird](https://www.amazon.com/Mock-Mockingbird-Raymond-Smullyan/dp/0192801422), which I recently picked up.
+
+You can also [view this code in a gist](https://gist.github.com/ahrjarrett/7b67bb161f9a1714c1ddfd7e893c8b73), if you prefer.
+
+
+
+
+```javascript
+let { log } = console
+
+I = a => a
+M = f => f(f)
+K = a => b => a
+KI = a => b => b
+C = f => a => b => f(b)(a)
+
+I.inspect  = () => 'I  := 𝝺a.a'
+M.inspect  = () => 'M  := 𝝺f.ff'
+K.inspect  = () => 'K  := 𝝺ab.a'
+KI.inspect = () => 'KI := 𝝺ab.b'
+C.inspect  = () => 'C  := 𝝺fab.fba'
+
+T = K
+F = KI
+T.inspect = () => 'T / K'
+F.inspect = () => 'F / KI'
+_ = () => 'noop'
+
+
+/**********************************************/
+/***   (I) Idiot        ~>  I := 𝝺a.a       ***/
+
+I(I) == I
+I(M) == M
+
+
+/**********************************************/
+/***   (M) Mockingbird  ~>  M := 𝝺f.ff      ***/
+
+M(I) == I
+// What happens when we self-apply self-application (MM)?
+try { M(M) } catch(e) { log(e.message) }
+// => Maximum call stack size exceeded
+
+
+/**********************************************/
+/***   (K) Kestral      ~>  K := 𝝺ab.a      ***/
+
+constant_5 = K(5)
+constant_5(I) == 5
+constant_5(M) == 5
+constant_5(1) == 5
+constant_5(_)  == 5
+
+
+/**********************************************/
+/***   (KI) Kite        ~>  KI := 𝝺ab.b     ***/
+
+KI(1)(0) == K(I)(1)(0)
+/* Kite can be derived from Kestral of identity, or KI;
+   it can also be derived from CK */
+KI == F
+KI(M)(KI) == F
+
+
+/**********************************************/
+/***   (C) Cardinal     ~>  C := 𝝺fab.fba   ***/
+
+divide = a => b => a / b
+C(divide)(9)(1) == 1/9
+C(K)(2)(3) == 3
+
+// C takes a function, 2 arguments, and reverses or "flips" them.
+// CK takes 2 things, returns the 2nd, which sounds familiar...
+// CK and KI are equivalent!
+C(K)(I)(M) == KI(I)(M)
+C(K)(I)(M) == M
+C(K)(I)(M) == I
+
+// CK is built into Haskell as:
+// flip const 1 8 == 8
+
+
+/*** Booleans ***/
+
+not = p => p(F)(T)
+// - : not ~> 𝝺p.pFT
+
+not(T) == F
+not(F) == T
+not(K) == KI
+not(KI) == K
+
+// NOT is how we achieve negation.
+// Here we're using "booleans" to select 1st value if p is true, otherwise 2nd
+// NOT, then, "flips" that formula around. We've already seen flip:
+
+C(T)(1)(2) == 2  //  select 2nd, instead of 1st, on T
+C(F)(1)(2) == 1  //  select 1st, instead of 2nd, on F
+
+// The difference is that C generates a new fn, instead of just returning T / F
+// So basically we've recreated KI and K, respectively.
+// C(T) & KI, C(F) & K have _extensional_, not intensional equality.
+
+
+and = p => q => p(q)(p)
+// - : and ~> 𝝺pq.pqp
+
+// AND is also known as conjunction.
+// if p is F, short-circuit & select itself (p)
+// if p is T, q determines whether the entire statement is T or F, so defer to q
+and(T)(T) == T
+and(F)(T) == F
+and(T)(F) == F
+and(F)(F) == F
+
+
+or = p => q => p(p)(q)
+// - : or ~> 𝝺pq.ppq
+
+// OR is also known as disjunction, or M* (see the beta reduction below)
+// if p is T, short-circuit; we only need 1 T for OR, so p self-selects.
+// if p is F, defer to q; q determines whether the expression is T or F
+or(T)(T) == T
+or(T)(F) == T
+or(F)(T) == T
+or(F)(F) == F
+
+
+// let's do a beta reduction substituting x and y for p and q:
+
+//    (𝝺pq.ppq)xy
+//    (𝝺pq.ppq)xy = xxy
+//             xy = xxy
+//              x = xx
+//             Mf = ff
+
+// This is known as the Mockingbird-Once-Removed, or M*, because we have Mxy = Mxxy instead of just Mx = Mxx
+
+M(T)(T) == T
+M(T)(F) == F
+M(F)(F) == T
+M(F)(F) == F
+
+
+// boolean equality?
+beq = p => q => p(q)(not(q))
+// - : beq ~> 𝝺pq.p(qTF)(qFT), or:
+// - : beq ~> 𝝺pq.pq(NOT q)
+
+beq(T)(T) == T
+beq(F)(T) == F
+beq(T)(F) == F
+beq(F)(F) == T
+
+
+
+/*** NOTES: ***
+ 
+ * Q: What's a combinator?
+ 
+ * A: A combinator is a higher-order function that uses only function 
+ * application and earlier defined combinators to define a result 
+ * from its arguments (Wikipedia: Combinatory Logic)
+
+ * ...or: "Functions with no free variables"
+
+ ***/
+```
+

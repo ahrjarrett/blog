@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Andrew Jarrett\'s blog',
+    title: 'Andrew Jarrett’s blog',
     description: 'This is where I write, mostly about programming-related things but sometimes books stuff also.',
   },
   plugins: [

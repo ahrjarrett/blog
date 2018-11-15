@@ -12,15 +12,17 @@ query {
   }
 }`
 
+const style = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  fontFamily: MAIN_FONT,
+}
+
 const TitleAndDescription = ({ data }) => {
   const { title, description } = data.site.siteMetadata
   return (
-    <div style={{
-	   display: 'flex',
-	   flexDirection: 'column',
-	   alignItems: 'center',
-	   fontFamily: MAIN_FONT,
-    }}>
+    <div style={style}>
       <h2>{title}</h2>
       <p>{description}</p>
     </div>
