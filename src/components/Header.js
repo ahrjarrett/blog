@@ -2,16 +2,6 @@ import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
 import { MAIN_FONT } from '../constants'
 
-const query = graphql`
-query {
-  site {
-    siteMetadata {
-      title
-      description
-    }
-  }
-}`
-
 const style = {
   display: 'flex',
   flexDirection: 'column',
@@ -32,9 +22,18 @@ const TitleAndDescription = ({ data }) => {
 const Header = () => {
   return (
     <StaticQuery
-      query={query}
+      query={graphql`
+        query {
+          site {
+            siteMetadata {
+              title
+              description
+            }
+          }
+        }
+      `}
       render={data => <TitleAndDescription data={data} />}
-      />
+    />
   )
 }
 

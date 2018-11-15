@@ -1,20 +1,5 @@
 const path = require('path')
 
-const query = `
-query {
-  allMarkdownRemark(sort: { order: ASC, fields: [frontmatter___date] }) {
-    edges {
-      node {
-        frontmatter {
-          path
-          title
-          tags
-        }
-      }
-    }
-  }
-}`
-
 const createTagPages = (createPage, posts) => {
 
   const allTagsIndexTemplate = path.resolve('src/templates/allTagsIndex.js')
@@ -23,13 +8,13 @@ const createTagPages = (createPage, posts) => {
   const postsByTag = {}
 
   posts.forEach(({ node }) => {
-    if(node.frontmatter.tags) {
+    if (node.frontmatter.tags) {
       node.frontmatter.tags.forEach(tag => {
-	if(!postsByTag[tag]) {
-	  postsByTag[tag] = []
-	}
+        if (!postsByTag[tag]) {
+          postsByTag[tag] = []
+        }
 
-	postsByTag[tag].push(node)
+        postsByTag[tag].push(node)
       })
     }
   })
@@ -51,8 +36,8 @@ const createTagPages = (createPage, posts) => {
       path: `/tags/${tagName}`,
       component: singleTagIndexTemplate,
       context: {
-	posts,
-	tagName,
+        posts,
+        tagName,
       }
     })
   })
@@ -67,29 +52,43 @@ exports.createPages = (({ graphql, actions }) => {
     const blogPostTemplate = path.resolve('src/templates/blogPost.js')
 
     resolve(
-      graphql(
-	query
+      graphql(`
+        query {
+          allMarkdownRemark(sort: { order: ASC, fields: [frontmatter___date] }) {
+            edges {
+              node {
+                frontmatter {
+                  title
+                  date
+                  path
+                  tags
+                }
+              }
+            }
+          }
+        }
+      `
       ).then(result => {
-	const posts = result.data.allMarkdownRemark.edges
+        const posts = result.data.allMarkdownRemark.edges
 
-	createTagPages(createPage, posts)
+        createTagPages(createPage, posts)
 
-	posts.forEach(({ node }, index) => {
-	  const { path } = node.frontmatter
+        posts.forEach(({ node }, index) => {
+          const { path } = node.frontmatter
 
-	  createPage({
-	    path,
-	    component: blogPostTemplate,
-	    context: {
-	      // using "pathSlug" bc "path" is a reserved keyword
-	      pathSlug: path,
-	      prev: index === 0 ? null : posts[index - 1].node,
-	      next: index === (posts.length - 1) ? null : posts[index + 1].node,
-	    }
-	  })
-	  
-	  resolve()
-	})
+          createPage({
+            path,
+            component: blogPostTemplate,
+            context: {
+              // using "pathSlug" bc "path" is a reserved keyword
+              pathSlug: path,
+              prev: index === 0 ? null : posts[index - 1].node,
+              next: index === (posts.length - 1) ? null : posts[index + 1].node,
+            }
+          })
+
+          resolve()
+        })
       })
     )
   })
