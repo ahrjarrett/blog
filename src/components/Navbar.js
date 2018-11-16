@@ -4,6 +4,21 @@ import styled from 'styled-components'
 import SearchBar from './SearchBar'
 import NavigationLinks from './NavigationLinks'
 
+const links = [
+  {
+    text: `Home`, url: `/`,
+    meta: { type: 'internal' }
+  },
+  {
+    text: `About me`, url: `https://thegrepper.com/resume`,
+    meta: { type: 'external', newtab: false }
+  },
+  {
+    text: `GitHub`, url: `https://github.com/ahrjarrett`,
+    meta: { type: 'external', newtab: true }
+  },
+]
+
 const NavigationWrapper = styled.div`
   background: rgb(36, 41, 46);
   min-height: 56px;
@@ -96,20 +111,6 @@ const FlexContainerRight = styled.div`
   }
 `
 
-const links = [
-  {
-    text: `Home`, url: `/`,
-    meta: { type: 'internal' }
-  },
-  {
-    text: `About me`, url: `https://thegrepper.com/resume`,
-    meta: { type: 'external', newtab: false }
-  },
-  {
-    text: `GitHub`, url: `https://github.com/ahrjarrett`,
-    meta: { type: 'external', newtab: true }
-  },
-]
 
 const Lambda = () => (
   <span
