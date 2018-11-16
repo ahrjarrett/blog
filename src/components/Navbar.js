@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'gatsby'
+import { withPrefix, Link } from 'gatsby'
 import styled from 'styled-components'
 import SearchBar from './SearchBar'
 import NavigationLinks from './NavigationLinks'
@@ -140,7 +140,7 @@ const Navigation = () => {
           <NavigationLinks links={links} />
         </FlexContainerLeft>
         <FlexContainerRight>
-          <img src='./GraphQl.svg' alt='GraphQL Logo' />
+          <img src={withPrefix('/GraphQl.svg')} alt='GraphQL' />
         </FlexContainerRight>
       </Container>
     </NavigationWrapper>
