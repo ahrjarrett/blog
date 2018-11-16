@@ -5,6 +5,18 @@ import styled from 'styled-components'
 import Layout from '../components/Layout'
 import Header from '../components/Header'
 import BlogIntro from '../components/BlogIntro'
+import Card from '../components/Card'
+
+// <div key={frontmatter.path}>
+//   <Link to={frontmatter.path}>
+//     {frontmatter.title}
+//   </Link>
+// </div>
+
+const CardsWrapper = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+`
 
 const Index = ({ data }) => {
   const { edges } = data.allMarkdownRemark
@@ -14,27 +26,27 @@ const Index = ({ data }) => {
       <Header />
       <Layout>
         <BlogIntro />
-        <div>
+        <h1 style={{ textAlign: 'center' }}>Read the latest logs</h1>
+        <CardsWrapper>
           {edges.map(edge => {
             const { frontmatter } = edge.node
             return !frontmatter.published ? null : (
-              <div key={frontmatter.path}>
-                <Link to={frontmatter.path}>
-                  {frontmatter.title}
-                </Link>
-              </div>
+              <Card
+                key={frontmatter.path}
+                frontmatter={frontmatter}
+              />
             )
           })}
-          <div style={{ margin: '2rem 0' }}>
-            <Link to='/tags'>Browse all tags</Link>
-          </div>
-          <div>
-            This blog was built with GraphQL and Gatsby 2.0. <a href="https://github.com/ahrjarrett/blog" target="_blank" rel="noopener noreferrer">View the source code</a> on GitHub.
-          </div>
+        </CardsWrapper>
+        <div style={{ margin: '2rem 0' }}>
+          <Link to='/tags'>Browse all tags</Link>
+        </div>
+        <div>
+          This blog was built with GraphQL and Gatsby 2.0. <a href="https://github.com/ahrjarrett/blog" target="_blank" rel="noopener noreferrer">Source code</a> on GitHub.
         </div>
       </Layout>
 
-    </div>
+    </div >
   )
 }
 
@@ -50,6 +62,8 @@ query HomePageQuery {
           path
           date
           published
+          excerpt
+          tags
         }
       }
     }

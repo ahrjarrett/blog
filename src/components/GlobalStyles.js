@@ -35,15 +35,25 @@ const GlobalStyles = styled.div`
   padding-bottom: 50px;
 
   blockquote {
-    width: 87.5%;
+    width: 80%;
     margin: 0 auto;
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
   }
+
   pre {
     font-family: Fira Code;
     font-weight: 600;
     font-size: 1rem;
     display: inline;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  ul {
+    margin-left: 0;
   }
 
   input:focus, textarea:focus, select:focus {

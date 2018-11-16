@@ -3,7 +3,6 @@ import { StaticQuery, graphql } from 'gatsby'
 import styled from 'styled-components'
 
 import Navbar from './Navbar'
-import BlogIntro from './BlogIntro'
 
 const BlogTitleAndDescriptionWrapper = styled.div`
   display: flex;
