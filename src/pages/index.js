@@ -20,7 +20,9 @@ const Index = ({ data }) => {
       <Header />
       <Layout>
         <BlogIntro />
-        <h1 style={{ textAlign: 'center' }}>The latest log files:</h1>
+        <h1 style={{ fontFamily: 'flex', textAlign: 'center', marginTop: '5rem', }}>
+          our latest log files
+        </h1>
         <CardsWrapper>
           {edges.map(edge => {
             const { frontmatter } = edge.node
@@ -36,7 +38,7 @@ const Index = ({ data }) => {
           <Link to='/tags'>Browse all tags</Link>
         </div>
         <div>
-          This blog was built with GraphQL and Gatsby 2.0. <a href="https://github.com/ahrjarrett/blog" target="_blank" rel="noopener noreferrer">Source code</a> on GitHub.
+          Hi! This blog was built with GraphQL and Gatsby 2.0. Right now I'm working on a branch that, when merged, will let me write posts in org-mode. <a href="https://github.com/ahrjarrett/blog" target="_blank" rel="noopener noreferrer">Source code</a> on GitHub.
         </div>
       </Layout>
 

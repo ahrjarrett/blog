@@ -53,9 +53,7 @@ const GlobalStyles = styled.div`
     display: inline;
   }
 
-  li a {
-    font-family: 'Flex';
-  }
+  h3 { font-family: Flex; }
 
   input { font-family: Flex; }
 

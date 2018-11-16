@@ -7,7 +7,12 @@ const BlogIntroWrapper = styled.div`
   blockquote {
     margin-bottom: 3rem;
   }
-
+  h3 {
+    font-size: 1.5rem;
+    text-align: left;
+    margin-left: 15%;
+    color: rgba(0,0,0,0.4);
+  }
   @media all and (max-width: 768px) {
     padding-left: 8px;
     padding-right: 8px;
@@ -17,8 +22,9 @@ const BlogIntroWrapper = styled.div`
 const BlogIntro = (props) => {
   return (
     <BlogIntroWrapper>
+      <h3>“You can’t grep dead trees.”</h3>
       <blockquote cite="https://en.wikipedia.org/wiki/Grep">
-        <b><pre>grep</pre></b> is a <a href="/wiki/Command_line_interface" title="Command line interface">command-line</a> utility for searching plain-text data sets for lines that match a <a href="/wiki/Regular_expression" title="Regular expression">regular expression</a>. Its name comes from the <a href="/wiki/Ed_(text_editor)" title="Ed (text editor)">ed</a> command <i>g/re/p</i> (<i><b>g</b>lobally search a <b>r</b>egular <b>e</b>xpression and <b>p</b>rint</i>), which has the same effect: doing a global search with the regular expression and printing all matching lines.<sup id="cite_ref-3"><a href="#cite_note-3">[3]</a></sup><sup id="cite_ref-etymology_4-0"><a href="#cite_note-etymology-4">[4]</a></sup> <pre>grep</pre> was originally developed for the <a href="/wiki/Unix" title="Unix">Unix</a> operating system, but later available for all <a href="/wiki/Unix-like" title="Unix-like">Unix-like</a> systems.
+        <b><pre>grep</pre></b> is a <a href="/wiki/Command_line_interface" title="Command line interface">command-line</a> utility for searching plain-text data sets for lines that match a <a href="/wiki/Regular_expression" title="Regular expression">regular expression</a>. Its name comes from the <a href="/wiki/Ed_(text_editor)" title="Ed (text editor)">ed</a> command <i>g/re/p</i> (<i><b>g</b>lobally search a <b>r</b>egular <b>e</b>xpression and <b>p</b>rint</i>), which has the same effect.
         <br />
         <br />
         A common verb usage is the phrase "You can't <pre>grep</pre> dead trees"—meaning one can more easily search through digital media, using tools such as <pre>grep</pre>, than one could with a hard copy (i.e., one made from dead trees, paper).<sup id="cite_ref-22"><a href="#cite_note-22">[22]</a></sup> Compare with <i><a href="/wiki/Google_(verb)" title="Google (verb)">google</a></i>.
@@ -28,6 +34,7 @@ const BlogIntro = (props) => {
         </footer>
       </blockquote>
 
+      <h3>“Apollo returns as the papyrus breaks off.”</h3>
       <blockquote cite="https://en.wikipedia.org/wiki/Ichneutae">
         The <i><b>Ichneutae</b></i> (<a href="/wiki/Ancient_Greek_language" title="Ancient Greek language">Ancient Greek</a>: <span lang="grc">Ἰχνευταί</span>, <i>Ichneutai</i>, "trackers"), also known as the <i><b>Searchers</b></i>, <i><b>Trackers</b></i> or <i><b>Tracking Satyrs</b></i>, is a fragmentary <a href="/wiki/Satyr_play" title="Satyr play">satyr play</a> by the fifth-century BC <a href="/wiki/Classical_Athens" title="Classical Athens">Athenian</a> <a href="/wiki/Theatre_of_ancient_Greece" title="Theatre of ancient Greece">dramatist</a> <a href="/wiki/Sophocles" title="Sophocles">Sophocles</a>. Three nondescript quotations in ancient authors were all that was known of the play until 1912,<sup id="cite_ref-1"><a href="#cite_note-1">[1]</a></sup> when the extensive remains of a second-century CE <a href="/wiki/Papyrus" title="Papyrus">papyrus</a> roll of the <i>Ichneutae</i> were published among the <a href="/wiki/Oxyrhynchus_Papyri" title="Oxyrhynchus Papyri">Oxyrhynchus Papyri</a>. With more than four hundred lines surviving in their entirety or in part, the <i>Ichneutae</i> is now the best preserved ancient satyr play after <a href="/wiki/Euripides" title="Euripides">Euripides</a>' <i><a href="/wiki/Cyclops_(play)" title="Cyclops (play)">Cyclops</a></i>, the only fully extant example of the genre.
         <br />
