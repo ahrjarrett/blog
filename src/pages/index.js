@@ -4,20 +4,16 @@ import styled from 'styled-components'
 
 import Layout from '../components/Layout'
 import Header from '../components/Header'
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  alignItems: center;
-`
+import BlogIntro from '../components/BlogIntro'
 
 const Index = ({ data }) => {
   const { edges } = data.allMarkdownRemark
 
   return (
-    <Layout>
-      <HeaderWrapper>
-        <Header />
+    <div>
+      <Header />
+      <Layout>
+        <BlogIntro />
         <div>
           {edges.map(edge => {
             const { frontmatter } = edge.node
@@ -34,10 +30,11 @@ const Index = ({ data }) => {
           </div>
           <div>
             This blog was built with GraphQL and Gatsby 2.0. <a href="https://github.com/ahrjarrett/blog" target="_blank" rel="noopener noreferrer">View the source code</a> on GitHub.
+          </div>
         </div>
-        </div>
-      </HeaderWrapper>
-    </Layout>
+      </Layout>
+
+    </div>
   )
 }
 

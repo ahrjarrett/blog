@@ -1,8 +1,9 @@
 import React from 'react'
-import { withPrefix, Link } from 'gatsby'
+import { Link } from 'gatsby'
 import styled from 'styled-components'
 import SearchBar from './SearchBar'
 import NavigationLinks from './NavigationLinks'
+import GraphQLSvg from './icons/GraphQLSvg'
 
 const links = [
   {
@@ -19,9 +20,13 @@ const links = [
   },
 ]
 
-const NavigationWrapper = styled.div`
+const NavbarWrapper = styled.div`
   background: rgb(36, 41, 46);
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
   min-height: 56px;
+  width: 100%;
   ul {
     display: flex;
     justify-content: flex-start;
@@ -101,38 +106,30 @@ const FlexContainerLeft = styled.div`
 const FlexContainerRight = styled.div`
   display: flex;
   align-items: center;
-  img {
-    margin: 0;
-    height: 36px;
-    width: 36px;
-    @media all and (max-width: 1012px) {
-      display: none;
-    }
-  }
 `
 
+const LambdaWrapper = styled.span`
+  font-family: Fira Code;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 0;
+  text-align: center;
+  color: white;
+  padding-right: 2px;
+  margin-bottom: -1px;
+  height: 1px;
+  width: 48px;
+`
 
 const Lambda = () => (
-  <span
-    style={{
-      fontFamily: 'Fira Code',
-      fontWeight: '600',
-      fontSize: '40px',
-      lineHeight: '0',
-      textAlign: 'center',
-      color: 'white',
-      paddingRight: '2px',
-      marginBottom: '-1px',
-      height: '1px',
-      width: '48px',
-    }}>
+  <LambdaWrapper>
     <Link to='/'>λ</Link>
-  </span>
+  </LambdaWrapper>
 )
 
-const Navigation = () => {
+const Navbar = () => {
   return (
-    <NavigationWrapper>
+    <NavbarWrapper>
       <Container>
         <FlexContainerLeft>
           <Lambda />
@@ -140,11 +137,11 @@ const Navigation = () => {
           <NavigationLinks links={links} />
         </FlexContainerLeft>
         <FlexContainerRight>
-          <img src={withPrefix('/GraphQl.svg')} alt='GraphQL' />
+          <GraphQLSvg height='36px' width='36px' />
         </FlexContainerRight>
       </Container>
-    </NavigationWrapper>
+    </NavbarWrapper>
   )
 }
 
-export default Navigation
+export default Navbar

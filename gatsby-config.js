@@ -1,7 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: 'Andrew Jarrett’s blog',
-    description: 'Here’s where I write stuff. Mostly about functional programming.',
+    title: 'Globally Search Regex & Print',
+    subtitle: 'A Log',
+    description: 'Here’s where I write stuff. Mostly about functional programming. But also sometimes about a book that a friend has recommended, or a dumb thought that my brain had.',
   },
   plugins: [
     `gatsby-transformer-remark`,

@@ -2,19 +2,93 @@ import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
 import styled from 'styled-components'
 
-const TitleAndDescriptionWrapper = styled.div`
+import Navbar from './Navbar'
+import BlogIntro from './BlogIntro'
+
+const BlogTitleAndDescriptionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  h1 { 
+    text-align: right; 
+    position: relative;
+  }
+  @media all and (max-width: 500px) {
+    p { margin-top: 2rem; }
+  }
+`
+const Title = styled.h1`
+  font-family: flex;
+  font-size: 20vw;
+  line-height: .625;
+  letter-spacing: -.0975em;
+  border-bottom: 0;
+  color: rgba(0, 0, 0, 0.375);
+  background: white;
+  height: 110vh;
+  position: relative;
+  z-index: 2;
+
+  margin-top: -2rem;
+  margin-bottom: 2rem;
+  @media all and (max-width: 900px) {
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+  }
+
+  #title-top {
+    text-align: right;
+  }
+
+  #title-bottom {
+    text-align: left;
+    line-height: .675;
+    letter-spacing: -.08em;
+  }
+
+  #grep {
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  #amp {
+    position: absolute;
+    top: 35%;
+    left: 0%;
+    font-size: 56vw;
+    color: rgba(0, 0, 0, 0.15);
+    line-height: .3;
+    padding-left: 1rem;
+  }
+  #amp:before {
+    content: '&';
+  }
+}
 `
 
-const TitleAndDescription = ({ data }) => {
-  const { title, description } = data.site.siteMetadata
+const Subtitle = styled.h2`
+  font-size: 3rem;
+  border-bottom: 0;
+  text-align: center;
+  font-family: flex;
+  font-size: 14vw;
+  margin-top: 12rem;
+  margin-bottom: 4rem;
+`
+
+const BlogTitleAndDescription = ({ data }) => {
+  const { title, subtitle, description } = data.site.siteMetadata
   return (
-    <TitleAndDescriptionWrapper>
-      <h2>{title}</h2>
-      <p>{description}</p>
-    </TitleAndDescriptionWrapper>
+    <BlogTitleAndDescriptionWrapper>
+      <Title>
+        <span id="title-top"><span id="grep">G</span>LOBALLY SEARCH</span>
+        <br />
+        <span id="amp" />
+        <span id="title-bottom"><span id="grep">RE</span>GEX <span id="grep">P</span>RINT</span>
+      </Title>
+      <Navbar />
+      <Subtitle>{subtitle}</Subtitle>
+
+    </BlogTitleAndDescriptionWrapper>
   )
 }
 
@@ -26,12 +100,17 @@ const Header = () => {
           site {
             siteMetadata {
               title
+              subtitle
               description
             }
           }
         }
       `}
-      render={data => <TitleAndDescription data={data} />}
+      render={data =>
+        <div>
+          <BlogTitleAndDescription data={data} />
+        </div>
+      }
     />
   )
 }
