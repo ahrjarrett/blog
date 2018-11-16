@@ -39,11 +39,68 @@ const SearchBarForm = styled.form`
 `
 
 class SearchBar extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      inputFocused: false,
+      inputValue: '',
+      query: '',
+    }
+
+    this.inputRef = React.createRef()
+    this.handleSearch = this.handleSearch.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
+    this.handleInputFocus = this.handleInputFocus.bind(this)
+    this.handleInputBlur = this.handleInputBlur.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Escape' && this.state.inputFocused)
+      this.inputRef.current.blur()
+
+    if (e.key === '/') {
+      e.preventDefault()
+      this.inputRef.current.focus()
+      this.setState({ inputFocused: true })
+    }
+  }
+
+  handleInputBlur(e) {
+    this.setState({ inputFocused: false })
+  }
+
+  handleInputFocus(e) {
+    this.setState({ inputFocused: true })
+  }
+
+  handleInputChange(e) {
+    this.setState({ inputValue: e.target.value })
+  }
+
+  handleSearch(e) {
+    e.preventDefault()
+    this.setState(state =>
+      ({ query: state.inputValue, inputValue: '' })
+    )
+  }
+
+  componentDidMount() {
+    document.addEventListener('keyup', this.handleKeyPress)
+  }
+
   render() {
     return (
-      <SearchBarForm>
+      <SearchBarForm onSubmit={this.handleSearch}>
         <label>
-          <input placeholder='Search...' />
+          <input
+            ref={this.inputRef}
+            placeholder='Search...'
+            value={this.state.inputValue}
+            onBlur={this.handleInputBlur}
+            onFocus={this.handleInputFocus}
+            onChange={this.handleInputChange}
+          />
         </label>
       </SearchBarForm>
     )
