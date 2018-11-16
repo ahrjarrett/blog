@@ -9,8 +9,7 @@ const NavigationWrapper = styled.div`
   min-height: 56px;
   ul {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: flex-start;
     margin: 0;
   }
   li {
@@ -26,6 +25,18 @@ const NavigationWrapper = styled.div`
   a:hover {
     color: hsla(0,0%,100%,.75);
     text-decoration: none;
+  }
+
+  @media all and (min-width: 600px) {
+    ul {
+      flex: 30 0 auto;
+    }
+    form {
+      flex: 15 0 auto;
+    }
+    span {
+      flex: '1 0 auto',
+    }
   }
 `
 
@@ -63,7 +74,6 @@ const FlexContainerLeft = styled.div`
     flex-direction: row;
     justify-content: space-between;
     form { display: none; }
-    ul { padding-right: 8px; }
     a {
       font-size: 18px;
     }
