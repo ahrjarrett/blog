@@ -58,6 +58,7 @@ query HomePageQuery {
           published
           excerpt
           tags
+          image
         }
       }
     }

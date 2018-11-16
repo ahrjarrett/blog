@@ -1,13 +1,13 @@
 ---
-path: '/my-actual-first-post'
+path: '/hello-world'
 date: '2018-11-13'
-title: 'first post my first post first post'
-tags: ['the log']
-excerpt: 'Who’s actually conceited enough to have a blog?'
+title: 'first post'
+image: '/images/2018-11-16-hello-descartes.png'
+tags: ['cool philosophers']
+excerpt: 'Who could be vain enough to want their own blog?'
 published: true
 ---
 
-## Ha! I am, apparently.
+## Ha!
 
-
-
+> I post, therefore I am.

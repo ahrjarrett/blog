@@ -28,7 +28,7 @@ const GlobalStyles = styled.div`
   @font-face {
     font-family: 'Flex';
     src: local('Flex'), local('Flex'), url('/fonts/flex.woff2') format('woff2');
-    font-weight: 200;
+    font-weight: 600;
     font-style: normal;
   }
   @font-face {
