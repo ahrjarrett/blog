@@ -70,7 +70,7 @@ const Subtitle = styled.h2`
   border-bottom: 0;
   text-align: center;
   font-family: flex;
-  font-size: 14vw;
+  font-size: 12vw;
   margin-top: 12rem;
   margin-bottom: 4rem;
 `
