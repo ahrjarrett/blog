@@ -7,12 +7,6 @@ import Header from '../components/Header'
 import BlogIntro from '../components/BlogIntro'
 import Card from '../components/Card'
 
-// <div key={frontmatter.path}>
-//   <Link to={frontmatter.path}>
-//     {frontmatter.title}
-//   </Link>
-// </div>
-
 const CardsWrapper = styled.ul`
   display: flex;
   flex-wrap: wrap;
@@ -26,7 +20,7 @@ const Index = ({ data }) => {
       <Header />
       <Layout>
         <BlogIntro />
-        <h1 style={{ textAlign: 'center' }}>Read the latest logs</h1>
+        <h1 style={{ textAlign: 'center' }}>The latest log files:</h1>
         <CardsWrapper>
           {edges.map(edge => {
             const { frontmatter } = edge.node

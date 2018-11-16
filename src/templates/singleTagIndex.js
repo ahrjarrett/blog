@@ -8,7 +8,7 @@ const SingleTagTemplate = ({ data, pageContext }) => {
   return (
     <Layout>
       <div style={{ marginBottom: '20px' }}>
-        Posts about {tagName}:
+        Other posts about {tagName}:
       </div>
       {
         posts.map(post => {

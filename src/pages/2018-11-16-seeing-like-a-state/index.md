@@ -1,0 +1,47 @@
+---
+path: '/2018-11-16-seeing-like-a-state'
+date: '2018-11-16'
+title: 'States suck at reading'
+image: '/images/2018-11-16-seeing-like-a-state-brasilia.png'
+tags: ['politics', 'books']
+excerpt: 'Earlier this year I was listening to a Clojure podcast called defn and heard a guy named Zach Tellman speak. He seemed smarter than me, so when he recommended a book called Seeing Like a State, I ordered a copy.'
+published: true
+---
+
+What struck me about Zach was his interest and depth of knowledge in fields besides programming. I certainly wasn't looking for a lesson in civil engineering, or microbiology, but it was a refreshing break from the framework evangelists and DigitalOcean advertisements.
+
+Zach's enthusiasm seemed genuine, and although he veered the conversation dangerously close to being just that -- a "lesson" -- it never felt like a lecture, and when I looked down 30 minutes in and saw that the show was about 2 hours long, I suddenly became very happy, and decided to walk to a coffeeshop outside my usual perimeter and enjoy the crisp day.
+
+This book pulls apart the way states attempt to understand the societies they govern. However well intentioned, their attempts to make local knowledge more "legibile" seem to always fail, sometimes disastrously and despite the enormity of their effort (and sometimes, their seeming total lack of it).
+
+The problem for me here is that participation is usually mandatory. Take the case of Brasília, for example:
+
+> The idea of a new capital in the interior predates even the independence of Brazil. Its realization, however, was the pet project of Juscelino Kubitschek, the populist president from 1956 to 1961, who promised Brazilians "fifty years of progress in five” and a future of selfsustaining econom ic growth. In 1957 O scar Niemeyer, who had already been nam ed the chief architect for public buildings and housing prototypes, organized a design com petition that was won, on the basis of very rough sketches, by Lucio Costa. Costa’s idea— for it was no m ore than th at— was of a “m onum ental axis” to define the center of the city, w hich consisted of terraced em bankm ents describing an arc intersected in its center by a straight avenue, and of a triangle to define the city’s limits (figure 18).
+
+['https://blog.thegrepper.com/images/2018-11-16-seeing-like-a-state-brasilia.png'](The Costa "plan" of 1957)
+
+> * Brasilia as the Negation (or Transcendence) of Brazil
+>
+> Brasilia was conceived of by Kubitschek and by Costa and Niemeyer as a city of the future, a city of development, a realizable utopia. It made no reference to the habits, traditions, and practices of Brazil’s past or of its great cities, Sao Paulo, Sao Salvador, and Rio de Janeiro. As if to em ­ phasize the point, Kubitschek called his own residence in Brasilia the Dawn Palace. “W hat else will B rasilia be,” he asked, “if not the daw n of a new day for B razil?”57 Like the Saint Petersburg of Peter the Great, Brasilia was to be an exemplary city, a center that would transform the lives of the Brazilians who lived th ere— from their personal habits and household organization to their social lives, leisure, and work. The goal of m aking over Brazil and Brazilians necessarily implied a disdain for w hat Brazil had been. In this sense, the whole point of the new capital was to be a m anifest contrast to the corruption, backw ardness, and ignorance of the old Brazil.
+>
+> The great crossroads that was the plan's point of departure has been variously interpreted as a symbol of C hrist’s cross or an Amazonian bow. Costa, however, referred to it as a "m onum ental axis,” the sam e term that Le C orbusier used to describe the center of m any of his u rban plans. Even if the axis represented a sm all attem pt to assim ­ ilate B rasilia in some way to its national tradition, it rem ained a city th at could have been anywhere, th at provided no clue to its own history, unless that history was the m odernist doctrine of c i a m . It was a state-im posed city invented to project a new Brazil to Brazilians and to the w orld at large. And it was a state-im posed city in at least one other sense: inasm uch as it was created to be a city for civil servants, many aspects of life that m ight otherwise have been left to the private sphere w ere m inutely organized, from dom estic and residential m atters to health services, education, child care, recreation, com m ercial outlets, and so forth.
+>
+> If Brasilia was to be B razil’s urban future, w hat was B razil’s urban past and present? What, precisely, was the new capital intended to negate? A large part of the answ er can be inferred from Le Corbusier’s second principle of the new urbanism : "the death of the street.” Brasilia was designed to eliminate the street and the square as places for public life. Although the elim ination of local barrio loyalties and rivalries may not have been planned, they were also a casualty of the new city.
+>
+> The public square and the crow ded "co rrid o r” street had been venues of civic life in urban Brazil since colonial days. As H olston explains, this civic life took two forms. In the first, w hich had been spon sored by the church or state, cerem onial o r patriotic processions and rituals w ere typically held in the principal square of the tow n.58 The second form encom passed a nearly inexhaustible range of popular uses of all the tow n squares. Children m ight play there; adults m ight simply shop, stroll and run into acquaintances, m eet friends for a m eal or coffee, play cards or chess, enjoy the social diversions of seeing and being seen. The point is that the square, as a confluence of streets and a sharply enclosed, fram ed space, becom e w hat H olston aptly calls a “public visiting room.’’59 As a public room , the square is distinguished by its accessibility to all social classes and the great variety of activities it accom m odates. B arring state proscriptions, it is a flexible space that enables those who use it to use it for their m utual purposes. The square or the busy street attracts a crow d precisely because it provides an anim ated scene— a scene in w hich thousands of unplanned, inform al, im provised encounters can take place sim ultaneously. The street was the spatial focus for public life outside th e usually cram ped family dwelling.60 The colloquialism for “I’m going downtown" was “I ’m going to the street.” As the focus for sociability, these spaces w ere also crucial sites for the developm ent of public opinion as well as for “barrio n ationalism," w hich could take institutional form in sports teams, bands, patron-saint celebrations, festival groups, and so on. It goes w ithout saying that the street or the public square, u nder the right circum ­ stances, could also becom e the site of public dem onstrations and riots directed against the state. 
+>
+> A mere glance at the scenes of Brasilia, juxtaposed to the urban Brazil that we have been describing, shows at once how radical is the transform ation. There are no streets in the sense of public gathering places; there are only roads and highways to be used exclusively by motorized traffic. 
+
+## tldr;;
+
+An entertaining and well researched book. It's easy to point fingers at the government, but this isn't that. Seeing Like a State is a detailed catalogue of what happens when governments don't know what they don't know, and raises questions about whether certain types of knowledge are doomed to remain illegible to states. I'm not sure what other conclusion to draw, or if that's something we should simply accept and start exploring less centralized models for understanding the world.
+
+This book comes especially recommended if you love the thrill of a good car accident, or if you're the kind of person who goes out of your way to give directions to people from out of town.
+
+> It is what we think we know already that often prevents us from learning.
+> - Claude Bernard
+
+[https://soundcloud.com/defn-771544745/30-zach-tellman-aka-ztellman](Zach Tellman on defn)
+
+
+

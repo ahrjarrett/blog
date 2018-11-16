@@ -28,7 +28,13 @@ const GlobalStyles = styled.div`
   @font-face {
     font-family: 'Flex';
     src: local('Flex'), local('Flex'), url('/fonts/flex.woff2') format('woff2');
-    font-weight: 600;
+    font-weight: 200;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'GT Super Text';
+    src: local('GT Super Text Medium'), local('GT-Super-Text-Medium'), url('/fonts/GT-Super-Text-Medium.woff2') format('woff2');
+    font-weight: 500;
     font-style: normal;
   }
 
@@ -40,11 +46,15 @@ const GlobalStyles = styled.div`
     margin-bottom: 4rem;
   }
 
-  pre {
+  pre, code {
     font-family: Fira Code;
     font-weight: 600;
     font-size: 1rem;
     display: inline;
+  }
+
+  li a {
+    font-family: Flex;
   }
 
   img {
@@ -59,6 +69,7 @@ const GlobalStyles = styled.div`
   input:focus, textarea:focus, select:focus {
     outline: 0;
   }
+
 `
 
 export default GlobalStyles

@@ -42,13 +42,13 @@ const TagsContainer = styled.div`
 
 // date, path, tags, title, excerpt, image
 const Card = ({ frontmatter }) => {
-  const { date, excerpt, path, tags, title } = frontmatter
+  const { date, excerpt, path, tags, title, image } = frontmatter
   return (
     <CardWrapper>
       <CardContent>
         <ImgWrapper>
           <Link to={path}>
-            <img src='/images/2018-11-13.png' alt='some alt' />
+            <img src={image} alt='some alt' />
           </Link>
         </ImgWrapper>
         <CardMeta>

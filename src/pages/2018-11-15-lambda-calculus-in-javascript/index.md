@@ -1,9 +1,10 @@
 ---
-path: '/lambda-calculus-i'
+path: '/lambda-calculus-in-javascript'
 date: '2018-11-15'
-title: 'Lambda Calculus I'
-tags: ['lambda calculus', 'functional programming', 'beta reduction']
-excerpt: 'After watching Gabriel Lebec’s excellent talk on the fundamentals of lambda calculus, I decided to implement the types and combinators that he covered.'
+title: 'Lambda Calculus in JavaScript'
+image: '/images/2018-11-15-alonzo-church-stencil.jpg'
+tags: ['lambda calculus', 'functional programming']
+excerpt: 'After watching Gabriel Lebec’s great talk on the fundamentals of lambda calculus, I decided to implement the types and combinators that he covered in JavaScript.'
 published: true
 ---
 
