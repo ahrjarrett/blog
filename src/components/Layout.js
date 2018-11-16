@@ -1,16 +1,17 @@
+import React from 'react'
 import styled from 'styled-components'
-
-const MAIN_FONT = '-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol'
+import Navigation from './Navbar'
+import GlobalStyles from './GlobalStyles'
 
 const Layout = styled.div`
-  font-family: ${MAIN_FONT};
   max-width: 700px;
-  margin: 40px;
-
-  li {
-    list-style: none;
-  }
-
+  margin: 40px auto;
 `
 
-export default Layout
+export default ({ children }) =>
+  <GlobalStyles>
+    <Navigation />
+    <Layout>
+      {children}
+    </Layout>
+  </GlobalStyles>

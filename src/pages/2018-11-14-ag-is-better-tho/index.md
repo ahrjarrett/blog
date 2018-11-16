@@ -4,6 +4,7 @@ date: '2018-11-14'
 title: 'I Use Ag Tho'
 tags: ['command-line', 'workflow']
 excerpt: 'I bought thegrepper.com on a whim, but after checking the manual for grep one too many times I started looking for alternatives.'
+published: true
 ---
 
 I bought thegrepper.com on a whim, but after checking the manual for grep one too many times I started looking for alternatives. [Ag, also known as the Silver Searcher](https://github.com/ggreer/the_silver_searcher).

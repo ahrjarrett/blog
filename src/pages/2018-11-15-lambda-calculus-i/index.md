@@ -4,6 +4,7 @@ date: '2018-11-15'
 title: 'Lambda Calculus I'
 tags: ['lambda calculus', 'functional programming', 'beta reduction']
 excerpt: 'After watching Gabriel Lebec’s excellent talk on the fundamentals of lambda calculus, I decided to implement the types and combinators that he covered.'
+published: true
 ---
 
 After watching Gabriel Lebec’s [excellent talk on the fundamentals of lambda calculus](https://www.youtube.com/watch?v=3VQ382QG-y4), I decided to implement all of the types and combinators that he covered.

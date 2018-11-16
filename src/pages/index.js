@@ -21,7 +21,7 @@ const Index = ({ data }) => {
         <div>
           {edges.map(edge => {
             const { frontmatter } = edge.node
-            return (
+            return !frontmatter.published ? null : (
               <div key={frontmatter.path}>
                 <Link to={frontmatter.path}>
                   {frontmatter.title}
@@ -52,6 +52,7 @@ query HomePageQuery {
           title
           path
           date
+          published
         }
       }
     }

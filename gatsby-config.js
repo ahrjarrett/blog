@@ -1,11 +1,18 @@
 module.exports = {
   siteMetadata: {
     title: 'Andrew Jarrett’s blog',
-    description: 'This is where I write, mostly about programming-related things but sometimes books stuff also.',
+    description: 'Here’s where I write stuff. Mostly about functional programming.',
   },
   plugins: [
     `gatsby-transformer-remark`,
     `gatsby-plugin-styled-components`,
+    {
+      resolve: `gatsby-plugin-typography`,
+      options: {
+        pathToConfigModule: `src/utils/typography.js`,
+        omitGoogleFont: true,
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {

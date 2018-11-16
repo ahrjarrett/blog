@@ -10,10 +10,7 @@ const createTagPages = (createPage, posts) => {
   posts.forEach(({ node }) => {
     if (node.frontmatter.tags) {
       node.frontmatter.tags.forEach(tag => {
-        if (!postsByTag[tag]) {
-          postsByTag[tag] = []
-        }
-
+        if (!postsByTag[tag]) postsByTag[tag] = []
         postsByTag[tag].push(node)
       })
     }
@@ -31,7 +28,6 @@ const createTagPages = (createPage, posts) => {
 
   tags.forEach(tagName => {
     const posts = postsByTag[tagName]
-
     createPage({
       path: `/tags/${tagName}`,
       component: singleTagIndexTemplate,
@@ -54,7 +50,9 @@ exports.createPages = (({ graphql, actions }) => {
     resolve(
       graphql(`
         query {
-          allMarkdownRemark(sort: { order: ASC, fields: [frontmatter___date] }) {
+          allMarkdownRemark(
+            sort: { order: ASC, fields: [frontmatter___date] }
+          ) {
             edges {
               node {
                 frontmatter {
@@ -62,6 +60,7 @@ exports.createPages = (({ graphql, actions }) => {
                   date
                   path
                   tags
+                  published
                 }
               }
             }
@@ -69,12 +68,14 @@ exports.createPages = (({ graphql, actions }) => {
         }
       `
       ).then(result => {
-        const posts = result.data.allMarkdownRemark.edges
+        const { edges: posts } = result.data.allMarkdownRemark
 
         createTagPages(createPage, posts)
 
         posts.forEach(({ node }, index) => {
-          const { path } = node.frontmatter
+          const { path, published } = node.frontmatter
+          // bail if post is not published yet
+          if (!published) return
 
           createPage({
             path,

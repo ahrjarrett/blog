@@ -11,10 +11,10 @@ const TitleAndDescriptionWrapper = styled.div`
 const TitleAndDescription = ({ data }) => {
   const { title, description } = data.site.siteMetadata
   return (
-		<TitleAndDescriptionWrapper>
+    <TitleAndDescriptionWrapper>
       <h2>{title}</h2>
       <p>{description}</p>
-		</TitleAndDescriptionWrapper>
+    </TitleAndDescriptionWrapper>
   )
 }
 
