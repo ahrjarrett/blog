@@ -12,15 +12,15 @@ What struck me about Zach was his interest and depth of knowledge in fields besi
 
 Zach's enthusiasm seemed genuine, and although he veered the conversation dangerously close to being just that -- a "lesson" -- it never felt like a lecture, and when I looked down 30 minutes in and saw that the show was about 2 hours long, I suddenly became very happy, and decided to walk to a coffeeshop outside my usual perimeter and enjoy the crisp day.
 
-This book pulls apart the way states attempt to understand the societies they govern. However well intentioned, their attempts to make local knowledge more "legibile" seem to always fail, sometimes disastrously and despite the enormity of their effort (and sometimes, their seeming total lack of it).
+This book pulls apart the way states attempt to understand the societies they govern. However well intentioned, their attempts to make local knowledge more "legibile" inevitably seem to fail, sometimes disastrously and despite the enormity of their effort.
 
-The problem for me here is that participation is usually mandatory. Take the case of Brasília, for example:
+Take the case of Brasília, for example:
 
 > The idea of a new capital in the interior predates even the independence of Brazil. Its realization, however, was the pet project of Juscelino Kubitschek, the populist president from 1956 to 1961, who promised Brazilians "fifty years of progress in five” and a future of selfsustaining econom ic growth. In 1957 O scar Niemeyer, who had already been nam ed the chief architect for public buildings and housing prototypes, organized a design com petition that was won, on the basis of very rough sketches, by Lucio Costa. Costa’s idea— for it was no m ore than th at— was of a “m onum ental axis” to define the center of the city, w hich consisted of terraced em bankm ents describing an arc intersected in its center by a straight avenue, and of a triangle to define the city’s limits (figure 18).
 
-['https://blog.thegrepper.com/images/2018-11-16-seeing-like-a-state-brasilia.png'](The Costa "plan" of 1957)
+![The Costa "plan" of 1957](https://blog.thegrepper.com/images/2018-11-16-seeing-like-a-state-brasilia.png)
 
-> * Brasilia as the Negation (or Transcendence) of Brazil
+> Brasilia as the Negation (or Transcendence) of Brazil:
 >
 > Brasilia was conceived of by Kubitschek and by Costa and Niemeyer as a city of the future, a city of development, a realizable utopia. It made no reference to the habits, traditions, and practices of Brazil’s past or of its great cities, Sao Paulo, Sao Salvador, and Rio de Janeiro. As if to em ­ phasize the point, Kubitschek called his own residence in Brasilia the Dawn Palace. “W hat else will B rasilia be,” he asked, “if not the daw n of a new day for B razil?”57 Like the Saint Petersburg of Peter the Great, Brasilia was to be an exemplary city, a center that would transform the lives of the Brazilians who lived th ere— from their personal habits and household organization to their social lives, leisure, and work. The goal of m aking over Brazil and Brazilians necessarily implied a disdain for w hat Brazil had been. In this sense, the whole point of the new capital was to be a m anifest contrast to the corruption, backw ardness, and ignorance of the old Brazil.
 >
@@ -32,16 +32,18 @@ The problem for me here is that participation is usually mandatory. Take the cas
 >
 > A mere glance at the scenes of Brasilia, juxtaposed to the urban Brazil that we have been describing, shows at once how radical is the transform ation. There are no streets in the sense of public gathering places; there are only roads and highways to be used exclusively by motorized traffic. 
 
-## tldr;;
+## tldr;
 
 An entertaining and well researched book. It's easy to point fingers at the government, but this isn't that. Seeing Like a State is a detailed catalogue of what happens when governments don't know what they don't know, and raises questions about whether certain types of knowledge are doomed to remain illegible to states. I'm not sure what other conclusion to draw, or if that's something we should simply accept and start exploring less centralized models for understanding the world.
 
 This book comes especially recommended if you love the thrill of a good car accident, or if you're the kind of person who goes out of your way to give directions to people from out of town.
 
 > It is what we think we know already that often prevents us from learning.
-> - Claude Bernard
+> Claude Bernard
 
-[https://soundcloud.com/defn-771544745/30-zach-tellman-aka-ztellman](Zach Tellman on defn)
+Resources:
+
+[Zach Tellman on defn](https://soundcloud.com/defn-771544745/30-zach-tellman-aka-ztellman)
 
 
 

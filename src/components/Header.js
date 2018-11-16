@@ -82,10 +82,10 @@ const BlogTitleAndDescription = ({ data }) => {
         <span id="title-top"><span id="grep">G</span>LOBALLY SEARCH</span>
         <br />
         <span id="amp" />
-        <span id="title-bottom"><span id="grep">RE</span>GEX <span id="grep">P</span>RINT</span>
+        <span id="title-bottom"><span id="grep">R</span><span id="grep">E</span>GEX <span id="grep">P</span>RINT</span>
       </Title>
       <Navbar />
-      <Subtitle>{subtitle}</Subtitle>
+      <Subtitle>{subtitle.toLowerCase()}</Subtitle>
 
     </BlogTitleAndDescriptionWrapper>
   )

@@ -54,8 +54,10 @@ const GlobalStyles = styled.div`
   }
 
   li a {
-    font-family: Flex;
+    font-family: 'Flex';
   }
+
+  input { font-family: Flex; }
 
   img {
     max-width: 100%;
