@@ -140,7 +140,7 @@ const Navigation = () => {
           <NavigationLinks links={links} />
         </FlexContainerLeft>
         <FlexContainerRight>
-          <img src='/GraphQl.svg' alt='GraphQL Logo' />
+          <img src='./GraphQl.svg' alt='GraphQL Logo' />
         </FlexContainerRight>
       </Container>
     </NavigationWrapper>
