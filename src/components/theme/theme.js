@@ -1,5 +1,6 @@
 // * Colors
-const themeColor = localStorage.getItem("themeColor")
+// const themeColor = localStorage.getItem("themeColor")
+const themeColor = null
 const white = "#fff"
 const ghost = "#f0f0f0"
 const gray = "#dcdcdc"
