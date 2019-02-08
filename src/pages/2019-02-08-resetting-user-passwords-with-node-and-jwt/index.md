@@ -1,0 +1,415 @@
+---
+path: "/2019-02-08-resetting-user-passwords-with-node-and-jwt"
+date: "2019-02-08"
+title: "Resetting a User’s Password Using Node.js and JWT"
+image: "/images/2019-02-08-resetting-user-passwords-with-node-and-jwt"
+tags: ["nodejs", "jwt"]
+excerpt: "Recently I had to build a feature that let users securely update their passwords via email. Our tech stack was Node/Express on the backend and we used JWTs to manage tokens and authentication. This proved to be both easier and harder than I expected."
+published: true
+---
+
+# Resetting a User’s Password Using Node.js and JWT
+
+See the project’s <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods" target="_blank">source code on GitHub</a>!
+
+30 second demo:
+
+<iframe width="720" height="480" src="https://www.youtube.com/embed/DxugdZ0kHEY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Recently I was tasked with building a feature that allowed a user to reset her password via email — securely. Our tech stack was Node and Express on the backend, React and Redux on the frontend.
+
+We were already using the JSON Web Token (JWT) standard for encoding sensitive data passed between the client and server, so I decided to stick with that for this spec.
+
+We’ll be coding this feature entirely in JavaScript. Let’s dive in!
+
+## Dependencies
+
+- **Express & JWT:** I’m assuming you know enough Express to create a simple service that listens on a given route. Working knowledge of JWTs will also help; if you’re fuzzy, check out the <a href="https://jwt.io/" target="_blank">JWT website</a> for a refresher on JWT headers, payloads and signatures.
+- **Nodemailer:** Super simple <a href="https://nodemailer.com/about/" target="_blank">npm module for sending email</a>. We’ll create a quick and dirty email template and configure it to send reset emails from our own email address — make sure you use something like <a href="https://www.npmjs.com/package/dotenv" target="_blank">dotenv</a> if you plan on pushing to GitHub, otherwise your email password will be made public!
+
+## Theory
+
+This is the part of the blog post I would usually skip personally, but _I recommend you actually read this part_, otherwise you might end up being confused when we get to implementation.
+
+Let’s make sure we’re on the same page about a few things, security-wise:
+
+1. We’re not going to send the user her password via email.
+2. Because we care about security, we’re using something like <a href="https://www.npmjs.com/package/bcryptjs" target="_blank">bcryptjs</a> so that _we don’t store the user’s password at all_. At least not in plain text. Instead we hash it, and sending the user a hashed password is worse than doing nothing at all because she will probably assume her password has been compromised.
+3. We’re also not going to send the user a temporary password because we can’t assume the user’s inbox is secure. If the user gets distracted and forgets to follow the link we email her, there is a live password just waiting in her inbox. Not to mention a malicious actor or jilted ex could reset the user’s password over and over, keeping her from logging into the wonderful app we made.
+
+Instead, we’re going to **generate a single-use link** that the user can follow to enter a new password. **This link will also expire after a set amount of time**, in this case 60 minutes.
+
+### Creating a Single-Use URL
+
+We need a way to validate our user. To do this, we’re going to **embed a JWT token that identifies her in the URL we generate**. When she clicks this link, our user will be presented a form that allows her to enter a new password.
+
+As a payload, the JWT token needs to carry something that we can use to effectively fingerprint the user. Once she visits the route we send her, our server will pull the token from the route params and use it to identify her.
+
+Before we talk about the JWT payload, let’s make sure we all understand the control flow:
+
+**Order of operations:**
+
+1. User enters her email into a password reset form which sends a POST request to the endpoint `/reset_pw/user/:email`
+2. We sign a JWT on the backend using a dynamic payload and secret key
+3. An email service mounted at that route in step 1 emails her a URL containing the token
+4. The user clicks the link and is taken to a client-side form pulls the token off its own params (we implemented this React Router)
+5. User submits the form which makes a POST request to `/reset_pw/new_pw/:userId/:token` **with the new password on the request body** (not as a param)
+6. Our server decodes the token, hashes the new password, and replaces the old password hash with the new one
+
+### JWT Secret & Payload
+
+So what should our JWT’s payload be?
+
+Actually the better question is: **What should our secret key be?**
+
+> To make a one-time URL, we use the user’s old password hash as the JWT secret key. When the user updates her password, we will replace the old hash with the new one, and we lose access to the secret key.
+
+In order to make sure this link can’t be used and reused over and over again, the link should “expire” — meaning that our token (and by extension, the URL) should only work once.
+
+After researching how to do this, I came across a very clever solution:
+
+To make a one-time URL, we use the user’s old password hash as the JWT secret key. When the user updates her password, we will replace the old hash with the new one, and we lose access to the secret key.
+
+This helps to ensure that if the user’s password was the target of a previous attack (on an unrelated website), then the user’s created date will make the secret key unique from the potentially leaked password.
+
+Get it?
+
+It took me a bit to wrap my head around.
+
+To make this even more secure, we can concatenate the old password hash with the user’s `createdAt` value, so that if someone intercepts the user token from the network, he would still need a user’s timestamp to crack the secret key.
+
+With the combination of the user’s password hash and `createdAt` date the JWT becomes a one-time-use token, because once the user has changed her password, _successive calls to that route will generate a new password hash, invalidating the secret key which references the defunct password_.
+
+**So what should the payload be?**
+
+As long as it’s something unique to the user that our server can compare, that’s up to you. In our case, we used the `userId`, and the server just made sure that the decoded payload matches our user’s ID in the database.
+
+## Implementation
+
+Now that all the theory is behind us, let’s look at one possible implementation:
+
+### Server
+
+#### `email.controller.js`:
+
+<a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods/blob/master/server/src/api/resources/email/email.controller.js" target="_blank">See it on GitHub</a>
+
+**Imports:**
+
+```javascript
+import jwt from "jsonwebtoken"
+import bcrypt from "bcryptjs"
+import { User } from "../user/user.model"
+import {
+  transporter,
+  getPasswordResetURL,
+  resetPasswordTemplate
+} from "../../modules/email"
+```
+
+Here we pull in our User model and email module, which are implementation details. Again, see the <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods" target="_blank">GitHub repository</a> if you want to dig into all the specifics.
+
+**Make token from hash helper function:**
+
+```javascript
+// `secret` is passwordHash concatenated with user's
+// createdAt value, so if someone malicious gets the
+// token they still need a timestamp to hack it:
+export const usePasswordHashToMakeToken = ({
+  password: passwordHash,
+  _id: userId,
+  createdAt
+}) => {
+  const secret = passwordHash + "-" + createdAt
+  const token = jwt.sign({ userId }, secret, {
+    expiresIn: 3600 // 1 hour
+  })
+  return token
+}
+```
+
+Here we pass the old password hash, user ID and created at values into a function that signs a token with `userId` as the payload and `${passwordHash}-${createdAt}` as a secret.
+
+**Sending the email:**
+
+```javascript
+//// Sends an email IRL! ////
+export const sendPasswordResetEmail = async (req, res) => {
+  const { email } = req.params
+  let user
+  try {
+    user = await User.findOne({ email }).exec()
+  } catch (err) {
+    res.status(404).json("No user with that email")
+  }
+  const token = usePasswordHashToMakeToken(user)
+  const url = getPasswordResetURL(user, token)
+  const emailTemplate = resetPasswordTemplate(user, url)
+
+  const sendEmail = () => {
+    transporter.sendMail(emailTemplate, (err, info) => {
+      if (err) {
+        res.status(500).json("Error sending email")
+      }
+      console.log(`** Email sent **`, info.response)
+    })
+  }
+  sendEmail()
+}
+```
+
+This function find’s our user by email, makes a token, builds up a URL, then calls our email module and fires off an email IRL.
+
+**Updating the user’s password:**
+
+```javascript
+export const receiveNewPassword = (req, res) => {
+  const { userId, token } = req.params
+  const { password } = req.body
+
+  User.findOne({ _id: userId })
+    .then(user => {
+      const secret = user.password + "-" + user.createdAt
+      const payload = jwt.decode(token, secret)
+      if (payload.userId === user.id) {
+        bcrypt.genSalt(10, function(err, salt) {
+          // Call error-handling middleware:
+          if (err) return
+          bcrypt.hash(password, salt, function(err, hash) {
+            // Call error-handling middleware:
+            if (err) return
+            User.findOneAndUpdate({ _id: userId }, { password: hash })
+              .then(() => res.status(202).json("Password changed accepted"))
+              .catch(err => res.status(500).json(err))
+          })
+        })
+      }
+    })
+
+    .catch(() => {
+      res.status(404).json("Invalid user")
+    })
+}
+```
+
+This nasty function is the meat of the program. Originally we wrote this using the async/await protocol like `sendPasswordResetEmail` above, but bcrypt didn’t seem to like async/await.
+
+What’s interesting is that, despite the callback hell, this function never created any bugs and never needed to be rewritten.
+
+#### `email.restRouter.js`
+
+<a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods/blob/master/server/src/api/resources/email/email.restRouter.js" target="_blank">See it on GitHub</a>
+
+Then we mount the service in `email.restRouter.js` (rest router as opposed to GraphQL router, which this blog is written in):
+
+```javascript
+import express from "express"
+import * as emailController from "./email.controller"
+
+export const emailRouter = express.Router()
+
+emailRouter.route("/user/:email").post(emailController.sendPasswordResetEmail)
+
+emailRouter
+  .route("/receive_new_password/:userId/:token")
+  .post(emailController.receiveNewPassword)
+```
+
+### What about the client?
+
+Initially we were going to do everything on the server, but then we decided that React Router and Axios were enough to pass params to and from the Express server.
+
+There are really only 2 client-side files of interest.
+
+#### `RecoverPassword.js`
+
+<a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods/blob/master/client/src/components/forms/RecoverPassword.js" target="_blank">See it on GitHub</a>
+
+This component doesn’t need to accept any props because the user hasn’t taken any action yet besides navigate to the component. Notice how the component renders based on local state, and how the Axios call to our server endpoint is made:
+
+```jsx
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import styled from "styled-components"
+
+import { Button, GhostInput } from "./styledComponents"
+import RecoverPasswordStyles from "./RecoverPassword.styles"
+
+import axios from "axios"
+import SERVER_URI = "localhost:3000"
+
+class RecoverPassword extends Component {
+  state = {
+    email: "",
+    submitted: false
+  }
+
+  handleChange = e => {
+    this.setState({ email: e.target.value })
+  }
+
+  sendPasswordResetEmail = e => {
+    e.preventDefault()
+    const { email } = this.state
+    axios.post(`${SERVER_URI}/reset_password/user/${email}`)
+    this.setState({ email: "", submitted: true })
+  }
+
+  render() {
+    const { email, submitted } = this.state
+
+    return (
+      <RecoverPasswordStyles>
+        <h3>Reset your password</h3>
+        {submitted ? (
+          <div className="reset-password-form-sent-wrapper">
+            <p>
+              If that account is in our system, we emailed you a link to reset
+              your password.
+            </p>
+            <Link to="/login" className="ghost-btn">
+              Return to sign in
+            </Link>
+          </div>
+        ) : (
+          <div className="reset-password-form-wrapper">
+            <p>
+              It happens to the best of us. Enter your email and we'll send you
+              reset instructions.
+            </p>
+            <form onSubmit={this.sendPasswordResetEmail}>
+              <GhostInput
+                onChange={this.handleChange}
+                value={email}
+                placeholder="Email address"
+              />
+              <Button className="btn-primary password-reset-btn">
+                Send password reset email
+              </Button>
+            </form>
+            <Link to="/login">I remember my password</Link>
+          </div>
+        )}
+      </RecoverPasswordStyles>
+    )
+  }
+}
+
+export default RecoverPassword
+```
+
+That’s it, it’s actually pretty simple. We can use React Router to mount it wherever we want. We went with `/password/recover` because we had other password functionality that we bundled under the `/password` namespace.
+
+#### `UpdatePassword.js`
+
+<a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods/blob/master/client/src/components/forms/UpdatePassword.js" target="_blank">See it on GitHub</a>
+
+Here’s how we might use the `UpdatePassword` component using React Router:
+
+```jsx
+<Route
+  path="/update-password"
+  render={({ match }) => (
+    <UpdatePassword userId={match.params.userId} token={match.params.token} />
+  )}
+/>
+```
+
+And here’s what the component itself looks like:
+
+```jsx
+import React, { Component } from "react"
+import axios from "axios"
+import { Link } from "react-router-dom"
+import PropTypes from "prop-types"
+
+import { Button, GhostInput } from "./customStyledComponents"
+import { RecoverPasswordStyles as UpdatePasswordStyles } from "./RecoverPassword"
+
+const SERVER_URI = "localhost:3000"
+
+class UpdatePassword extends Component {
+  state = {
+    password: "",
+    confirmPassword: "",
+    submitted: false
+  }
+
+  handleChange = key => e => {
+    this.setState({ [key]: e.target.value })
+  }
+
+  updatePassword = e => {
+    e.preventDefault()
+    const { userId, token } = this.props
+    const { password } = this.state
+
+    axios
+      .post(
+        `${SERVER_URI}/reset_password/receive_new_password/${userId}/${token}`,
+        { password }
+      )
+      .then(res => console.log("RESPONSE FROM SERVER TO CLIENT:", res))
+      .catch(err => console.log("SERVER ERROR TO CLIENT:", err))
+    this.setState({ submitted: !this.state.submitted })
+  }
+
+  render() {
+    const { submitted } = this.state
+
+    return (
+      <UpdatePasswordStyles>
+        <h3 style={{ paddingBottom: "1.25rem" }}>Update your password</h3>
+        {submitted ? (
+          <div className="reset-password-form-sent-wrapper">
+            <p>Your password has been saved.</p>
+            <Link to="/login" className="ghost-btn">
+              Sign back in
+            </Link>
+          </div>
+        ) : (
+          <div className="reset-password-form-wrapper">
+            <form
+              onSubmit={this.updatePassword}
+              style={{ paddingBottom: "1.5rem" }}
+            >
+              <GhostInput
+                onChange={this.handleChange("password")}
+                value={this.state.password}
+                placeholder="New password"
+                type="password"
+              />
+              <GhostInput
+                onChange={this.handleChange("confirmPassword")}
+                value={this.state.confirmPassword}
+                placeholder="Confirm password"
+                type="password"
+              />
+
+              <Button className="btn-primary password-reset-btn">
+                Update password
+              </Button>
+            </form>
+          </div>
+        )}
+      </UpdatePasswordStyles>
+    )
+  }
+}
+
+UpdatePassword.propTypes = {
+  token: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired
+}
+
+export default UpdatePassword
+```
+
+That’s a wrap! Of course there’s more to the implementation, but for sake of brevity I will simply link to the other relevant files here:
+
+1. <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods/blob/master/server/src/api/modules/email.js" target="_blank">Server-side Email module & Nodemailer config</a>
+2. <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods/blob/master/server/src/api/restRouter.js" target="_blank">Server-side Rest Router API config</a>
+
+Thanks for reading! Feel free to drop me a line if you have any questions or feedback at <a href="mailto:ahrjarrett@gmail.com">ahrjarrett@gmail.com</a>.
+
+Check out my <a href="https://github.com/ahrjarrett" target="_blank">other projects on GitHub</a>!
