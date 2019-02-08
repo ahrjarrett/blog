@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import { linkHoverMixin } from "./theme/mixins"
+import { linkHoverMixin, media } from "./theme/mixins"
 
 const ArticleStyles = styled.article`
   li,
@@ -19,6 +19,46 @@ const ArticleStyles = styled.article`
     font-weight: 500;
   }
 
+  ${media.newPhone`
+    p, li, h1, h2, h3, h4 {
+      padding-left: 2.25rem;
+      padding-right: 2.25rem;
+    }
+    p, li {
+      font-size: 1rem;
+    }
+    ol {
+      padding-left: 5rem;
+      li {
+        padding-left: 1.5rem;
+      }
+    }
+  `};
+
+  ${media.tablet`
+    h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+    }
+  `}
+
+  ${media.desktop`
+    p, li {
+      padding-left: 4.5rem;
+      padding-right: 4.5rem;
+      font-size: 1.25rem;
+      font-weight: 400;
+    }
+    p.lead-paragraph {
+      font-size: 1.375rem;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 4.5rem;
+      line-height: 1.1;
+    }
+  `}
+
   h2 {
     margin-top: 1.3125rem;
     margin-bottom: 0.9375rem;
@@ -34,8 +74,6 @@ const ArticleStyles = styled.article`
     margin-bottom: 0.775rem;
   }
 
-  .content {
-  }
   .byline {
     display: flex;
     align-items: center;
@@ -46,6 +84,9 @@ const ArticleStyles = styled.article`
     margin-bottom: 1.9375rem;
     color: ${props => props.theme.primary};
     line-height: 0;
+    ${media.tablet`
+
+    `}
     a {
       text-decoration: none;
     }

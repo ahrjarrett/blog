@@ -3,7 +3,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 import styled from "styled-components"
-import { linkHoverMixin } from "./theme/mixins";
+import { linkHoverMixin, media } from "./theme/mixins";
 
 const PostHeaderStyles = styled.header`
   .logo {
@@ -18,6 +18,7 @@ const PostHeaderStyles = styled.header`
     }
   }
   .tagline {
+    color: ${props => props.theme.primary};
     margin-top: 0.375rem;
     text-align: center;
     font-size: 1rem;
@@ -37,6 +38,9 @@ const PostHeaderStyles = styled.header`
       justify-content: center;
     }
     li {
+      ${media.desktop`
+        font-size: 1rem;
+      `}
       font-size: 0.875rem;
       font-weight: 800;
       padding-left: 0.5rem;
@@ -50,11 +54,34 @@ const PostHeaderStyles = styled.header`
       }
     }
   }
+
+  ${media.desktop`
+    .logo {
+      padding-top: 5.25rem;
+      a {
+        font-size: 5.25rem;
+      }
+    }
+
+    .tagline {
+      margin-top: 0.75rem;
+      font-size: 1.625rem;
+
+    }
+
+    nav.post-nav {
+      li {
+        ${media.desktop`
+          font-size: 1rem;
+        `}
+      }
+    }
+  `}
 `
 
 const PostHeader = ({ next, prev }) => (
   <PostHeaderStyles>
-    <div className="section-stretch">
+    <div className="section-header">
       <div className="logo">
         <Link to="/">The Grepper</Link>
       </div>

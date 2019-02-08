@@ -286,6 +286,7 @@ export const codeStyles = css`
     margin: 0.5em 0;
     padding: 1em;
     overflow: auto;
+    max-width: 900px;
   }
 
   /**

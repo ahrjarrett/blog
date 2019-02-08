@@ -19,7 +19,7 @@ const Template = ({ data, pageContext }) => {
       <s.BlogPostStyles>
         <PostHeader next={next} prev={prev} />
         <div className="title">
-          <div className="section-stretch">
+          <div className="section-header">
             <h1>{title}</h1>
           </div>
         </div>
@@ -33,11 +33,11 @@ const Template = ({ data, pageContext }) => {
           next={next}
           prev={prev}
         />
-        <footer>
+        {/* <footer>
           <div className="section-stretch">
             <h1>FOOTER</h1>
           </div>
-        </footer>
+        </footer> */}
       </s.BlogPostStyles>
     </Layout>
   )
