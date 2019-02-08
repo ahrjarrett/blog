@@ -1,23 +1,26 @@
-import React from 'react'
-import { Link } from 'gatsby'
-import styled from 'styled-components'
-import SearchBar from './SearchBar'
-import NavigationLinks from './NavigationLinks'
-import GraphQLSvg from './icons/GraphQLSvg'
+import React from "react"
+import { Link } from "gatsby"
+import styled from "styled-components"
+import SearchBar from "./SearchBar"
+import NavigationLinks from "./NavigationLinks"
+import GraphQLSvg from "./icons/GraphQLSvg"
 
 const links = [
   {
-    text: `Home`, url: `/`,
-    meta: { type: 'internal' }
+    text: `Home`,
+    url: `/`,
+    meta: { type: "internal" }
   },
   {
-    text: `About me`, url: `https://thegrepper.com/resume`,
-    meta: { type: 'external', newtab: false }
+    text: `About me`,
+    url: `https://thegrepper.com/resume`,
+    meta: { type: "external", newtab: false }
   },
   {
-    text: `GitHub`, url: `https://github.com/ahrjarrett`,
-    meta: { type: 'external', newtab: true }
-  },
+    text: `GitHub`,
+    url: `https://github.com/ahrjarrett`,
+    meta: { type: "external", newtab: true }
+  }
 ]
 
 const NavbarWrapper = styled.div`
@@ -43,7 +46,7 @@ const NavbarWrapper = styled.div`
     font-weight: 600;
   }
   a:hover {
-    color: hsla(0,0%,100%,.75);
+    color: hsla(0, 0%, 100%, 0.75);
     text-decoration: none;
   }
 
@@ -55,7 +58,7 @@ const NavbarWrapper = styled.div`
       flex: 15 0 auto;
     }
     span {
-      flex: '1 0 auto',
+      flex: "1 0 auto";
     }
   }
 `
@@ -77,23 +80,33 @@ const FlexContainerLeft = styled.div`
 
   @media all and (max-width: 1012px) {
     width: 100%;
-    span { order: 1; }
-    form { order: 3; }
-    ul { order: 2; }
+    span {
+      order: 1;
+    }
+    form {
+      order: 3;
+    }
+    ul {
+      order: 2;
+    }
   }
   @media all and (max-width: 600px) {
     justify-content: space-between;
     width: 100%;
-    ul { padding-left: 0px; }
-    li { 
-      padding-left: 10px; 
-      padding-right: 10px; 
+    ul {
+      padding-left: 0px;
+    }
+    li {
+      padding-left: 10px;
+      padding-right: 10px;
     }
   }
   @media all and (max-width: 530px) {
     flex-direction: row;
     justify-content: space-between;
-    form { display: none; }
+    form {
+      display: none;
+    }
     a {
       font-size: 18px;
     }
@@ -123,7 +136,7 @@ const LambdaWrapper = styled.span`
 
 const Lambda = () => (
   <LambdaWrapper>
-    <Link to='/'>λ</Link>
+    <Link to="/">λ</Link>
   </LambdaWrapper>
 )
 
@@ -137,7 +150,7 @@ const Navbar = () => {
           <NavigationLinks links={links} />
         </FlexContainerLeft>
         <FlexContainerRight>
-          <GraphQLSvg height='36px' width='36px' />
+          <GraphQLSvg height="36px" width="36px" />
         </FlexContainerRight>
       </Container>
     </NavbarWrapper>

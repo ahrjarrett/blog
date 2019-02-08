@@ -1,16 +1,18 @@
-import React from "react"
-import styled from "styled-components"
+import React, { Fragment } from "react"
+import styled, { ThemeProvider } from "styled-components"
 import "prismjs/themes/prism-tomorrow.css"
 import "prismjs/plugins/line-numbers/prism-line-numbers.css"
-import GlobalStyles from "./GlobalStyles"
 
-const Layout = styled.div`
-  max-width: 900px;
-  margin: 40px auto;
-`
+import { GlobalStyles } from "./theme/GlobalStyles"
+import { theme } from "./theme/theme"
+
+const Layout = styled.div``
 
 export default ({ children }) => (
-  <GlobalStyles>
-    <Layout>{children}</Layout>
-  </GlobalStyles>
+  <ThemeProvider theme={theme}>
+    <Fragment>
+      <GlobalStyles />
+      <Layout>{children}</Layout>
+    </Fragment>
+  </ThemeProvider>
 )

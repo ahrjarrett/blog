@@ -25,12 +25,10 @@ module.exports = {
         ]
       }
     },
-    `gatsby-plugin-styled-components`,
     {
-      resolve: `gatsby-plugin-typography`,
+      resolve: `gatsby-plugin-styled-components`,
       options: {
-        pathToConfigModule: `src/utils/typography.js`,
-        omitGoogleFont: true
+        displayName: true
       }
     },
     {

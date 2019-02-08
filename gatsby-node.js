@@ -1,9 +1,8 @@
-const path = require('path')
+const path = require("path")
 
 const createTagPages = (createPage, posts) => {
-
-  const allTagsIndexTemplate = path.resolve('src/templates/allTagsIndex.js')
-  const singleTagIndexTemplate = path.resolve('src/templates/singleTagIndex.js')
+  const allTagsIndexTemplate = path.resolve("src/templates/AllTagsIndex.js")
+  const singleTagIndexTemplate = path.resolve("src/templates/SingleTagIndex.js")
 
   const postsByTag = {}
 
@@ -19,7 +18,7 @@ const createTagPages = (createPage, posts) => {
   const tags = Object.keys(postsByTag)
 
   createPage({
-    path: '/tags',
+    path: "/tags",
     component: allTagsIndexTemplate,
     context: {
       tags: tags.sort()
@@ -33,19 +32,18 @@ const createTagPages = (createPage, posts) => {
       component: singleTagIndexTemplate,
       context: {
         posts,
-        tagName,
+        tagName
       }
     })
   })
 }
 
-
-exports.createPages = (({ graphql, actions }) => {
+exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
   // createPage returns a promise bc file creation is asynchronous
   return new Promise((resolve, reject) => {
-    const blogPostTemplate = path.resolve('src/templates/blogPost.js')
+    const blogPostTemplate = path.resolve("src/templates/BlogPost.js")
 
     resolve(
       graphql(`
@@ -66,8 +64,7 @@ exports.createPages = (({ graphql, actions }) => {
             }
           }
         }
-      `
-      ).then(result => {
+      `).then(result => {
         const { edges: posts } = result.data.allMarkdownRemark
 
         createTagPages(createPage, posts)
@@ -84,7 +81,7 @@ exports.createPages = (({ graphql, actions }) => {
               // using "pathSlug" bc "path" is a reserved keyword
               pathSlug: path,
               prev: index === 0 ? null : posts[index - 1].node,
-              next: index === (posts.length - 1) ? null : posts[index + 1].node,
+              next: index === posts.length - 1 ? null : posts[index + 1].node
             }
           })
 
@@ -93,5 +90,4 @@ exports.createPages = (({ graphql, actions }) => {
       })
     )
   })
-})
-
+}

@@ -4,21 +4,15 @@ date: "2019-02-08"
 title: "Resetting a User’s Password Using Node.js and JWT"
 image: "/images/2019-02-08-resetting-user-passwords-with-node-and-jwt.jpg"
 tags: ["nodejs", "jwt"]
-excerpt: "Recently I had to build a feature that let users securely update their passwords via email. Our tech stack was Node/Express on the backend and we used JWTs to manage tokens and authentication. This proved to be both easier and harder than I expected."
+excerpt: "Recently I was tasked with building a feature that allowed a user to reset her password via email — securely. Our tech stack is Node and Express on the backend. Turns out this was both harder and easier than I expected."
 published: true
 ---
 
-# Resetting a User’s Password Using Node.js and JWT
-
-See the project’s <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods" target="_blank">source code on GitHub</a>!
-
-30 second demo:
-
-<iframe width="720" height="480" src="https://www.youtube.com/embed/DxugdZ0kHEY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-Recently I was tasked with building a feature that allowed a user to reset her password via email — securely. Our tech stack was Node and Express on the backend, React and Redux on the frontend.
-
 We were already using the JSON Web Token (JWT) standard for encoding sensitive data passed between the client and server, so I decided to stick with that for this spec.
+
+Check out the project’s <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods" target="_blank">source code on GitHub</a>, or watch a 40 second demo:
+
+<iframe class="youtube-video" width="720" height="480" src="https://www.youtube.com/embed/DxugdZ0kHEY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 We’ll be coding this feature entirely in JavaScript. Let’s dive in!
 
@@ -53,7 +47,7 @@ Before we talk about the JWT payload, let’s make sure we all understand the co
 2. We sign a JWT on the backend using a dynamic payload and secret key
 3. An email service mounted at that route in step 1 emails her a URL containing the token
 4. The user clicks the link and is taken to a client-side form pulls the token off its own params (we implemented this React Router)
-5. User submits the form which makes a POST request to `/reset_pw/new_pw/:userId/:token` **with the new password on the request body** (not as a param)
+5. User submits the form which makes a POST request to `/new_pw/:userId/:token` **with the new password on the request body** (not as a param)
 6. Our server decodes the token, hashes the new password, and replaces the old password hash with the new one
 
 ### JWT Secret & Payload

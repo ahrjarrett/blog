@@ -1,0 +1,322 @@
+import { css } from "styled-components"
+
+const breakpoints = {
+  desktop: 1024,
+  tablet: 640,
+  newPhone: 480
+}
+
+/* You can use the media export in a styled-component like so:
+ *   ${media.desktop`display: flex;`}
+ *   ${media.tablet`display: inline-block;`}
+ *   ${media.phone`display: none;`} */
+export const media = Object.keys(breakpoints).reduce((acc, label) => {
+  acc[label] = (...args) => css`
+    @media (min-width: ${breakpoints[label] / 16}em) {
+      ${css(...args)};
+    }
+  `
+  return acc
+}, {})
+
+export const linkHoverMixin = css`
+  &:hover {
+    font-family: TikRotalic;
+  }
+`
+
+export const fontStyles = css`
+  i,
+  em {
+    font-style: italic;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  /*** CODE BLOCK STYLES ***/
+  blockquote {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 4rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    font-family: Tik;
+  }
+
+  ul,
+  li {
+    font-family: Tik;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  h3 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  h4 {
+    font-size: 0.875rem;
+    font-weight: 800;
+  }
+
+  ${media.newPhone`
+    h1 {
+      font-size: 1.875rem;
+    }
+  `}
+
+  ${media.tablet`
+    h1 {
+      font-size: rem;
+      font-weight: 500;
+    }
+    h2 {
+      font-size: 2.25rem;
+      font-weight: 600;
+    }
+    h3 {
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+
+  `}
+`
+
+export const fontDeclarations = css`
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Lazer.woff2") format("woff2");
+    font-weight: 200;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Thin.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Light.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Regular.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Medium.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Black.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Lazer-Oblique.woff2") format("woff2");
+    font-weight: 200;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Thin-Oblique.woff2") format("woff2");
+    font-weight: 300;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Light-Oblique.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Regular-Oblique.woff2") format("woff2");
+    font-weight: 500;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Medium-Oblique.woff2") format("woff2");
+    font-weight: 600;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Bold-Oblique.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Tik";
+    src: url("/fonts/Tik/Black-Oblique.woff2") format("woff2");
+    font-weight: 800;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: "TikRotalic";
+    src: url("/fonts/Tik/Lazer-Rotalic.woff2") format("woff2");
+    font-weight: 200;
+  }
+  @font-face {
+    font-family: "TikRotalic";
+    src: url("/fonts/Tik/Thin-Rotalic.woff2") format("woff2");
+    font-weight: 300;
+  }
+  @font-face {
+    font-family: "TikRotalic";
+    src: url("/fonts/Tik/Light-Rotalic.woff2") format("woff2");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "TikRotalic";
+    src: url("/fonts/Tik/Regular-Rotalic.woff2") format("woff2");
+    font-weight: 500;
+  }
+  @font-face {
+    font-family: "TikRotalic";
+    src: url("/fonts/Tik/Medium-Rotalic.woff2") format("woff2");
+    font-weight: 600;
+  }
+  @font-face {
+    font-family: "TikRotalic";
+    src: url("/fonts/Tik/Bold-Rotalic.woff2") format("woff2");
+    font-weight: 700;
+  }
+  @font-face {
+    font-family: "TikRotalic";
+    src: url("/fonts/Tik/Black-Rotalic.woff2") format("woff2");
+    font-weight: 800;
+  }
+
+  @font-face {
+    font-family: "Fira Code";
+    src: local("Fira Code Bold"), local("FiraCode-Bold"),
+      url("/fonts/FiraCode-Bold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Fira Code";
+    src: local("Fira Code Medium"), local("FiraCode-Medium"),
+      url("/fonts/FiraCode-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Fira Code";
+    src: local("Fira Code Regular"), local("FiraCode-Regular"),
+      url("/fonts/FiraCode-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Fira Code";
+    src: local("Fira Code Light"), local("FiraCode-Light"),
+      url("/fonts/FiraCode-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Flex";
+    src: local("Flex"), local("Flex"), url("/fonts/flex.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "GT Super Text";
+    src: local("GT Super Text Medium"), local("GT-Super-Text-Medium"),
+      url("/fonts/GT-Super-Text-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+  }
+`
+
+export const codeStyles = css`
+  pre,
+  code {
+    font-family: Fira Code;
+    font-weight: 500;
+    font-size: 1rem;
+    display: inline;
+  }
+
+  /**
+  * Add back the container background-color, border-radius, padding, margin
+  * and overflow that we removed from <pre>.
+  */
+  .gatsby-highlight {
+    background-color: #2d2d2d;
+    border-radius: 0.3em;
+    margin: 0.5em 0;
+    padding: 1em;
+    overflow: auto;
+  }
+
+  /**
+  * Remove the default PrismJS theme background-color, border-radius, margin,
+  * padding and overflow.
+  * 1. Make the element just wide enough to fit its content.
+  * 2. Always fill the visible space in .gatsby-highlight.
+  * 3. Adjust the position of the line numbers
+  */
+  .gatsby-highlight pre[class*="language-"] {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    /* Handles line numbers to the left! */
+    padding-left: 2.8rem;
+    overflow: initial;
+    float: left; /* 1 */
+    min-width: 100%; /* 2 */
+  }
+
+  /* Code blocks: */
+  .gatsby-highlight-code-line {
+    background: hsla(24, 20%, 50%, 0.08);
+    background: linear-gradient(
+      to right,
+      hsla(24, 20%, 50%, 0.1) 70%,
+      hsla(24, 20%, 50%, 0)
+    );
+
+    display: block;
+    margin-right: -1em;
+    margin-left: -1em;
+    padding-right: 1em;
+    padding-left: 0.75em;
+    border-left: 0.25em solid #f99;
+  }
+`
