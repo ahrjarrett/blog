@@ -120,10 +120,12 @@ export const usePasswordHashToMakeToken = ({
   _id: userId,
   createdAt
 }) => {
+  // highlight-start
   const secret = passwordHash + "-" + createdAt
   const token = jwt.sign({ userId }, secret, {
     expiresIn: 3600 // 1 hour
   })
+  // highlight-end
   return token
 }
 ```
@@ -167,6 +169,7 @@ export const receiveNewPassword = (req, res) => {
   const { userId, token } = req.params
   const { password } = req.body
 
+  // highlight-start
   User.findOne({ _id: userId })
     .then(user => {
       const secret = user.password + "-" + user.createdAt
@@ -185,6 +188,7 @@ export const receiveNewPassword = (req, res) => {
         })
       }
     })
+    // highlight-end
 
     .catch(() => {
       res.status(404).json("Invalid user")

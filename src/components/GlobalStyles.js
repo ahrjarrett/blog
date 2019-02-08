@@ -54,7 +54,7 @@ const GlobalStyles = styled.div`
   pre,
   code {
     font-family: Fira Code;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1rem;
     display: inline;
   }
@@ -106,7 +106,7 @@ const GlobalStyles = styled.div`
     margin: 0;
     padding: 0;
     /* Handles line numbers to the left! */
-    padding-left: 40px;
+    padding-left: 2.8rem;
     overflow: initial;
     float: left; /* 1 */
     min-width: 100%; /* 2 */
@@ -114,7 +114,13 @@ const GlobalStyles = styled.div`
 
   /* Code blocks: */
   .gatsby-highlight-code-line {
-    background-color: #feb;
+    background: hsla(24, 20%, 50%, 0.08);
+    background: linear-gradient(
+      to right,
+      hsla(24, 20%, 50%, 0.1) 70%,
+      hsla(24, 20%, 50%, 0)
+    );
+
     display: block;
     margin-right: -1em;
     margin-left: -1em;
