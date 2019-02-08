@@ -2,7 +2,7 @@
 path: "/2019-02-08-resetting-user-passwords-with-node-and-jwt"
 date: "2019-02-08"
 title: "Resetting a User’s Password Using Node.js and JWT"
-image: "/images/2019-02-08-resetting-user-passwords-with-node-and-jwt"
+image: "/images/2019-02-08-resetting-user-passwords-with-node-and-jwt.jpg"
 tags: ["nodejs", "jwt"]
 excerpt: "Recently I had to build a feature that let users securely update their passwords via email. Our tech stack was Node/Express on the backend and we used JWTs to manage tokens and authentication. This proved to be both easier and harder than I expected."
 published: true
