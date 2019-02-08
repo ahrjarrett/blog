@@ -24,6 +24,16 @@ const ArticleStyles = styled.article`
     margin-bottom: 0.9375rem;
   }
 
+  h3 {
+    margin-top: 1.125rem;
+    margin-bottom: 0.8rem;
+  }
+
+  h4 {
+    margin-top: 1.08rem;
+    margin-bottom: 0.775rem;
+  }
+
   .content {
   }
   .byline {

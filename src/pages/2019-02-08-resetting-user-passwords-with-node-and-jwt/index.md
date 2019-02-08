@@ -84,7 +84,7 @@ Now that all the theory is behind us, let’s look at one possible implementatio
 
 ### Server
 
-#### `email.controller.js`:
+#### File: `email.controller.js`:
 
 <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods/blob/master/server/src/api/resources/email/email.controller.js" target="_blank">See it on GitHub</a>
 
@@ -194,7 +194,7 @@ This nasty function is the meat of the program. Originally we wrote this using t
 
 What’s interesting is that, despite the callback hell, this function never created any bugs and never needed to be rewritten.
 
-#### `email.restRouter.js`
+#### File: `email.restRouter.js`
 
 <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods/blob/master/server/src/api/resources/email/email.restRouter.js" target="_blank">See it on GitHub</a>
 
@@ -219,7 +219,7 @@ Initially we were going to do everything on the server, but then we decided that
 
 There are really only 2 client-side files of interest.
 
-#### `RecoverPassword.js`
+#### File: `RecoverPassword.js`
 
 <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods/blob/master/client/src/components/forms/RecoverPassword.js" target="_blank">See it on GitHub</a>
 
@@ -298,7 +298,7 @@ export default RecoverPassword
 
 That’s it, it’s actually pretty simple. We can use React Router to mount it wherever we want. We went with `/password/recover` because we had other password functionality that we bundled under the `/password` namespace.
 
-#### `UpdatePassword.js`
+#### File: `UpdatePassword.js`
 
 <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods/blob/master/client/src/components/forms/UpdatePassword.js" target="_blank">See it on GitHub</a>
 

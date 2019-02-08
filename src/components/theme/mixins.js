@@ -63,15 +63,15 @@ export const fontStyles = css`
     font-weight: 500;
   }
   h2 {
-    font-size: 1.25rem;
+    font-size: 1.375rem;
     font-weight: 600;
   }
   h3 {
-    font-size: 0.9375rem;
+    font-size: 1.25rem;
     font-weight: 600;
   }
   h4 {
-    font-size: 0.875rem;
+    font-size: 1.125rem;
     font-weight: 800;
   }
 
@@ -269,8 +269,11 @@ export const codeStyles = css`
   code {
     font-family: Fira Code;
     font-weight: 500;
-    font-size: 1rem;
     display: inline;
+    font-size: 0.75rem;
+    ${media.tablet`
+      font-size: 1rem;
+    `}
   }
 
   /**
@@ -296,11 +299,14 @@ export const codeStyles = css`
     background-color: transparent;
     margin: 0;
     padding: 0;
-    /* Handles line numbers to the left! */
-    padding-left: 2.8rem;
     overflow: initial;
     float: left; /* 1 */
     min-width: 100%; /* 2 */
+    padding-left: 0;
+    ${media.tablet`
+      /* Adjustments for line numbers! */
+      padding-left: 2.8rem;
+    `};
   }
 
   /* Code blocks: */
@@ -318,5 +324,13 @@ export const codeStyles = css`
     padding-right: 1em;
     padding-left: 0.75em;
     border-left: 0.25em solid #f99;
+  }
+
+  /* Hide line-numbers on mobile */
+  .line-numbers-rows {
+    visibility: hidden;
+    ${media.tablet`
+      visibility: visible;
+    `};
   }
 `
