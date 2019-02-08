@@ -81,7 +81,7 @@ const PostHeaderStyles = styled.header`
 
 const PostHeader = ({ next, prev }) => (
   <PostHeaderStyles>
-    <div className="section-header">
+    <div className="section-wide">
       <div className="logo">
         <Link to="/">The Grepper</Link>
       </div>

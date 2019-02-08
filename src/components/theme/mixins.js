@@ -282,9 +282,9 @@ export const codeStyles = css`
   */
   .gatsby-highlight {
     background-color: #2d2d2d;
-    border-radius: 0.3em;
-    margin: 0.5em 0;
-    padding: 1em;
+    border-radius: 0.3rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
     overflow: auto;
     max-width: 900px;
   }

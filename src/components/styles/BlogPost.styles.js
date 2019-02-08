@@ -4,6 +4,12 @@ import { media } from "../theme/mixins"
 export const BlogPostStyles = styled.div`
   background: ${props => props.theme.ghost};
   padding-bottom: 4rem;
+  ${media.desktop`
+    padding-bottom: 6rem;
+  `};
+  .blogpost {
+    margin-bottom: 3.25rem;
+  }
 
   header,
   div.title,
@@ -14,7 +20,7 @@ export const BlogPostStyles = styled.div`
     max-width: 70.5rem;
 
     .section-stretch,
-    .section-header {
+    .section-wide {
       padding-left: 1.5rem;
       padding-right: 1.5rem;
     }

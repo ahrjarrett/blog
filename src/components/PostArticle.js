@@ -43,9 +43,11 @@ const ArticleStyles = styled.article`
   `}
 
   ${media.desktop`
-    p, li {
+    h1, h2, h3, h4, p, li {
       padding-left: 4.5rem;
       padding-right: 4.5rem;
+    }
+    p, li {
       font-size: 1.25rem;
       font-weight: 400;
     }
@@ -84,9 +86,7 @@ const ArticleStyles = styled.article`
     margin-bottom: 1.9375rem;
     color: ${props => props.theme.primary};
     line-height: 0;
-    ${media.tablet`
 
-    `}
     a {
       text-decoration: none;
     }
@@ -127,7 +127,18 @@ const ArticleStyles = styled.article`
       background-position: center center;
       background-size: cover;
     }
+
+    ${media.newPhone`
+      height: 18rem;
+    `};
+    ${media.tablet`
+      height: 20rem;
+    `};
+    ${media.desktop`
+      height: 24rem;
+    `};
   }
+
   .article-img-overlay {
     height: 100%;
     width: 100%;
@@ -137,6 +148,12 @@ const ArticleStyles = styled.article`
     left: 0;
     height: 100%;
     background: ${props => props.theme.primaryTrans};
+
+    h2,
+    h3 {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
 
     h2,
     h3 {
@@ -157,12 +174,38 @@ const ArticleStyles = styled.article`
       top: 1rem;
       left: 1rem;
       z-index: 2;
+      font-size: 0.9375rem;
     }
     a {
       color: white;
       padding-right: 0.5rem;
       ${linkHoverMixin};
     }
+
+    ${media.newPhone`
+      h2, h3 {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    `};
+
+    ${media.tablet`
+      h2 {
+        font-size: 2rem;
+      }
+      h3 {
+        font-size: 1rem;
+      }
+    `};
+
+    ${media.desktop`
+      h2 {
+        font-size: 2.5rem;
+      }
+      h3 {
+        font-size: 1.125rem;
+      }
+    `};
   }
 `
 

@@ -19,7 +19,7 @@ const Template = ({ data, pageContext }) => {
       <s.BlogPostStyles>
         <PostHeader next={next} prev={prev} />
         <div className="title">
-          <div className="section-header">
+          <div className="section-wide">
             <h1>{title}</h1>
           </div>
         </div>
