@@ -87,6 +87,10 @@ const ArticleStyles = styled.article`
     color: ${props => props.theme.primary};
     line-height: 0;
 
+    h4 {
+      padding: 0.5rem;
+    }
+
     a {
       text-decoration: none;
     }

@@ -80,6 +80,21 @@ export const GlobalStyles = createGlobalStyle`
     margin-top: 0.75rem;
     margin-bottom: 1.5rem;
   }
+
+  .box-quote {
+    padding: 2rem;
+    /* 2rem on smaller than tabletLg */
+    border: 2px solid ${props => props.theme.primary};
+    width: 80%;
+    margin: 2.75rem auto 2.375rem;
+    p {
+      color: ${props => props.theme.primary};
+      padding: 0;
+      margin-bottom: 0;
+      font-size: 1.875rem;
+      font-weight: 600;
+    }
+  }
 `
 
 export const pageFormatting = css`

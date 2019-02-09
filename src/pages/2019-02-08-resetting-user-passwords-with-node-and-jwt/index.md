@@ -10,7 +10,7 @@ published: true
 
 We were using JWT for encoding sensitive data passed between the client and server, so I decided to stick with that because typing `npm i` sounded hard.
 
-> Check out the project’s <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods" target="_blank">source code on GitHub</a>, or watch a 40 second demo:
+Check out the project’s <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods" target="_blank">source code on GitHub</a>, or watch the 30 second demo:
 
 <iframe class="youtube-video" width="720" height="480" src="https://www.youtube.com/embed/DxugdZ0kHEY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -56,13 +56,15 @@ So what should our JWT’s payload be?
 
 Actually the better question is: **What should our secret key be?**
 
-> To make a one-time URL, we use the user’s old password hash as the JWT secret key. When the user updates her password, we will replace the old hash with the new one, and we lose access to the secret key.
+<div class="box-quote"><p>
+To make a one-time URL, we use the user’s old hashed password as the JWT secret key. When the user updates her password, we will replace the old hash with the new one, and no one can access the secret key anymore.
+</p></div>
 
 In order to make sure this link can’t be used and reused over and over again, the link should “expire” — meaning that our token (and by extension, the URL) should only work once.
 
 After researching how to do this, I came across a very clever solution:
 
-To make a one-time URL, we use the user’s old password hash as the JWT secret key. When the user updates her password, we will replace the old hash with the new one, and we lose access to the secret key.
+To make a one-time URL, we use the user’s old hashed password as the JWT secret key. When the user updates her password, we will replace the old hash with the new one, and no one can access the secret key anymore.
 
 This helps to ensure that if the user’s password was the target of a previous attack (on an unrelated website), then the user’s created date will make the secret key unique from the potentially leaked password.
 

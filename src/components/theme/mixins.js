@@ -41,6 +41,7 @@ export const fontStyles = css`
   blockquote {
     /* general styles */
     width: 100%;
+    max-width: 100%;
     margin: 0 auto;
     padding: 0;
     position: relative;
@@ -99,13 +100,13 @@ export const fontStyles = css`
     p,
     cite,
     pre {
-      ${media.tabletLg`
-      font-size: 2.875rem;
-    `};
+      font-size: 2rem;
       ${media.tablet`
       font-size: 2.25rem;
     `};
-      font-size: 2rem;
+      ${media.tabletLg`
+      font-size: 2.875rem;
+    `};
     }
 
     ${media.desktop`
