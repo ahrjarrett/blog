@@ -276,6 +276,192 @@ export const fontDeclarations = css`
   }
 
   @font-face {
+    font-family: "Tra";
+    src: url("fonts/Tra/Book.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Tra";
+    src: url("fonts/Tra/Regular.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Tra";
+    src: url("fonts/Tra/Medium.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Tra";
+    src: url("fonts/Tra/Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Tra";
+    src: url("fonts/Tra/Black.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Tra";
+    src: url("fonts/Tra/Book-Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Tra";
+    src: url("fonts/Tra/Regular-Italic.woff2") format("woff2");
+    font-weight: 500;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Tra";
+    src: url("fonts/Tra/Medium-Italic.woff2") format("woff2");
+    font-weight: 600;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Tra";
+    src: url("fonts/Tra/Bold-Italic.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Tra";
+    src: url("fonts/Tra/Black-Italic.woff2") format("woff2");
+    font-weight: 800;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: "TraFine";
+    src: url("fonts/Tra/Fine-Book.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "TraFine";
+    src: url("fonts/Tra/Fine-Regular.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "TraFine";
+    src: url("fonts/Tra/Fine-Medium.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "TraFine";
+    src: url("fonts/Tra/Fine-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "TraFine";
+    src: url("fonts/Tra/Fine-Black.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "TraFine";
+    src: url("fonts/Tra/Fine-Book-Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "TraFine";
+    src: url("fonts/Tra/Fine-Regular-Italic.woff2") format("woff2");
+    font-weight: 500;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "TraFine";
+    src: url("fonts/Tra/Fine-Medium-Italic.woff2") format("woff2");
+    font-weight: 600;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "TraFine";
+    src: url("fonts/Tra/Fine-Bold-Italic.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "TraFine";
+    src: url("fonts/Tra/Fine-Black-Italic.woff2") format("woff2");
+    font-weight: 800;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: "TraDisplay";
+    src: url("fonts/Tra/Display-Light.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "TraDisplay";
+    src: url("fonts/Tra/Display-Regular.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "TraDisplay";
+    src: url("fonts/Tra/Display-Medium.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "TraDisplay";
+    src: url("fonts/Tra/Display-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "TraDisplay";
+    src: url("fonts/Tra/Display-Super.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "TraDisplay";
+    src: url("fonts/Tra/Display-Light-Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "TraDisplay";
+    src: url("fonts/Tra/Display-Regular-Italic.woff2") format("woff2");
+    font-weight: 500;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "TraDisplay";
+    src: url("fonts/Tra/Display-Medium-Italic.woff2") format("woff2");
+    font-weight: 600;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "TraDisplay";
+    src: url("fonts/Tra/Display-Bold-Italic.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "TraDisplay";
+    src: url("fonts/Tra/Display-Super-Italic.woff2") format("woff2");
+    font-weight: 800;
+    font-style: italic;
+  }
+
+  @font-face {
     font-family: "Fira Code";
     src: local("Fira Code Bold"), local("FiraCode-Bold"),
       url("/fonts/FiraCode-Bold.woff2") format("woff2");
@@ -307,13 +493,6 @@ export const fontDeclarations = css`
     font-family: "Flex";
     src: local("Flex"), local("Flex"), url("/fonts/flex.woff2") format("woff2");
     font-weight: 600;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: "GT Super Text";
-    src: local("GT Super Text Medium"), local("GT-Super-Text-Medium"),
-      url("/fonts/GT-Super-Text-Medium.woff2") format("woff2");
-    font-weight: 500;
     font-style: normal;
   }
 `

@@ -1,10 +1,12 @@
 // * Colors
 // const themeColor = localStorage.getItem("themeColor")
 const themeColor = null
+const black = "#000"
 const white = "#fff"
-const ghost = "#f0f0f0"
+// const ghost = "#f0f0f0"
+const ghost = "#fcf8e4"
 const gray = "#dcdcdc"
-const primary = themeColor || "rgb(46, 49, 146)"
+const primary = themeColor || "#30866f"
 const primaryHover = "rgb(46, 49, 146)"
 const primaryTrans = "rgba(46, 49, 146, 0.5)"
 const secondary = "rgb(255, 180, 0)"
@@ -18,6 +20,7 @@ const linkHoverFont = "TikRotalic"
 export const theme = {
   // * Color Theme Variables -------------------
   themeColor,
+  black,
   white,
   ghost,
   gray,

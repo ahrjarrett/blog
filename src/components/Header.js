@@ -3,88 +3,102 @@ import { StaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 
 import Navbar from "./Navbar"
+import { media } from "../components/theme/mixins"
 
-const BlogTitleAndDescriptionWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  h1 {
-    text-align: right;
-    position: relative;
+const TitleSubtitleStyles = styled.div`
+  .main {
+    padding-top: 60px;
   }
-  @media all and (max-width: 500px) {
-    p {
-      margin-top: 2rem;
+
+  .content {
+    padding: 60px 60px 80px 60px;
+  }
+
+  .landing {
+  }
+
+  .full {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: calc(100vh - 120px);
+    padding-left: 16px;
+    padding-right: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    display: flex;
+
+    .tagline {
+      transform: rotate(-90deg);
+      text-transform: lowercase;
+      align-self: flex-start;
+      color: ${props => props.theme.primary};
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-top: 5.625rem;
+    }
+
+    .title {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: unset;
+      margin-right: unset;
+      width: 100%;
+
+      ${media.desktop`
+        h1 {
+          margin-top: 0;
+          margin-bottom: 1.4rem;
+          font-size: 12.5rem;
+          z-index: 1;
+          position: relative;
+          font-family: TraDisplay;
+          font-weight: 800;
+        }
+    `};
     }
   }
-`
 
-const Title = styled.h1`
-  font-family: flex;
-  font-size: 20vw;
-  line-height: .625;
-  letter-spacing: -.0975em;
-  border-bottom: 0;
-  color: rgba(0, 0, 0, 0.375);
-  background: white;
-  height: 110vh;
-  position: relative;
-  z-index: 2;
-
-  margin-top: -2rem;
-  margin-bottom: 2rem;
-  @media all and (max-width: 900px) {
-    margin-top: -1rem;
-    margin-bottom: 1rem;
-  }
-
-  #title-top {
-    text-align: right;
-  }
-
-  #title-bottom {
-    text-align: left;
-    line-height: .675;
-    letter-spacing: -.08em;
-  }
-
-  #grep {
-    color: rgba(0, 0, 0, 0.8);
-  }
-
-  #amp {
+  .hero {
+    top: calc(50vh + 80px);
     position: absolute;
-    top: 35%;
-    left: 0%;
-    font-size: 56vw;
-    color: rgba(0, 0, 0, 0.15);
-    line-height: .3;
-    padding-left: 1rem;
+    z-index: 0;
+    width: 100%;
+    left: 0;
+    right: 0;
   }
-  #amp:before {
-    content: '&';
-  }
-}
 `
 
-const Subtitle = styled.h2`
-  font-size: 3rem;
-  border-bottom: 0;
-  text-align: center;
-  font-family: flex;
-  font-size: 12vw;
-  margin-top: 12rem;
-  margin-bottom: 4rem;
-`
-
-const BlogTitleAndDescription = ({ data }) => {
+const TitleSubtitle = ({ data }) => {
   const { title, subtitle, description } = data.site.siteMetadata
   return (
-    <BlogTitleAndDescriptionWrapper>
-      <Title>{title}</Title>
+    <TitleSubtitleStyles>
       <Navbar />
-      <Subtitle>{subtitle.toLowerCase()}</Subtitle>
-    </BlogTitleAndDescriptionWrapper>
+      <div className="main">
+        <div className="content">
+          <div className="landing">
+            <div className="full">
+              <div className="tagline">
+                Live.
+                <br />
+                Explore.
+                <br />
+                Expand.
+              </div>
+              <div className="title">
+                <h1>{title}</h1>
+              </div>
+            </div>
+            <div className="hero">
+              <img src="/images/hero.jpeg" />
+            </div>
+          </div>
+          <div className="blurb">
+            <h3>{subtitle}</h3>
+          </div>
+        </div>
+      </div>
+    </TitleSubtitleStyles>
   )
 }
 
@@ -103,7 +117,7 @@ const Header = () => (
     `}
     render={data => (
       <div>
-        <BlogTitleAndDescription data={data} />
+        <TitleSubtitle data={data} />
       </div>
     )}
   />

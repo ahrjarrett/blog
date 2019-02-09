@@ -1,142 +1,114 @@
 import React from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
-import SearchBar from "./SearchBar"
+
 import NavigationLinks from "./NavigationLinks"
-import GraphQLSvg from "./icons/GraphQLSvg"
+import LambdaSvg from "./icons/LambdaSvg"
+import { media } from "../components/theme/mixins"
 
 const links = [
   {
-    text: `Home`,
-    url: `/`,
+    text: `About`,
+    url: `/about`,
     meta: { type: "internal" }
   },
   {
-    text: `About me`,
-    url: `https://thegrepper.com/resume`,
+    text: `Portfolio`,
+    url: `https://thegrepper.com/`,
     meta: { type: "external", newtab: false }
   },
   {
-    text: `GitHub`,
-    url: `https://github.com/ahrjarrett`,
+    text: `Explore`,
+    url: `/tags/`,
+    meta: { type: "internal" }
+  },
+  {
+    text: `Resume`,
+    url: `https://github.com/resume`,
     meta: { type: "external", newtab: true }
   }
 ]
 
 const NavbarWrapper = styled.div`
-  background: rgb(36, 41, 46);
   position: fixed;
-  z-index: 1;
-  bottom: 0;
-  min-height: 56px;
-  width: 100%;
-  ul {
-    display: flex;
-    justify-content: flex-start;
-    margin: 0;
-  }
-  li {
-    list-style: none;
-    margin-bottom: 0;
-    padding: 16px 8px;
-    font-size: 14px;
-  }
-  a {
-    color: rgb(255, 255, 255);
-    font-weight: 600;
-  }
-  a:hover {
-    color: hsla(0, 0%, 100%, 0.75);
-    text-decoration: none;
-  }
-
-  @media all and (min-width: 600px) {
-    ul {
-      flex: 30 0 auto;
-    }
-    form {
-      flex: 15 0 auto;
-    }
-    span {
-      flex: "1 0 auto";
-    }
-  }
+  top: 0;
+  z-index: 3;
+  width: 100vw;
+  background: ${props => props.theme.primary};
 `
 
 const Container = styled.div`
-  max-width: 1200px;
+  height: 60px;
+  letter-spacing: 0.02em;
+  font-size: 1.125rem;
+  span,
+  a,
+  li {
+    color: ${props => props.theme.ghost};
+    text-transform: uppercase;
+  }
+
+  a {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+
+  ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
   margin: 0 auto;
   padding: 0 16px;
+
   display: flex;
-  justify-content: space-between;
-  @media all and (max-width: 600px) {
-    flex-direction: row-reverse;
-  }
+  align-items: center;
+  justify-content: center;
+  ${media.tablet`
+    justify-content: space-between;
+  `};
 `
 
 const FlexContainerLeft = styled.div`
-  display: flex;
-  align-items: center;
+  width: 33%;
 
-  @media all and (max-width: 1012px) {
-    width: 100%;
-    span {
-      order: 1;
-    }
-    form {
-      order: 3;
-    }
-    ul {
-      order: 2;
-    }
-  }
-  @media all and (max-width: 600px) {
-    justify-content: space-between;
-    width: 100%;
-    ul {
-      padding-left: 0px;
-    }
-    li {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-  }
-  @media all and (max-width: 530px) {
-    flex-direction: row;
-    justify-content: space-between;
-    form {
-      display: none;
-    }
-    a {
-      font-size: 18px;
-    }
-    span a {
-      font-size: 40px;
-    }
-  }
+  display: none;
+  ${media.tablet`
+    display: flex;
+  `}
+  align-items: center;
+  justify-content: flex-start;
 `
 
 const FlexContainerRight = styled.div`
-  display: flex;
+  width: 33%;
+
+  display: none;
+  ${media.tablet`
+    display: flex;
+  `}
+
   align-items: center;
+  justify-content: flex-end;
 `
 
 const LambdaWrapper = styled.span`
-  font-family: Fira Code;
-  font-weight: 600;
-  font-size: 40px;
   line-height: 0;
   text-align: center;
-  color: white;
-  padding-right: 2px;
-  margin-bottom: -1px;
-  height: 1px;
   width: 48px;
+  a {
+    color: ${props => props.theme.black};
+    text-decoration: none;
+  }
 `
 
 const Lambda = () => (
   <LambdaWrapper>
-    <Link to="/">λ</Link>
+    <Link to="/">
+      <LambdaSvg height="40px" width="40px" />
+    </Link>
   </LambdaWrapper>
 )
 
@@ -145,12 +117,11 @@ const Navbar = () => {
     <NavbarWrapper>
       <Container>
         <FlexContainerLeft>
-          <Lambda />
-          <SearchBar />
-          <NavigationLinks links={links} />
+          <NavigationLinks links={links.slice(0, 2)} />
         </FlexContainerLeft>
+        <Lambda />
         <FlexContainerRight>
-          <GraphQLSvg height="36px" width="36px" />
+          <NavigationLinks links={links.slice(2)} />
         </FlexContainerRight>
       </Container>
     </NavbarWrapper>

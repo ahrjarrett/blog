@@ -3,8 +3,7 @@ import { graphql, Link } from "gatsby"
 import styled from "styled-components"
 
 import Layout from "../components/Layout"
-// import Header from "../components/Header"
-import PostHeader from "../components/PostHeader"
+import Header from "../components/Header"
 import BlogIntro from "../components/BlogIntro"
 import Card from "../components/Card"
 import { media } from "../components/theme/mixins"
@@ -16,10 +15,9 @@ const CardsWrapper = styled.ul`
 `
 
 const IndexStyles = styled.div`
-  background: ${props => props.theme.gray};
-  /* COPY OF SAME STYLES IN BlogPost.styles */
+  background: ${props => props.theme.ghost};
 
-  ${pageFormatting}
+  ${pageFormatting};
 `
 
 const Index = ({ data }) => {
@@ -28,7 +26,7 @@ const Index = ({ data }) => {
   return (
     <Layout>
       <IndexStyles>
-        <PostHeader />
+        <Header />
         <BlogIntro />
         <h1
           style={{

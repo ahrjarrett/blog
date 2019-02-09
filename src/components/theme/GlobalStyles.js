@@ -104,20 +104,16 @@ export const pageFormatting = css`
     }
   }
 
-  .title {
+  .title h1 {
     ${media.desktop`
-      h1 {
         font-size: 4.5rem;
         line-height: 1.1;
-      }
     `};
 
-    h1 {
-      margin-top: 3rem;
-      margin-bottom: 0.5rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
-      text-align: center;
-    }
+    margin-top: 3rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: center;
   }
 `
