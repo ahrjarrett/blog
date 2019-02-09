@@ -113,6 +113,7 @@ const TitleSubtitleStyles = styled.div`
     max-width: 450px;
     align-self: flex-start;
     color: #fcf8e4;
+    margin-left: auto;
 
     position: absolute;
     z-index: 2;
@@ -120,14 +121,33 @@ const TitleSubtitleStyles = styled.div`
     align-self: flex-start;
     /* text-shadow: ${props => props.theme.textShadow}; */
     text-shadow: 0 0 20px #000;
-    bottom: 15px;
     left: 30px;
     right: 30px;
 
+
+    /* TINY MOBILE STYLES */
+    bottom: 2.75rem;
+    padding: 0.5rem;
     h3 {
       color: ${props => props.theme.ghost};
       font-size: 1rem;
+      line-height: 1.375;
     }
+    ${media.newPhone`
+      h3 {
+        font-size: 1.125rem;
+      }
+      bottom: 8.75rem;
+    `};
+    ${media.tablet`
+      padding: 0;
+      bottom: 7.25rem;
+    `};
+    ${media.desktop`
+      bottom: 5.25rem;
+      padding-right: 3.725rem;
+    `};
+
   }
 `
 
