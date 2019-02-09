@@ -8,6 +8,10 @@ const ImgWrapper = styled.div`
     border: 0.75rem solid #fff;
     box-shadow: rgba(145, 106, 112, 0.15) 0 6px 24px;
     transition: box-shadow 0.4s ease-out;
+    width: calc(100% - 2 * 0.75rem);
+    ${media.tablet`
+      width: 100%;
+    `};
   }
 `
 
@@ -18,18 +22,29 @@ const CardWrapper = styled.li`
   display: flex;
   padding: 0;
   margin-top: 3rem;
-  width: 50%;
+  width: 100%;
+  ${media.tablet`
+    width: 50%;
+  `};
 `
 
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 0.75rem;
+  ${media.tablet`
+    padding: 0;
+  `};
 `
 
 const CardMeta = styled.div`
   a {
     flex: 1 0 auto;
   }
+  padding: 0.75rem;
+  ${media.tablet`
+    padding: 0;
+  `};
 `
 
 const FlexContainer = styled.div`

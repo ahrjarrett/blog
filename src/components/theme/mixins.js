@@ -2,6 +2,7 @@ import { css } from "styled-components"
 
 const breakpoints = {
   desktop: 1024,
+  tabletLg: 768,
   tablet: 640,
   newPhone: 480
 }
