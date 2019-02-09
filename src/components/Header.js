@@ -1,21 +1,24 @@
-import React from 'react'
-import { StaticQuery, graphql } from 'gatsby'
-import styled from 'styled-components'
+import React from "react"
+import { StaticQuery, graphql } from "gatsby"
+import styled from "styled-components"
 
-import Navbar from './Navbar'
+import Navbar from "./Navbar"
 
 const BlogTitleAndDescriptionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  h1 { 
-    text-align: right; 
+  h1 {
+    text-align: right;
     position: relative;
   }
   @media all and (max-width: 500px) {
-    p { margin-top: 2rem; }
+    p {
+      margin-top: 2rem;
+    }
   }
 `
+
 const Title = styled.h1`
   font-family: flex;
   font-size: 20vw;
@@ -78,40 +81,32 @@ const BlogTitleAndDescription = ({ data }) => {
   const { title, subtitle, description } = data.site.siteMetadata
   return (
     <BlogTitleAndDescriptionWrapper>
-      <Title>
-        <span id="title-top"><span id="grep">G</span>LOBALLY SEARCH</span>
-        <br />
-        <span id="amp" />
-        <span id="title-bottom"><span id="grep">R</span><span id="grep">E</span>GEX <span id="grep">P</span>RINT</span>
-      </Title>
+      <Title>{title}</Title>
       <Navbar />
       <Subtitle>{subtitle.toLowerCase()}</Subtitle>
-
     </BlogTitleAndDescriptionWrapper>
   )
 }
 
-const Header = () => {
-  return (
-    <StaticQuery
-      query={graphql`
-        query {
-          site {
-            siteMetadata {
-              title
-              subtitle
-              description
-            }
+const Header = () => (
+  <StaticQuery
+    query={graphql`
+      query {
+        site {
+          siteMetadata {
+            title
+            subtitle
+            description
           }
         }
-      `}
-      render={data =>
-        <div>
-          <BlogTitleAndDescription data={data} />
-        </div>
       }
-    />
-  )
-}
+    `}
+    render={data => (
+      <div>
+        <BlogTitleAndDescription data={data} />
+      </div>
+    )}
+  />
+)
 
 export default Header

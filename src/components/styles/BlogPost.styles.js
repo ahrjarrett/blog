@@ -1,53 +1,12 @@
 import styled from "styled-components"
-import { media } from "../theme/mixins"
+import { pageFormatting } from "../theme/GlobalStyles"
 
 export const BlogPostStyles = styled.div`
   background: ${props => props.theme.ghost};
-  padding-bottom: 4rem;
-  ${media.desktop`
-    padding-bottom: 6rem;
-  `};
+
   .blogpost {
     margin-bottom: 3.25rem;
   }
 
-  header,
-  div.title,
-  article.content,
-  .footer {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 70.5rem;
-
-    .section-stretch,
-    .section-wide {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-
-    .section-stretch {
-      ${media.tablet`
-        width: 66.6666666667%;
-        margin-left: auto;
-        margin-right: auto;
-      `}
-    }
-  }
-
-  .title {
-    ${media.desktop`
-      h1 {
-        font-size: 4.5rem;
-        line-height: 1.1;
-      }
-    `};
-
-    h1 {
-      margin-top: 3rem;
-      margin-bottom: 0.5rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
-      text-align: center;
-    }
-  }
+  ${pageFormatting};
 `

@@ -31,15 +31,69 @@ export const fontStyles = css`
     font-style: italic;
   }
 
+  b,
   strong {
     font-weight: 700;
   }
 
   /*** CODE BLOCK STYLES ***/
   blockquote {
-    width: 80%;
+    /* general styles */
+    width: 100%;
     margin: 0 auto;
-    margin-bottom: 4rem;
+    padding: 0;
+    position: relative;
+
+    &::before,
+    &::after {
+      font-size: 1.675em;
+      font-weight: 800;
+      position: absolute;
+      left: 50%;
+    }
+    &::before {
+      content: "“";
+      top: 0;
+    }
+    &::after {
+      content: "”";
+      bottom: -1.75rem;
+    }
+
+    /* specific styles */
+    text-align: center;
+    margin-top: 2.75rem;
+    margin-bottom: 3rem;
+    line-height: 1.35;
+
+    &,
+    p {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+    a,
+    code,
+    pre {
+      font-weight: 800;
+    }
+    b,
+    strong {
+      font-weight: 800;
+    }
+    cite {
+      /* font-family: TikRotalic; */
+      text-transform: uppercase;
+      ${linkHoverMixin};
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    ${media.desktop`
+      width: calc(100vw - 320px);
+      font-size: 2.5rem;
+    `};
   }
 
   h1,

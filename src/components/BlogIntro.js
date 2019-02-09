@@ -22,7 +22,6 @@ const BlogIntroWrapper = styled.div`
 const BlogIntro = props => {
   return (
     <BlogIntroWrapper>
-      <h3>“You can’t grep dead trees.”</h3>
       <blockquote cite="https://en.wikipedia.org/wiki/Grep">
         <b>
           <pre>grep</pre>
@@ -61,14 +60,13 @@ const BlogIntro = props => {
         </i>
         .
         <footer>
-          <br />–{" "}
           <cite>
             <a
               href="https://en.wikipedia.org/wiki/Grep"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Wikipedia
+              - Wikipedia
             </a>
           </cite>
         </footer>

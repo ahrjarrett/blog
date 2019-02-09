@@ -3,14 +3,14 @@ path: "/2019-02-08-resetting-user-passwords-with-node-and-jwt"
 date: "2019-02-08"
 title: "Resetting a User’s Password Using Node.js and JWT"
 image: "/images/2019-02-08-resetting-user-passwords-with-node-and-jwt.jpg"
-tags: ["nodejs", "jwt"]
-excerpt: "Recently I was tasked with building a feature that allowed a user to reset her password via email — securely. Our tech stack is Node and Express on the backend. Turns out this was both harder and easier than I expected."
+tags: ["nodejs", "jwt", "cybersecurity"]
+excerpt: "Recently I was tasked with building a feature that allowed a user to reset her password via email — securely. I used Node and Express on the backend. Turns out this was both easier and harder than I expected."
 published: true
 ---
 
-We were already using the JSON Web Token (JWT) standard for encoding sensitive data passed between the client and server, so I decided to stick with that for this spec.
+We were using JWT for encoding sensitive data passed between the client and server, so I decided to stick with that because typing `npm i` sounded hard.
 
-Check out the project’s <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods" target="_blank">source code on GitHub</a>, or watch a 40 second demo:
+> Check out the project’s <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods" target="_blank">source code on GitHub</a>, or watch a 40 second demo:
 
 <iframe class="youtube-video" width="720" height="480" src="https://www.youtube.com/embed/DxugdZ0kHEY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
