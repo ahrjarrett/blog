@@ -32,12 +32,16 @@ const TitleSubtitleStyles = styled.div`
     display: flex;
 
     .tagline {
+      ${media.tablet`
+        font-size: 1.125rem;
+      `};
       position: absolute;
+      top: 20%;
       transform: rotate(-90deg);
       text-transform: lowercase;
       align-self: flex-start;
       color: ${props => props.theme.primary};
-      font-size: 1.125rem;
+      font-size: 0.925rem;
       font-weight: 700;
       margin-top: 5.625rem;
     }
@@ -63,12 +67,47 @@ const TitleSubtitleStyles = styled.div`
   }
 
   .hero {
-    top: calc(50vh + 80px);
+    top: calc(50vh + 45px);
     position: absolute;
     z-index: 0;
     width: 100%;
     left: 0;
     right: 0;
+    .hero-img {
+      background: url("/images/hero.jpeg");
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      height: 800px;
+    }
+
+    ${media.tablet`
+      top: calc(50vh + 80px);
+
+    `};
+  }
+
+  .blurb {
+    /* width: 100%; */
+    max-width: 450px;
+    align-self: flex-start;
+    /* margin-left: auto; */
+    /* text-shadow: 0 0 20px #000; */
+    color: #fcf8e4;
+
+    position: absolute;
+    z-index: 2;
+    max-width: 450px;
+    align-self: flex-start;
+    text-shadow: ${props => props.theme.textShadow};
+    bottom: 15px;
+    left: 30px;
+    right: 30px;
+
+    h3 {
+      color: ${props => props.theme.ghost};
+      font-size: 1rem;
+    }
   }
 `
 
@@ -93,11 +132,12 @@ const TitleSubtitle = ({ data }) => {
               </div>
             </div>
             <div className="hero">
-              <img src="/images/hero.jpeg" />
+              {/* <img src="/images/hero.jpeg" /> */}
+              <div className="hero-img" />
             </div>
           </div>
           <div className="blurb">
-            <h3>{subtitle}</h3>
+            <h3>{description}</h3>
           </div>
         </div>
       </div>
