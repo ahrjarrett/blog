@@ -204,7 +204,7 @@ const ArticleStyles = styled.article`
 
     ${media.desktop`
       h2 {
-        font-size: 2.5rem;
+        font-size: 2.625rem;
       }
       h3 {
         font-size: 1.125rem;

@@ -102,20 +102,20 @@ export const fontStyles = css`
     pre {
       font-size: 2rem;
       ${media.tablet`
-      font-size: 2.25rem;
+      font-size: 1.5rem;
     `};
       ${media.tabletLg`
-      font-size: 2.875rem;
+      font-size: 1.625rem;
     `};
     }
 
     ${media.desktop`
       width: calc(100vw - 320px);
-      font-size: 2.5rem;
+      font-size: 1.75rem;
     `};
 
     sup a {
-      font-size: 1.25rem;
+      font-size: 1rem;
     }
   }
 

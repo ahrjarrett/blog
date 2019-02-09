@@ -3,11 +3,12 @@ import styled from "styled-components"
 import { media } from "../components/theme/mixins"
 
 const BlogIntroWrapper = styled.div`
-  /* This margin is needed to account for hero img, 
-   * which is positioned absolutely */
+  max-width: 900px;
+  margin: 0 auto;
   blockquote {
     margin-bottom: 3rem;
   }
+
   h3 {
     font-size: 1.5rem;
     text-align: left;

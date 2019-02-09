@@ -12,11 +12,20 @@ import { pageFormatting } from "../components/theme/GlobalStyles"
 const CardsWrapper = styled.ul`
   display: flex;
   flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
 `
 
 const IndexStyles = styled.div`
   background: ${props => props.theme.ghost};
   ${pageFormatting};
+  h3.posts-header {
+    text-align: center;
+    width: 900px;
+    border-top: 1px solid rgba(214, 209, 230, 0.5);
+    margin: 0 auto;
+    padding: 6.25rem 0 1.25rem;
+  }
 `
 
 const Index = ({ data }) => {
@@ -27,13 +36,7 @@ const Index = ({ data }) => {
       <IndexStyles>
         <Header />
         <BlogIntro />
-        <h1
-          style={{
-            fontFamily: "flex",
-            textAlign: "center",
-            marginTop: "5rem"
-          }}
-        />
+        <h3 className="posts-header">Latest Blog Posts</h3>
         <CardsWrapper>
           {edges.map(edge => {
             const { frontmatter } = edge.node

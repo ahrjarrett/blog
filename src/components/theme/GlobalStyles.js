@@ -143,7 +143,7 @@ export const pageFormatting = css`
   .content {
     padding: 30px 20px;
     ${media.tablet`
-      padding: 60px 60px 80px 60px;
+      padding: 60px;
     `};
   }
 `
