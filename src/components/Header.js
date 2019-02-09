@@ -11,7 +11,10 @@ const TitleSubtitleStyles = styled.div`
   }
 
   .content {
-    padding: 60px 60px 80px 60px;
+    padding: 30px 20px;
+    ${media.tablet`
+      padding: 60px 60px 80px 60px;
+    `};
   }
 
   .landing {
@@ -29,6 +32,7 @@ const TitleSubtitleStyles = styled.div`
     display: flex;
 
     .tagline {
+      position: absolute;
       transform: rotate(-90deg);
       text-transform: lowercase;
       align-self: flex-start;
@@ -41,21 +45,20 @@ const TitleSubtitleStyles = styled.div`
     .title {
       margin-top: 0;
       margin-bottom: 0;
-      margin-left: unset;
-      margin-right: unset;
+      margin-left: auto;
+      margin-right: auto;
       width: 100%;
 
-      ${media.desktop`
-        h1 {
-          margin-top: 0;
-          margin-bottom: 1.4rem;
-          font-size: 12.5rem;
-          z-index: 1;
-          position: relative;
-          font-family: TraDisplay;
-          font-weight: 800;
-        }
-    `};
+      h1 {
+        padding: 0;
+        margin-top: 0;
+        margin-bottom: 1.4rem;
+        font-size: 14vw;
+        z-index: 1;
+        position: relative;
+        font-family: TraDisplay;
+        font-weight: 800;
+      }
     }
   }
 

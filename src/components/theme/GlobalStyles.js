@@ -106,8 +106,8 @@ export const pageFormatting = css`
 
   .title h1 {
     ${media.desktop`
-        font-size: 4.5rem;
-        line-height: 1.1;
+      font-size: 4.5rem;
+      line-height: 1.1;
     `};
 
     margin-top: 3rem;
