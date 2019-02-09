@@ -10,13 +10,6 @@ const TitleSubtitleStyles = styled.div`
     padding-top: 60px;
   }
 
-  .content {
-    padding: 30px 20px;
-    ${media.tablet`
-      padding: 60px 60px 80px 60px;
-    `};
-  }
-
   .landing {
   }
 
@@ -93,7 +86,6 @@ const TitleSubtitleStyles = styled.div`
       background-repeat: no-repeat;
     }
     .hero-img-overlay {
-      /* height: 100%; */
       width: 100%;
       position: absolute;
       z-index: 2;
@@ -119,11 +111,9 @@ const TitleSubtitleStyles = styled.div`
     z-index: 2;
     max-width: 450px;
     align-self: flex-start;
-    /* text-shadow: ${props => props.theme.textShadow}; */
     text-shadow: 0 0 20px #000;
     left: 30px;
     right: 30px;
-
 
     /* TINY MOBILE STYLES */
     bottom: 2.75rem;
@@ -147,7 +137,6 @@ const TitleSubtitleStyles = styled.div`
       bottom: 5.25rem;
       padding-right: 3.725rem;
     `};
-
   }
 `
 

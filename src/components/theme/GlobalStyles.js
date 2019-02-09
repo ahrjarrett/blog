@@ -83,7 +83,7 @@ export const pageFormatting = css`
 
   header,
   div.title,
-  article.content,
+  article.article-content,
   .footer {
     margin-left: auto;
     margin-right: auto;
@@ -115,5 +115,13 @@ export const pageFormatting = css`
     padding-left: 1rem;
     padding-right: 1rem;
     text-align: center;
+  }
+
+  /* Spacing wrapper that can be reused */
+  .content {
+    padding: 30px 20px;
+    ${media.tablet`
+      padding: 60px 60px 80px 60px;
+    `};
   }
 `

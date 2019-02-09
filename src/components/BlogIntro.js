@@ -1,9 +1,10 @@
 import React from "react"
 import styled from "styled-components"
+import { media } from "../components/theme/mixins"
 
 const BlogIntroWrapper = styled.div`
-  margin-top: 2rem;
-  margin-bottom: 3rem;
+  /* This margin is needed to account for hero img, 
+   * which is positioned absolutely */
   blockquote {
     margin-bottom: 3rem;
   }
@@ -13,6 +14,13 @@ const BlogIntroWrapper = styled.div`
     margin-left: 15%;
     color: rgba(0, 0, 0, 0.4);
   }
+
+  margin-top: 30rem;
+  margin-bottom: 3rem;
+
+  ${media.tablet`
+    margin-top: 25rem;
+  `};
   @media all and (max-width: 768px) {
     padding-left: 8px;
     padding-right: 8px;
@@ -21,7 +29,7 @@ const BlogIntroWrapper = styled.div`
 
 const BlogIntro = props => {
   return (
-    <BlogIntroWrapper>
+    <BlogIntroWrapper className="content">
       <blockquote cite="https://en.wikipedia.org/wiki/Grep">
         <b>
           <pre>grep</pre>

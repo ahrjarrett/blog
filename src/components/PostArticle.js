@@ -219,7 +219,7 @@ const PostArticle = ({
   prev,
   next
 }) => (
-  <ArticleStyles image={image} className="content">
+  <ArticleStyles image={image} className="article-content">
     <div className="section-stretch">
       <div className="byline">
         <span className="by">By</span>

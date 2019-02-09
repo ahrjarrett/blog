@@ -47,18 +47,18 @@ export const fontStyles = css`
 
     &::before,
     &::after {
-      font-size: 1.675em;
+      font-size: 1.925em;
       font-weight: 800;
       position: absolute;
       left: 50%;
     }
     &::before {
       content: "“";
-      top: 0;
+      top: -2.5rem;
     }
     &::after {
       content: "”";
-      bottom: -1.75rem;
+      bottom: -3.425rem;
     }
 
     /* specific styles */
