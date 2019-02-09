@@ -147,7 +147,7 @@ const ArticleStyles = styled.article`
     top: 0;
     left: 0;
     height: 100%;
-    background: ${props => props.theme.primaryTrans};
+    background: ${props => props.theme.tertiaryTrans};
 
     h2,
     h3 {

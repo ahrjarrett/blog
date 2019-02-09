@@ -46,12 +46,19 @@ const Container = styled.div`
   li {
     color: ${props => props.theme.ghost};
     text-transform: uppercase;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    &:hover a {
+      font-family: TikRotalic;
+    }
   }
 
   a {
     text-decoration: none;
     font-weight: 700;
     font-size: 1.25rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   ul {

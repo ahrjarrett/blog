@@ -7,10 +7,13 @@ const white = "#fff"
 const ghost = "#fcf8e4"
 const gray = "#dcdcdc"
 const primary = themeColor || "#30866f"
-const primaryHover = "rgb(46, 49, 146)"
-const primaryTrans = "rgba(46, 49, 146, 0.5)"
+const primaryHover = "rgb(43, 134, 110)"
+const primaryTrans = "rgba(43, 134, 110, 0.3)"
 const secondary = "rgb(255, 180, 0)"
 const secondaryHover = "rgb(255, 180, 0)"
+const tertiary = "rgb(46, 49, 146)"
+const tertiaryTrans = "rgba(46, 49, 146, 0.35)"
+
 const link = primary
 const linkHover = primaryTrans
 
@@ -29,6 +32,8 @@ export const theme = {
   primaryTrans,
   secondary,
   secondaryHover,
+  tertiary,
+  tertiaryTrans,
   link,
   linkHover,
   linkHoverFont,

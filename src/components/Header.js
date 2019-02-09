@@ -41,9 +41,14 @@ const TitleSubtitleStyles = styled.div`
       text-transform: lowercase;
       align-self: flex-start;
       color: ${props => props.theme.primary};
+      font-family: Fira Code;
+      font-weight: 600;
       font-size: 0.925rem;
       font-weight: 700;
       margin-top: 5.625rem;
+      span {
+        color: black;
+      }
     }
 
     .title {
@@ -71,14 +76,31 @@ const TitleSubtitleStyles = styled.div`
     position: absolute;
     z-index: 0;
     width: 100%;
+    height: 100%;
     left: 0;
     right: 0;
+
     .hero-img {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 800px;
       background: url("/images/hero.jpeg");
       background-position: center center;
       background-size: cover;
       background-repeat: no-repeat;
-      height: 800px;
+    }
+    .hero-img-overlay {
+      /* height: 100%; */
+      width: 100%;
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: ${props => props.theme.tertiaryTrans};
     }
 
     ${media.tablet`
@@ -88,18 +110,16 @@ const TitleSubtitleStyles = styled.div`
   }
 
   .blurb {
-    /* width: 100%; */
     max-width: 450px;
     align-self: flex-start;
-    /* margin-left: auto; */
-    /* text-shadow: 0 0 20px #000; */
     color: #fcf8e4;
 
     position: absolute;
     z-index: 2;
     max-width: 450px;
     align-self: flex-start;
-    text-shadow: ${props => props.theme.textShadow};
+    /* text-shadow: ${props => props.theme.textShadow}; */
+    text-shadow: 0 0 20px #000;
     bottom: 15px;
     left: 30px;
     right: 30px;
@@ -121,11 +141,13 @@ const TitleSubtitle = ({ data }) => {
           <div className="landing">
             <div className="full">
               <div className="tagline">
-                Live.
+                <span>g</span>lobal
                 <br />
-                Explore.
+                <span>r</span>egular
                 <br />
-                Expand.
+                <span>e</span>xpression
+                <br />
+                <span>p</span>rint
               </div>
               <div className="title">
                 <h1>{title}</h1>
@@ -134,6 +156,7 @@ const TitleSubtitle = ({ data }) => {
             <div className="hero">
               {/* <img src="/images/hero.jpeg" /> */}
               <div className="hero-img" />
+              <span className="hero-img-overlay" />
             </div>
           </div>
           <div className="blurb">

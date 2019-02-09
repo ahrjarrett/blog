@@ -31,7 +31,10 @@ const CardWrapper = styled.li`
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0.75rem;
+  margin: 0.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e3d7d7;
+
   ${media.tablet`
     padding: 0;
   `};
@@ -41,6 +44,12 @@ const CardMeta = styled.div`
   a {
     flex: 1 0 auto;
   }
+  p {
+    line-height: 1.35;
+    color: black;
+    font-weight: 400;
+  }
+
   padding: 0.75rem;
   ${media.tablet`
     padding: 0;
@@ -51,12 +60,28 @@ const FlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  a {
+    word-wrap: break-word;
+    display: inline-block;
+    width: 100%;
+    font-weight: 600;
+    font-size: 1.25rem;
+    text-decoration: none;
+    margin-top: 1rem;
+  }
+  span {
+    margin-top: 1rem;
+    margin-bottom: 1.3125rem;
+    font-style: italic;
+    font-weight: 700;
+  }
 `
 
 const TagsContainer = styled.div`
   a {
     padding-left: 6px;
   }
+  margin-top: 0.75rem;
 `
 
 // date, path, tags, title, excerpt, image
@@ -73,8 +98,9 @@ const Card = ({ frontmatter }) => {
         <CardMeta>
           <FlexContainer>
             <Link to={path}>{title}</Link>
-            <div>{date}</div>
+            <span>{date}</span>
           </FlexContainer>
+          <p>{excerpt}</p>
           <TagsContainer>
             Tags —{" "}
             {tags.map((t, i, arr) => (
@@ -86,7 +112,6 @@ const Card = ({ frontmatter }) => {
               </span>
             ))}
           </TagsContainer>
-          <p>{excerpt}</p>
         </CardMeta>
       </CardContent>
     </CardWrapper>
