@@ -53,9 +53,10 @@ const CardMeta = styled.div`
     font-weight: 400;
   }
 
-  padding: 0.75rem;
+  /* padding: 0; */
   ${media.tablet`
-    padding: 0;
+    /* padding: 0 0.625rem; */
+    padding: 0 0.875rem;
   `};
 `
 

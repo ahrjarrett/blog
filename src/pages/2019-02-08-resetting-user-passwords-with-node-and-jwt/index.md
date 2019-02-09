@@ -56,7 +56,7 @@ So what should our JWT’s payload be?
 
 Actually the better question is: **What should our secret key be?**
 
-<div class="box-quote"><p>
+<div class="box-quote"><p class="box-quote-p">
 To make a one-time URL, we use the user’s old hashed password as the JWT secret key. When the user updates her password, we will replace the old hash with the new one, and no one can access the secret key anymore.
 </p></div>
 

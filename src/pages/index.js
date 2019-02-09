@@ -45,21 +45,35 @@ const Index = ({ data }) => {
             )
           })}
         </CardsWrapper>
-        <div style={{ margin: "2rem 0" }}>
+        <div
+          style={{ maxWidth: "840px", margin: "3rem auto", padding: "0 3rem" }}
+        >
           <Link to="/tags">Browse all tags</Link>
         </div>
-        <div>
-          Hi! This blog was built with GraphQL and Gatsby 2.0. Right now I'm
-          working on a branch that, when merged, will let me write posts in
-          org-mode.{" "}
+        <div
+          style={{
+            maxWidth: "840px",
+            padding: "0 3rem",
+            margin: "0 auto 4.25rem"
+          }}
+        >
+          Hi! Not sure how you got here but I’m glad you did 🌻
+          <br />
+          <br />
+          This site was built with GraphQL, Gatsby 2.0 and other cool stuff. It
+          started as a project to see if I could make a Gatsby plugin that would
+          render org-mode instead of Markdown files. Hoping to get that branch
+          merged soon, along with upgrading this app to use TypeScript and
+          ElasticSearch.
+          <br />
+          <br />
           <a
             href="https://github.com/ahrjarrett/blog"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Source code
+            Source code on GitHub
           </a>{" "}
-          on GitHub.
         </div>
       </IndexStyles>
     </Layout>

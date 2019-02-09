@@ -24,7 +24,7 @@ const links = [
   },
   {
     text: `Resume`,
-    url: `https://github.com/resume`,
+    url: `https://thegrepper.com/resume`,
     meta: { type: "external", newtab: true }
   }
 ]

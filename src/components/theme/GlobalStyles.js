@@ -87,7 +87,7 @@ export const GlobalStyles = createGlobalStyle`
     border: 2px solid ${props => props.theme.primary};
     width: 80%;
     margin: 2.75rem auto 2.375rem;
-    p {
+    p.box-quote-p {
       color: ${props => props.theme.primary};
       padding: 0;
       margin-bottom: 0;
