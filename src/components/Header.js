@@ -86,12 +86,12 @@ const TitleSubtitleStyles = styled.div`
       background-repeat: no-repeat;
     }
     .hero-img-overlay {
+      height: 800px;
       width: 100%;
       position: absolute;
       z-index: 2;
       top: 0;
       left: 0;
-      height: 100%;
       background: ${props => props.theme.tertiaryTrans};
     }
 
