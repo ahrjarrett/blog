@@ -5,6 +5,7 @@ import { media } from "./theme/mixins"
 
 const ImgWrapper = styled.div`
   img {
+    box-sizing: border-box;
     border: 0.75rem solid #fff;
     box-shadow: rgba(145, 106, 112, 0.15) 0 6px 24px;
     transition: box-shadow 0.4s ease-out;
@@ -16,15 +17,19 @@ const ImgWrapper = styled.div`
 `
 
 const CardWrapper = styled.li`
+  box-sizing: border-box;
   ul {
     padding: 0;
   }
   display: flex;
   padding: 0;
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
+  padding-top: 1.5rem;
   width: 100%;
   ${media.tablet`
     width: 50%;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   `};
 `
 
@@ -33,8 +38,6 @@ const CardContent = styled.div`
   flex-direction: column;
   margin: 0.75rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e3d7d7;
-
   ${media.tablet`
     padding: 0;
   `};

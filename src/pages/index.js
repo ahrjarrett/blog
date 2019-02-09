@@ -16,7 +16,6 @@ const CardsWrapper = styled.ul`
 
 const IndexStyles = styled.div`
   background: ${props => props.theme.ghost};
-
   ${pageFormatting};
 `
 

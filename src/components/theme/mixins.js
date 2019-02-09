@@ -48,17 +48,18 @@ export const fontStyles = css`
     &::before,
     &::after {
       font-size: 1.925em;
-      font-weight: 800;
+      font-weight: 600;
       position: absolute;
       left: 50%;
+      line-height: 0;
     }
     &::before {
       content: "“";
-      top: -2.5rem;
+      top: -0.625rem;
     }
     &::after {
       content: "”";
-      bottom: -3.425rem;
+      bottom: -2rem;
     }
 
     /* specific styles */
@@ -69,8 +70,7 @@ export const fontStyles = css`
 
     &,
     p {
-      font-size: 1.5rem;
-      font-weight: 500;
+      font-weight: 600;
     }
     a,
     code,
@@ -91,10 +91,31 @@ export const fontStyles = css`
       text-decoration: none;
     }
 
+    &,
+    a,
+    b,
+    code,
+    strong,
+    p,
+    cite,
+    pre {
+      ${media.tabletLg`
+      font-size: 2.875rem;
+    `};
+      ${media.tablet`
+      font-size: 2.25rem;
+    `};
+      font-size: 2rem;
+    }
+
     ${media.desktop`
       width: calc(100vw - 320px);
       font-size: 2.5rem;
     `};
+
+    sup a {
+      font-size: 1.25rem;
+    }
   }
 
   h1,

@@ -1,5 +1,11 @@
 import styled, { css, createGlobalStyle } from "styled-components"
-import { codeStyles, fontDeclarations, fontStyles, media } from "./mixins"
+import {
+  codeStyles,
+  fontDeclarations,
+  fontStyles,
+  linkHoverMixin,
+  media
+} from "./mixins"
 
 export const GlobalStyles = createGlobalStyle`
   /* RESET/NORMALIZER TYPE STUFF */
@@ -31,6 +37,7 @@ export const GlobalStyles = createGlobalStyle`
 
   a {
     color: ${props => props.theme.primary};
+    ${linkHoverMixin};
   }
 
   h1,

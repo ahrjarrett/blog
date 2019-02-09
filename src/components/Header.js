@@ -26,19 +26,19 @@ const TitleSubtitleStyles = styled.div`
 
     .tagline {
       ${media.tablet`
-        font-size: 1.125rem;
+        font-size: 0.9375rem;
       `};
       position: absolute;
-      top: 20%;
+      top: 28.5%;
+      left: 5%;
       transform: rotate(-90deg);
       text-transform: lowercase;
       align-self: flex-start;
       color: ${props => props.theme.primary};
       font-family: Fira Code;
       font-weight: 600;
-      font-size: 0.925rem;
+      font-size: 0.875rem;
       font-weight: 700;
-      margin-top: 5.625rem;
       span {
         color: black;
       }
