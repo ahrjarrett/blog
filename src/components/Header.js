@@ -141,7 +141,7 @@ const TitleSubtitleStyles = styled.div`
 `
 
 const TitleSubtitle = ({ data }) => {
-  const { title, subtitle, description } = data.site.siteMetadata
+  const { title, description } = data.site.siteMetadata
   return (
     <TitleSubtitleStyles>
       <Navbar />

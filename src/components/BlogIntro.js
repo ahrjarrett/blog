@@ -20,7 +20,7 @@ const BlogIntroWrapper = styled.div`
   margin-bottom: 3rem;
 
   ${media.tablet`
-    margin-top: 25rem;
+    /* margin-top: 25rem; */
   `};
   @media all and (max-width: 768px) {
     padding-left: 8px;

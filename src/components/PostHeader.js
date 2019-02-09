@@ -1,4 +1,3 @@
-
 import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
@@ -10,7 +9,7 @@ const PostHeaderStyles = styled.header`
     padding-top: 3.75rem;
     text-align: center;
     a {
-      font-family: Flex;
+      font-family: TraDisplay;
       font-size: 2.5rem;
       font-weight: 800;
       text-decoration: none;
