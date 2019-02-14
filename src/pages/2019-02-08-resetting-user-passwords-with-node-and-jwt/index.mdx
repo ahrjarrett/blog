@@ -46,15 +46,23 @@ Before we talk about the JWT payload, let’s make sure we all understand the co
 1. User enters her email into a password reset form which sends a POST request to the endpoint `/reset_pw/user/:email`
 2. We sign a JWT on the backend using a dynamic payload and secret key
 3. An email service mounted at that route in step 1 emails her a URL containing the token
-4. The user clicks the link and is taken to a client-side form pulls the token off its own params (we implemented this React Router)
-5. User submits the form which makes a POST request to `/new_pw/:userId/:token` **with the new password on the request body** (not as a param)
-6. Our server decodes the token, hashes the new password, and replaces the old password hash with the new one
+4. The user clicks the link and is taken to a client-side form. Then, our client-side router pulls the token off params as it resolves her request (our team used React Router to do this)
+5. User submits the form which makes a POST request to `/new_pw/:userId/:token` with the new password **on the request body** (parameters being easier to intercept)
+6. Our then server decodes the token using a secret key unique to the user, hashes the new password, and replaces the old password hash with the new one
 
 ### JWT Secret & Payload
 
 So what should our JWT’s payload be?
 
-Actually the better question is: **What should our secret key be?**
+This confused me until I realized I was asking the wrong question. A better question is: **What should our secret key be?**
+
+The payload itself doesn’t matter as much as the fact that it matches.
+
+Let’s say you and I are both spies, meeting for the first time. We don’t know if we can trust each other yet. Of course, no good spy actually trusts another spy, not truly; but we agree that some tests are better than others, and begin talking about ways to verify that the other is in face who she claims to be.
+
+Before long we reach an impasse. Given our line of work, we cannot use information as a way to authenticate each other, because we might be giving something away by the very act of trying to verify it. We could try blurting out the name of the target together on three, but that’s the oldest trick in the book and neither one of us is falling for that one again.
+
+Instead, you point out that it doesn’t actually matter _what_ we know, but that we can demonstrate the ability to know it. We don’t need to know what’s behind door number 1, so long as we both have a key that can open it.
 
 <div class="box-quote"><p class="box-quote-p">
 To make a one-time URL, we use the user’s old hashed password as the JWT secret key. When the user updates her password, we will replace the old hash with the new one, and no one can access the secret key anymore.

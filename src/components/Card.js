@@ -108,10 +108,8 @@ const Card = ({ frontmatter }) => {
           <TagsContainer>
             Tags —{" "}
             {tags.map((t, i, arr) => (
-              <span>
-                <Link key={i} to={`/tags/${t}`}>
-                  {t}
-                </Link>
+              <span key={i}>
+                <Link to={`/tags/${t}`}>{t}</Link>
                 {i < arr.length - 1 ? "," : null}
               </span>
             ))}

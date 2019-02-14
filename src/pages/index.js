@@ -29,7 +29,7 @@ const IndexStyles = styled.div`
 `
 
 const Index = ({ data }) => {
-  const { edges } = data.allMarkdownRemark
+  const { edges } = data.allMdx
 
   return (
     <Layout>
@@ -82,7 +82,7 @@ const Index = ({ data }) => {
 
 export const query = graphql`
   query HomePageQuery {
-    allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
+    allMdx(sort: { order: DESC, fields: [frontmatter___date] }) {
       edges {
         node {
           frontmatter {

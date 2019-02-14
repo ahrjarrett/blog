@@ -12,9 +12,18 @@ published: true
 
 One of the first decisions we have to make when using D3 and React together is **who gets control of the DOM**. In this video [Shirley Wu does a great job explaining](https://www.youtube.com/watch?v=zXBdNDnqV2Q) when each library should get control.
 
-<div class="box-quote"><p class="box-quote-p">
-Check out the project’s <a href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods" target="_blank">source code on GitHub</a>, or watch the 15 second demo below!
-</p></div>
+<div class="box-quote">
+  <p class="box-quote-p">
+    Check out the project’s{" "}
+    <a
+      href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods"
+      target="_blank"
+    >
+      source code on GitHub
+    </a>
+    , or watch the 15 second demo below!
+  </p>
+</div>
 
 Shirley goes on to explain that it’s usually best to let React paint the DOM since it manages state and, presumably, the inputs to our chart will live on state. However in our case, because we have over 100 map samples from Google Maps API to manage (each sample a nested object containing keys such as `elevation` and `location`, which is itself an object with `latitude` and `longitude` keys), it didn't make sense from a performance standpoint to give React control of the DOM.
 
@@ -45,9 +54,12 @@ Let’s look at the docs for the Google Maps [Elevation API](https://developers.
 
 From the [Google Map Docs](https://developers.google.com/maps/documentation/elevation/intro):
 
-<div class="box-quote"><p class="box-quote-p">
-[...] you may request sampled elevation data along paths, allowing you to calculate elevation changes along routes.
-</p></div>
+<div class="box-quote">
+  <p class="box-quote-p">
+    [...] you may request sampled elevation data along paths, allowing you to
+    calculate elevation changes along routes.
+  </p>
+</div>
 
 This is exactly what we need to do!
 
@@ -136,7 +148,7 @@ export default class ChartWrapper extends React.Component {
 
 Let’s talk through it.
 
-**First**, `calcDistance` is a helper function that takes 2 objects of shape `{lat: number, lng: number}` and returns the distance between them in meters.
+**First**, `calcDistance` is a helper function that takes 2 objects of shape `{lat : number, lng : number}` and returns the distance between them in meters.
 
 However, if we have 5 markers, there will be 4 distance calculations between them. Having 2 arrays of unequal lengths complicates things, so we initialize the first distance to 0 (lines 36-42, highlighted).
 
@@ -171,4 +183,4 @@ Success! ✨
 
 Let’s start drawing.
 
-## 2. Draw the data
+## 2. Drawing the data

@@ -48,9 +48,7 @@ exports.createPages = ({ graphql, actions }) => {
     resolve(
       graphql(`
         query {
-          allMarkdownRemark(
-            sort: { order: ASC, fields: [frontmatter___date] }
-          ) {
+          allMdx(sort: { order: ASC, fields: [frontmatter___date] }) {
             edges {
               node {
                 frontmatter {
@@ -65,7 +63,7 @@ exports.createPages = ({ graphql, actions }) => {
           }
         }
       `).then(result => {
-        const { edges: posts } = result.data.allMarkdownRemark
+        const { edges: posts } = result.data.allMdx
 
         createTagPages(createPage, posts)
 
