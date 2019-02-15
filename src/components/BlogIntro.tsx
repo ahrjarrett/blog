@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import styled from "styled-components"
 import { media } from "../components/theme/mixins"
 
@@ -28,7 +28,7 @@ const BlogIntroWrapper = styled.div`
   }
 `
 
-const BlogIntro = props => {
+const BlogIntro = () => {
   return (
     <BlogIntroWrapper className="content">
       <blockquote cite="https://en.wikipedia.org/wiki/Grep">

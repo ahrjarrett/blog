@@ -7,18 +7,28 @@ const breakpoints = {
   newPhone: 480
 }
 
+type MediaType = {
+  desktop: Function
+  tabletLg: Function
+  tablet: Function
+  newPhone: Function
+}
+
 /* You can use the media export in a styled-component like so:
  *   ${media.desktop`display: flex;`}
  *   ${media.tablet`display: inline-block;`}
  *   ${media.phone`display: none;`} */
-export const media = Object.keys(breakpoints).reduce((acc, label) => {
-  acc[label] = (...args) => css`
-    @media (min-width: ${breakpoints[label] / 16}em) {
-      ${css(...args)};
-    }
-  `
-  return acc
-}, {})
+export const media: MediaType = Object.keys(breakpoints).reduce(
+  (acc, label) => {
+    acc[label] = (...args) => css`
+      @media (min-width: ${breakpoints[label] / 16}em) {
+        ${css(...args)};
+      }
+    `
+    return acc
+  },
+  {}
+)
 
 export const linkHoverMixin = css`
   &:hover {

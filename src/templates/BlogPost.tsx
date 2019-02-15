@@ -1,13 +1,17 @@
-import React from "react"
+import * as React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/Layout"
 import PostHeader from "../components/PostHeader"
 import PostArticle from "../components/PostArticle"
 import * as s from "../components/styles/BlogPost.styles"
+import { PostQueryData } from "../interfaces/PostQuery.interface"
+import { RouterProps } from "@reach/router"
+
+type Props = PostQueryData & RouterProps
 
 // pageContext is passed thru via context object in gatsby-node.js
-const Template = ({ data, pageContext }) => {
+const Template: React.FunctionComponent<Props> = ({ data, pageContext }) => {
   const { mdx } = data
   const { title, date, excerpt, tags, image } = mdx.frontmatter
   const { code } = mdx

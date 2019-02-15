@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import * as React from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
 
@@ -101,7 +101,11 @@ const FlexContainerRight = styled.div`
   justify-content: flex-end;
 `
 
-const Lambda = ({ visible }) => (
+interface LambdaProps {
+  visible: boolean
+}
+
+const Lambda: React.FunctionComponent<LambdaProps> = ({ visible }) => (
   <LambdaWrapper visible={visible}>
     <Link to="/">
       <LambdaSvg height="40px" width="40px" />
@@ -136,11 +140,22 @@ const NavLogoStyles = styled.div`
   letter-spacing: -0.025em;
 `
 
-const NavLogo = ({ visible }) => (
+interface NavLogoProps {
+  visible: boolean
+}
+
+const NavLogo: React.FunctionComponent<NavLogoProps> = ({ visible }) => (
   <NavLogoStyles visible={visible}>the grepper</NavLogoStyles>
 )
 
-class Navbar extends Component {
+interface NavbarProps {}
+
+interface NavbarState {
+  y: number
+  showLogo: boolean
+}
+
+class Navbar extends React.Component<NavbarProps, NavbarState> {
   state = {
     y: 0,
     showLogo: false
@@ -149,7 +164,7 @@ class Navbar extends Component {
     this.setState({ y: window.scrollY })
     window.addEventListener("scroll", this.handleScroll)
   }
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: NavbarProps, prevState: NavbarState) {
     if (prevState.y !== window.scrollY) {
       if (this.state.y > 500)
         this.setState({ y: window.scrollY, showLogo: true })
@@ -160,7 +175,7 @@ class Navbar extends Component {
     window.removeEventListener("scroll", this.handleScroll)
   }
 
-  handleScroll = e => {
+  handleScroll = () => {
     this.setState({ y: window.scrollY })
   }
   showLogo = () => {

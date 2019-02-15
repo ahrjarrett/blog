@@ -43,7 +43,7 @@ exports.createPages = ({ graphql, actions }) => {
 
   // createPage returns a promise bc file creation is asynchronous
   return new Promise((resolve, reject) => {
-    const blogPostTemplate = path.resolve("src/templates/BlogPost.js")
+    const blogPostTemplate = path.resolve("src/templates/BlogPost.tsx")
 
     resolve(
       graphql(`

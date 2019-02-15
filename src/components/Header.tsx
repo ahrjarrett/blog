@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { StaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 
@@ -140,7 +140,20 @@ const TitleSubtitleStyles = styled.div`
   }
 `
 
-const TitleSubtitle = ({ data }) => {
+interface Props {
+  data: {
+    site: {
+      siteMetadata: {
+        description: string
+        subtitle: string
+        title: string
+      }
+    }
+  }
+}
+
+const TitleSubtitle = ({ data }: Props) => {
+  console.log("TITLE AND SUBHEADER DATA:", data)
   const { title, description } = data.site.siteMetadata
   return (
     <TitleSubtitleStyles>

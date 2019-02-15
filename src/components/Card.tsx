@@ -1,7 +1,9 @@
-import React from "react"
+import * as React from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
 import { media } from "./theme/mixins"
+
+import { FrontmatterI } from "../interfaces/Frontmatter.interface"
 
 const ImgWrapper = styled.div`
   img {
@@ -88,8 +90,12 @@ const TagsContainer = styled.div`
   margin-top: 0.75rem;
 `
 
+interface Props {
+  frontmatter: FrontmatterI
+}
+
 // date, path, tags, title, excerpt, image
-const Card = ({ frontmatter }) => {
+const Card: React.FunctionComponent<Props> = ({ frontmatter }) => {
   const { date, excerpt, path, tags, title, image } = frontmatter
   return (
     <CardWrapper>
