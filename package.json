@@ -13,16 +13,20 @@
     "@mdx-js/tag": "0.17.0",
     "babel-plugin-styled-components": "1.8.0",
     "gatsby": "^2.0.33",
-    "gatsby-mdx": "0.3.5",
+    "gatsby-mdx": "0.3.6",
     "gatsby-plugin-styled-components": "3.0.2",
-    "gatsby-remark-prismjs": "3.2.4",
     "gatsby-source-filesystem": "2.0.1-rc.6",
     "gatsby-transformer-remark": "2.1.1-rc.5",
+    "prism-react-renderer": "0.1.5",
     "prismjs": "1.15.0",
     "prop-types": "15.6.2",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-live": "1.12.0",
     "styled-components": "4.1.1"
+  },
+  "devDependencies": {
+    "@mdx-js/loader": "0.17.3",
+    "loader-utils": "1.2.3"
   }
 }

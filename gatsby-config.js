@@ -14,24 +14,10 @@ module.exports = {
     }
   },
   plugins: [
-    `gatsby-mdx`,
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: `gatsby-mdx`,
       options: {
-        plugins: [
-          {
-            resolve: `gatsby-remark-prismjs`,
-            options: {
-              aliases: {
-                js: "javascript"
-              },
-              classPrefix: "language-",
-              inlineCodeMarker: null,
-              noInlineHighlight: false,
-              showLineNumbers: true
-            }
-          }
-        ]
+        extensions: [".mdx", ".md"]
       }
     },
     {

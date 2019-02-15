@@ -50,7 +50,7 @@ export const ArticleStyles = styled.article`
     }
     p, li {
       font-size: 1.25rem;
-      font-weight: 400;
+      font-weight: 500;
     }
     p.lead-paragraph {
       font-size: 1.375rem;

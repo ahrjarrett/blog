@@ -6,7 +6,6 @@ import Layout from "../components/Layout"
 import Header from "../components/Header"
 import BlogIntro from "../components/BlogIntro"
 import Card from "../components/Card"
-import { media } from "../components/theme/mixins"
 import { pageFormatting } from "../components/theme/GlobalStyles"
 
 const CardsWrapper = styled.ul`

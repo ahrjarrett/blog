@@ -1,8 +1,8 @@
 ---
-path: "/2019-02-09-draw-an-interactive-elevation-chart-with-d3-and-react"
-date: "2019-02-09"
+path: "/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react"
+date: "2019-02-11"
 title: "Draw an Interactive Elevation Chart with D3 & React"
-image: "/images/2019-02-09-draw-an-interactive-elevation-chart-with-d3-and-react.gif"
+image: "/images/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react.gif"
 tags: ["react", "d3", "javascript", "google maps"]
 excerpt: "Data visualization is too fun. My team made an app that consumes a user’s trip data and uses it to draw cool stuff. Here’s how we used React, D3 and Google Maps to do it."
 published: true
@@ -35,7 +35,15 @@ So we made the decision to store things like map markers on state only when abso
 
 Here’s the feature we’ll be building:
 
-<!-- <iframe class="youtube-video" width="720" height="480" src="https://www.youtube.com/embed/9HXlmXwyuKk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+<iframe
+  className="youtube-video"
+  width="720"
+  height="480"
+  src="https://www.youtube.com/embed/9HXlmXwyuKk"
+  frameBorder="0"
+  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>
 
 We won’t cover adding a map, creating markers or drawing the polyline; detailed instructions for how to create those are all available in the [Google Maps Documentation](https://developers.google.com/maps/documentation/).
 
@@ -67,10 +75,9 @@ This is exactly what we need to do!
 
 Let’s define a class method called `getElevationsAlongPath` that handles this:
 
-```javascript
+```jsx
 import React from "react"
 
-// helper fn that calculates the distance between 2 locations:
 const calcDistance = (
   { lat: fromLat, lng: fronLng },
   { lat: toLat, lng: toLng }
@@ -154,7 +161,7 @@ However, if we have 5 markers, there will be 4 distance calculations between the
 
 Now we have 5 markers and 5 distances and we don’t have to do maths later.
 
-**Second**, in lines 49-61 (highlighted) we call the Elevations API, passing in the path we want to take samples from along with the number of samples we want. We ask for 100 samples because again, math is hard.
+**Second**, in lines 49-61 (highlighted) we call the Elevations API, passing in the path we want to take samples from along with the number of samples we want. We ask for 100 samples because again, math is hard (also I like the way these zeroes look: **0**).
 
 When we call our method (in our case, inside `componentDidUpdate`), our `ChartWrapper` state will look something like this:
 

@@ -8,8 +8,6 @@ import * as s from "../components/styles/BlogPost.styles"
 
 // pageContext is passed thru via context object in gatsby-node.js
 const Template = ({ data, pageContext }) => {
-  console.log("DATA FROM TEMPLATE:", data)
-
   const { mdx } = data
   const { title, date, excerpt, tags, image } = mdx.frontmatter
   const { code } = mdx
@@ -47,7 +45,6 @@ const Template = ({ data, pageContext }) => {
 export const query = graphql`
   query($pathSlug: String!) {
     mdx(frontmatter: { path: { eq: $pathSlug } }) {
-      html
       code {
         body
       }

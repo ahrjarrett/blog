@@ -1,4 +1,4 @@
-import styled, { css, createGlobalStyle } from "styled-components"
+import { css, createGlobalStyle } from "styled-components"
 import {
   codeStyles,
   fontDeclarations,

@@ -95,10 +95,10 @@ export const fontStyles = css`
     &,
     a,
     b,
-    code,
     strong,
     p,
     cite,
+    code,
     pre {
       font-size: 2rem;
       ${media.tablet`

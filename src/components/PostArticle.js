@@ -1,6 +1,5 @@
 import React from "react"
 import { Link } from "gatsby"
-import styled from "styled-components"
 import PropTypes from "prop-types"
 import MDXRenderer from "gatsby-mdx/mdx-renderer"
 
@@ -13,7 +12,6 @@ const PostArticle = ({
   image,
   tags,
   title,
-  // html,
   prev,
   next
 }) => (
@@ -22,11 +20,19 @@ const PostArticle = ({
       <div className="byline">
         <span className="by">By</span>
         <h4>
-          <a href="https://thegrepper.com/" target="_blank">
+          <a
+            href="https://thegrepper.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Andrew Jarrett
           </a>
         </h4>
-        <a href="https://thegrepper.com/" target="_blank">
+        <a
+          href="https://thegrepper.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img src="/images/headshot.jpeg" alt="Andrew Jarrett" />
         </a>
         <h4>{date}</h4>
@@ -80,18 +86,5 @@ PostArticle.propTypes = {
   next: PropTypes.object,
   prev: PropTypes.object
 }
-
-const DateAndTagsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const TagsWrapper = styled.div`
-  display: flex;
-  h4 {
-    padding-left: 6px;
-  }
-`
 
 export default PostArticle
