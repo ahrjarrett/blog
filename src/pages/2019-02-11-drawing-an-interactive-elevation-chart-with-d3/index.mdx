@@ -21,15 +21,17 @@ One of the first decisions we have to make when using D3 and React together is *
     >
       source code on GitHub
     </a>
-    , or watch the 15 second demo below!
+    , or watch the 15-second demo below!
   </p>
 </div>
 
-Shirley goes on to explain that it’s usually best to let React paint the DOM since it manages state and, presumably, the inputs to our chart will live on state. However in our case, because we have over 100 map samples from Google Maps API to manage (each sample a nested object containing keys such as `elevation` and `location`, which is itself an object with `latitude` and `longitude` keys), it didn't make sense from a performance standpoint to give React control of the DOM.
+Shirley goes on to explain that it’s usually best to let React paint the DOM since it manages state and, presumably, the inputs to our chart will live on state.
+
+However in our case, because we have 100 elevation samples from Google Maps API to manage (each sample a nested object containing keys such as `elevation` and `location`, which is itself an object with `latitude` and `longitude` keys), it didn't make sense from a performance standpoint to give React control of the DOM.
 
 Even if we were to use a PureComponent to avoid doing deep comparisons and minimize re-renders, we’re still managing references to 100 objects, and 100 shallow comparisons is still 100 comparisons.
 
-So we made the decision to store things like map markers on state only when absolutely necessary, and to never store our samples on state. For this reason, **it made more sense to let D3 control how the ElevationChart paints the DOM**.
+So we made the decision to store things like map markers on state only when absolutely necessary, and to never store our samples on state. For this reason, **we decided to let D3 control how the ElevationChart paints the DOM**.
 
 ## What We’ll Be Building
 
@@ -110,7 +112,6 @@ export default class ChartWrapper extends React.Component {
       const { distances } = latLngs.reduce(
         (acc, curr, i, arr) => {
           if (i === arr.length - 1) return acc
-          // highlight-start
           const distances = acc.distances.concat(
             // use the helper function we defined above:
             calcDistance(
@@ -118,14 +119,12 @@ export default class ChartWrapper extends React.Component {
               { lat: arr[i + 1].lat, lng: arr[i + 1].lng }
             )
           )
-          // highlight-end
           return distances
         },
         { distances: [] }
       )
 
       // API call to get our elevations:
-      // highlight-start
       elevator.getElevationAlongPath(
         {
           path: latLngs,
@@ -139,7 +138,6 @@ export default class ChartWrapper extends React.Component {
           })
         }
       )
-      // highlight-end
     }
   }
 
@@ -155,13 +153,13 @@ export default class ChartWrapper extends React.Component {
 
 Let’s talk through it.
 
-**First**, `calcDistance` is a helper function that takes 2 objects of shape `{lat : number, lng : number}` and returns the distance between them in meters.
+**First**, `calcDistance` is a helper function that takes 2 objects of shape `{lat: number, lng: number}` and returns the distance between them in meters.
 
-However, if we have 5 markers, there will be 4 distance calculations between them. Having 2 arrays of unequal lengths complicates things, so we initialize the first distance to 0 (lines 36-42, highlighted).
+However, if we have 5 markers, there will be 4 distance calculations between them. Having 2 arrays of unequal lengths complicates things, so we initialize the first distance to 0 (lines 36-42).
 
 Now we have 5 markers and 5 distances and we don’t have to do maths later.
 
-**Second**, in lines 49-61 (highlighted) we call the Elevations API, passing in the path we want to take samples from along with the number of samples we want. We ask for 100 samples because again, math is hard (also I like the way these zeroes look: **0**).
+**Second**, in lines 49-61 we call the Elevations API, passing in the path we want to take samples from along with the number of samples we want. We ask for 100 samples because again, math is hard (also because I like the way these zeroes look: **0**).
 
 When we call our method (in our case, inside `componentDidUpdate`), our `ChartWrapper` state will look something like this:
 
@@ -189,5 +187,25 @@ When we call our method (in our case, inside `componentDidUpdate`), our `ChartWr
 Success! ✨
 
 Let’s start drawing.
+
+[Elevation Chart Styles](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/styles/ElevationChart.styles.js#L82)
+
+```jsx
+import React, { Component } from "react"
+import * as d3 from "d3"
+
+import ChartIcon from "./icons/ChartSvg"
+import * as s from "../styles/ElevationChart.styles"
+
+const margin = { top: 0, right: 0, bottom: 15, left: 50 }
+const width = 750 - margin.left - margin.right
+const height = 155 - margin.top - margin.bottom
+const xAxisTicks = 8
+const yAxisTicks = 6
+
+export const numOfSamples = 100
+export const metersToMiles = m => m * 0.000621371
+export const metersToFeet = m => m * 3.28084
+```
 
 ## 2. Drawing the data
