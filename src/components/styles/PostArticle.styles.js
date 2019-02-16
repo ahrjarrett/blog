@@ -2,13 +2,9 @@ import styled from "styled-components"
 import { linkHoverMixin, media } from "../theme/mixins"
 
 export const ArticleStyles = styled.article`
-  li,
-  p {
-    margin-bottom: 0.9375rem;
-  }
-
   p,
   li {
+    margin-bottom: 1.1875rem;
     color: ${props => props.theme.primary};
     font-size: 0.9375rem;
     line-height: 1.45;

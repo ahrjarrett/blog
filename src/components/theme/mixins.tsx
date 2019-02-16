@@ -142,7 +142,7 @@ export const fontStyles = css`
     font-weight: 600;
 
     p {
-      margin-bottom: 0;
+      margin-bottom: 0 !important;
       font-weight: 600 !important;
       font-family: Tik, sans-serif !important;
       padding-left: 0 !important;

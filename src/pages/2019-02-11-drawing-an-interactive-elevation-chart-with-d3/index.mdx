@@ -193,7 +193,6 @@ First we’ll render a simple map, because we need to make sure our API key is w
 
 Let’s start with Madrid. We can use the TransitLayer API to sketch out the arteries of the Metro de Madrid public transit system while we’re at it.
 
-<!--
 <MapWithMarkers
   type="basic"
   layer="transit"
@@ -203,7 +202,6 @@ Let’s start with Madrid. We can use the TransitLayer API to sketch out the art
   theme="day"
   zoom={13.6}
 />
--->
 
 _Sí, tú estás luciendo bien allí, Madrid._
 
@@ -220,7 +218,6 @@ Our team needed to support rendering this data dynamically based on user input. 
 
 **Point being:** We’re going to keep hardcoding values for now, but we’ll switch it up to keep things lively. Let’s go to San Francisco because I can’t afford to go in real life anymore:
 
-<!--
 <MapWithMarkers
   type="markersAndPolyline"
   center={mapCenterSF}
@@ -230,7 +227,6 @@ Our team needed to support rendering this data dynamically based on user input. 
   theme="comic"
   title="Lombard Street, SF"
 />
--->
 
 Great! We now have 18 markers representing a stroll down Lombard Street.
 
@@ -296,7 +292,6 @@ Now let’s get those elevation samples.
 
 ### Map Showing Elevation at Locations
 
-<!--
 <MapWithMarkers
   type="elevationForLocations"
   center={mapCenterHI}
@@ -306,7 +301,6 @@ Now let’s get those elevation samples.
   showDeltas={true}
   zoom={13.7}
 />
--->
 
 ### Map Fetching Elevation Samples Along Path
 
