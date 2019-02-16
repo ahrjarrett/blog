@@ -116,9 +116,9 @@ export const ArticleStyles = styled.article`
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid ${props => props.theme.primary};
-    padding-bottom: 1.5625rem;
-    margin-top: 1.875rem;
+    margin-top: 1.75rem;
     margin-bottom: 1.9375rem;
+    padding-bottom: 1rem;
     color: ${props => props.theme.primary};
     line-height: 0;
 
@@ -139,10 +139,11 @@ export const ArticleStyles = styled.article`
       }
     }
     img {
-      margin-left: 0.425rem;
+      margin-left: 0.475rem;
       margin-right: 0.375rem;
-      width: 2rem;
-      height: 2rem;
+      margin-top: 4px;
+      width: 3rem;
+      height: 3rem;
       border-radius: 50%;
     }
   }

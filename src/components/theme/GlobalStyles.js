@@ -150,7 +150,7 @@ export const pageFormatting = css`
       line-height: 1.1;
     `};
 
-    margin-top: 3rem;
+    margin-top: 3.5rem;
     margin-bottom: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
