@@ -13,10 +13,4 @@ export const loadScript = (url, domId) => {
     window.document.head.appendChild(script)
     return script
   })
-
-  // const index = window.document.getElementsByTagName("script")[0]
-  // script.src = url
-  // script.async = true
-  // script.defer = true
-  // index.parentNode.insertBefore(script, index)
 }

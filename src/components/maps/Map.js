@@ -1,6 +1,7 @@
 import React from "react"
+import PropTypes from "prop-types"
 
-import { loadScript } from "../utils/loadScript"
+import { loadScript } from "../../utils/loadScript"
 
 const getMapsUri = (key, callback) =>
   `https://maps.googleapis.com/maps/api/js?key=${key}`
@@ -22,7 +23,7 @@ class Map extends React.PureComponent {
   }
 
   componentDidMount() {
-    // if Google Maps script already included:
+    // Make sure we only mount the google maps API once!
     if (this.state.mapsApiMounted) {
       this._google = window.google
       this._scriptElement = window.document.getElementById(scriptId)
@@ -34,9 +35,9 @@ class Map extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    // remove google maps script from DOM
+    // rm google maps script from DOM
     this._scriptElement.parentNode.removeChild(this._scriptElement)
-    // remove google from global scope
+    // rm google from global scope
     window.google = null
   }
 
@@ -50,12 +51,17 @@ class Map extends React.PureComponent {
   }
 
   renderMap = () => {
-    const map = new window.google.maps.Map(this.mapRef.current, {
-      center: { lat: 39.0997, lng: -94.5786 },
-      zoom: 11,
-      disableDefaultUI: true
-    })
-    this.setState({ map })
+    try {
+      const map = new window.google.maps.Map(this.mapRef.current, {
+        center: this.props.center,
+        zoom: this.props.zoom,
+        disableDefaultUI: true
+      })
+      this.setState({ map, mapRendered: true })
+    } catch (e) {
+      console.error("ERROR RENDERING MAP:", e)
+      this.setState({ mapRendered: false })
+    }
   }
 
   render() {
@@ -64,6 +70,27 @@ class Map extends React.PureComponent {
       map: this.state.map
     })
   }
+}
+
+Map.propTypes = {
+  width: PropTypes.number,
+  height: PropTypes.number,
+  center: PropTypes.shape({
+    lat: PropTypes.number,
+    lng: PropTypes.number
+  }),
+  zoom: PropTypes.number
+}
+
+Map.defaultProps = {
+  width: 720,
+  height: 480,
+  center: {
+    // Bedford-Stuyvesant, Brooklyn NY
+    lat: 40.6872176,
+    lng: -73.94177350000001
+  },
+  zoom: 14
 }
 
 export default Map

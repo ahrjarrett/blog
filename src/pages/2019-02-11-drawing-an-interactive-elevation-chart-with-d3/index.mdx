@@ -8,8 +8,7 @@ excerpt: "Data visualization is too fun. My team made an app that consumes a use
 published: true
 ---
 
-import Map from "../../components/Map"
-import * as s from "../../components/styles/Map.styles.js"
+import MapWithMarkers from "../../components/maps/MapWithMarkers"
 
 ## Virtual DOM vs. the DOM
 
@@ -191,14 +190,7 @@ Success! ✨
 
 Let’s start drawing.
 
-<Map width={600} height={400}>
-  {({ map, ref, defaultStyles }) => (
-    <s.MapStyles>
-      <div className="googleMap" ref={ref} style={{ ...defaultStyles }} />
-      <h3> MAP STUFF </h3>
-    </s.MapStyles>
-  )}
-</Map>
+<MapWithMarkers />
 
 [Elevation Chart Styles](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/styles/ElevationChart.styles.js#L82)
 
