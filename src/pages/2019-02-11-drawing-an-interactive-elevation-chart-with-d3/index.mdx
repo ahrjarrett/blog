@@ -9,6 +9,16 @@ published: true
 ---
 
 import MapWithMarkers from "../../components/maps/MapWithMarkers"
+import LoadMapsApi from "../../components/maps/LoadMapsApi"
+import {
+  markerPositionsHI,
+  mapCenterHI,
+  markerPositionsSF,
+  mapCenterSF,
+  mapCenterNY
+} from "../../components/maps/data"
+
+<LoadMapsApi />
 
 ## Virtual DOM vs. the DOM
 
@@ -190,7 +200,30 @@ Success! ✨
 
 Let’s start drawing.
 
-<MapWithMarkers />
+First we’ll make a simple map:
+
+<MapWithMarkers
+  center={mapCenterNY}
+  title="Bedford-Stuyvesant, Brooklyn"
+  zoom={17}
+/>
+
+Next, we’ll draw some markers and connect them by polyline:
+
+<MapWithMarkers
+  center={mapCenterSF}
+  markerPositions={markerPositionsSF}
+  zoom={19.1}
+  title="Lombard Street, SF"
+/>
+
+Finally, we’ll get our elevation samples:
+
+<MapWithMarkers
+  center={mapCenterHI}
+  markerPositions={markerPositionsHI}
+  title="Waipio Rd – Waimea, Hawaii"
+/>
 
 [Elevation Chart Styles](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/styles/ElevationChart.styles.js#L82)
 

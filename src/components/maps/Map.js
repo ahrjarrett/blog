@@ -1,81 +1,28 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import { loadScript } from "../../utils/loadScript"
-
-const getMapsUri = (key, callback) =>
-  `https://maps.googleapis.com/maps/api/js?key=${key}`
-const { MAPS_KEY } = process.env
-const scriptId = "googleMapsScript"
-
 class Map extends React.PureComponent {
   constructor(props) {
     super(props)
-    let window = window || {}
     this.state = {
       map: null,
-      mapRendered: false,
-      // TODO: Clean this up!
-      mapsApiMounted: !Object.keys(window).length
-        ? false
-        : window && window.google && Object.keys(window.google).length
-        ? true
-        : false
+      mapRendered: false
     }
     this.mapRef = React.createRef()
-    this._google = null
-    this._scriptElement = null
   }
 
   componentDidMount() {
-    // Make sure we only mount the google maps API once!
-    if (this.state.mapsApiMounted) {
-      if (window) {
-        this._google = window.google
-        this._scriptElement = window.document.getElementById(scriptId)
-      }
-      this.renderMap()
-    } else {
-      this.mountMapsApi()
-      this.setState({ mapsApiMounted: true })
-    }
-  }
-
-  componentWillUnmount() {
-    // rm google maps script from DOM
-    this._scriptElement.parentNode.removeChild(this._scriptElement)
-    // rm google from global scope
-    if (window) {
-      window.google = null
-    }
-  }
-
-  mountMapsApi = () => {
-    loadScript(getMapsUri(MAPS_KEY), scriptId)
-      .then(() => {
-        if (window) {
-          this._scriptElement = window.document.getElementById(scriptId)
-        }
-        this.renderMap()
-      })
-      .catch(e => console.log("ERROR MOUNTING MAP:", e))
+    setTimeout(() => this.renderMap(), 500)
   }
 
   renderMap = () => {
-    if (window) {
-      try {
-        const map = new window.google.maps.Map(this.mapRef.current, {
-          center: this.props.center,
-          zoom: this.props.zoom,
-          mapTypeId: this.props.mapTypeId,
-          disableDefaultUI: true
-        })
-        this.setState({ map, mapRendered: true })
-      } catch (e) {
-        console.error("ERROR RENDERING MAP:", e)
-        this.setState({ mapRendered: false })
-      }
-    }
+    const map = new window.google.maps.Map(this.mapRef.current, {
+      center: this.props.center,
+      zoom: this.props.zoom,
+      mapTypeId: this.props.mapTypeId,
+      disableDefaultUI: true
+    })
+    this.setState({ map, mapRendered: true })
   }
 
   render() {
@@ -93,28 +40,9 @@ Map.propTypes = {
     lat: PropTypes.number,
     lng: PropTypes.number
   }),
+  title: PropTypes.string,
   mapTypeId: PropTypes.string,
   zoom: PropTypes.number
-}
-
-Map.defaultProps = {
-  width: 720,
-  height: 480,
-  center: {
-    // Bedford-Stuyvesant, Brooklyn NY
-    /* lat: 40.6872176,
-     * lng: -73.94177350000001 */
-
-    // Lombard Street, San Francisco
-    /* lat: 37.802145883206705,
-     * lng: -122.41884253997215 */
-
-    // Waipio Rd, Waimea, HI
-    lat: 20.114140010845457,
-    lng: -155.5897780659501
-  },
-  mapTypeId: "terrain",
-  zoom: 15.5
 }
 
 export default Map

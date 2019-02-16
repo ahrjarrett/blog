@@ -6,7 +6,7 @@ import mapMarker from "../icons/MapMarker.svg"
 import { indexToLetter } from "../../utils/indexToLetter"
 import * as s from "../styles/Map.styles"
 
-class MapWithMarkers extends React.Component {
+class MapWithMarkers extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -100,40 +100,51 @@ class MapWithMarkers extends React.Component {
 
   render() {
     const { showMarkers, showPath } = this.state
+    const { markerPositions } = this.props
     return (
-      <Map width={720} height={540}>
-        {({ map, ref, defaultStyles }) => (
+      <Map {...this.props} {...this.state}>
+        {({ map, ref }) => (
           <s.MapStyles>
-            <button
-              onClick={
-                showMarkers
-                  ? this.removeMarkers
-                  : this.addMarkers(map, markerPositions)
-              }
-            >
-              {showMarkers ? "Hide Markers!" : "Show Markers!"}
-            </button>
-            <button
-              onClick={
-                showPath
-                  ? this.removePath
-                  : this.drawPath(map, this.state.markers)
-              }
-            >
-              {showPath ? "Hide Path!" : "Draw Path!"}
-            </button>
             <div className="childrenWrapper">
               <div
-                className="googleMap"
+                className={`googleMap map_${this.props.title.replace(
+                  /[^a-zA-Z0-9]/g,
+                  "_"
+                )}`}
                 ref={ref}
-                style={{ ...defaultStyles }}
               />
               {map === null ? (
                 <h3>Loading... </h3>
               ) : (
-                <h3>Waipio Rd – Waimea, Hawaii</h3>
+                <h3>{this.props.title}</h3>
               )}
             </div>
+
+            {markerPositions.length > 0 && (
+              <div className="map-buttons">
+                <h4>Actions:</h4>
+                <button
+                  onClick={
+                    showMarkers
+                      ? this.removeMarkers
+                      : this.addMarkers(map, markerPositions)
+                  }
+                >
+                  {showMarkers ? "Hide Markers!" : "Show Markers!"}
+                </button>
+                {showMarkers && (
+                  <button
+                    onClick={
+                      showPath
+                        ? this.removePath
+                        : this.drawPath(map, this.state.markers)
+                    }
+                  >
+                    {showPath ? "Hide Path!" : "Draw Path!"}
+                  </button>
+                )}
+              </div>
+            )}
           </s.MapStyles>
         )}
       </Map>
@@ -141,19 +152,39 @@ class MapWithMarkers extends React.Component {
   }
 }
 
-export default MapWithMarkers
+MapWithMarkers.propTypes = {
+  width: PropTypes.number,
+  height: PropTypes.number,
+  center: PropTypes.shape({
+    lat: PropTypes.number,
+    lng: PropTypes.number
+  }),
+  title: PropTypes.string,
+  mapTypeId: PropTypes.string,
+  markerPositions: PropTypes.arrayOf(
+    PropTypes.shape({
+      lat: PropTypes.number,
+      lng: PropTypes.number
+    })
+  ),
+  zoom: PropTypes.number
+}
 
-const markerPositions = [
-  { lat: 20.108041337744396, lng: -155.59666531849717 },
-  { lat: 20.108625679154304, lng: -155.5937685327611 },
-  { lat: 20.11104362041467, lng: -155.5942406015477 },
-  { lat: 20.11345983582809, lng: -155.5931969275535 },
-  { lat: 20.11400385906143, lng: -155.59081512594827 },
-  { lat: 20.115414280856378, lng: -155.58858352804788 },
-  { lat: 20.117674634503672, lng: -155.5855219656006 },
-  { lat: 20.117453000837656, lng: -155.58425596294558 },
-  { lat: 20.116022448711515, lng: -155.5850713544861 }
-]
+MapWithMarkers.defaultProps = {
+  title: "Cork, Ireland",
+  width: 720,
+  height: 480,
+  center: {
+    // Cork, Ireland
+    lat: 51.9001478637568,
+    lng: -8.473813764445682
+  },
+  markerPositions: [],
+  mapTypeId: "terrain",
+  zoom: 15.5
+}
+
+export default MapWithMarkers
 
 // const markerPositions = [
 //   { lat: 37.80202084444066, lng: -122.41955600757011 },

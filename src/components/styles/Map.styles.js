@@ -1,14 +1,16 @@
 import styled from "styled-components"
 
 export const MapStyles = styled.div`
+  margin-top: 2.125rem;
+  margin-bottom: 4.25rem;
+  box-shadow: 0 0.3125rem 0.0625rem 0 rgba(0, 0, 0, 0.05),
+    0 0 0 0.0625rem rgba(0, 0, 0, 0.03), 0 0.0625rem 0 0 rgba(0, 0, 0, 0.05),
+    0 0.0625rem 0.1875rem 0 rgba(0, 0, 0, 0.01);
+
   div.childrenWrapper {
     position: relative;
     overflow: hidden;
-    margin-top: 1.5rem;
-    margin-bottom: 1.25rem;
-    box-shadow: 0 0.3125rem 0.0625rem 0 rgba(0, 0, 0, 0.05),
-      0 0 0 0.0625rem rgba(0, 0, 0, 0.03), 0 0.0625rem 0 0 rgba(0, 0, 0, 0.05),
-      0 0.0625rem 0.1875rem 0 rgba(0, 0, 0, 0.01);
+    box-shadow: 0 0 0.625rem 0 rgba(0, 0, 0, 0.1);
 
     div.googleMap {
       position: relative;
@@ -26,11 +28,35 @@ export const MapStyles = styled.div`
       left: 0;
       right: 0;
       background: white;
-      padding: 1rem;
+      padding: 1rem 0 0.875rem;
       margin: 0;
       text-align: center;
       font-size: 1.5rem;
+      font-family: Tra, serif;
+      font-weight: 800;
       box-shadow: 0 0 0.625rem 0 rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  div.map-buttons {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    h4 {
+      font-size: 1.5rem;
+      line-height: 0;
+      margin: 0;
+      padding: 0;
+    }
+    button {
+      margin: 0 0 0 1.25rem;
+      background: ${props => props.theme.primary};
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.625rem 1rem;
     }
   }
 `

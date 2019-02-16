@@ -32,7 +32,7 @@ export const media: MediaType = Object.keys(breakpoints).reduce(
 
 export const linkHoverMixin = css`
   &:hover {
-    font-family: TikRotalic;
+    font-family: TikRotalic sans-serif;
   }
 `
 
@@ -93,7 +93,6 @@ export const fontStyles = css`
       font-weight: 800;
     }
     cite {
-      /* font-family: TikRotalic; */
       text-transform: uppercase;
       ${linkHoverMixin};
     }
@@ -135,13 +134,14 @@ export const fontStyles = css`
   h4,
   h5,
   h6,
+  button,
   p {
-    font-family: Tik;
+    font-family: Tik, sans-serif;
   }
 
   ul,
   li {
-    font-family: Tik;
+    font-family: Tik, sans-serif;
     font-weight: 500;
   }
 

@@ -56,11 +56,6 @@ export const GlobalStyles = createGlobalStyle`
   ${fontStyles};
   ${codeStyles};
 
-  /* input:focus,
-  textarea:focus,
-  select:focus {
-    outline: 0;
-  } */
 
   .youtube-video {
     ${media.newPhone`
