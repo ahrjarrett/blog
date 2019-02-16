@@ -47,3 +47,15 @@ export const mapCenterNY = {
   lat: 40.6872176,
   lng: -73.94177350000001
 }
+
+export const mapCenterUK = {
+  // London
+  lat: 51.50616621357263,
+  lng: -0.12923947598137087
+}
+
+export const mapCenterESP = {
+  // Madrid
+  lat: 40.41823753663909,
+  lng: -3.7147311000803462
+}

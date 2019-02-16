@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 export const MapStyles = styled.div`
+  position: relative;
   margin-top: 2.125rem;
   margin-bottom: 4.25rem;
   box-shadow: 0 0.3125rem 0.0625rem 0 rgba(0, 0, 0, 0.05),
@@ -57,6 +58,31 @@ export const MapStyles = styled.div`
       font-size: 1rem;
       font-weight: 600;
       padding: 0.625rem 1rem;
+    }
+  }
+
+  /* THEME TOGGLE: */
+  .theme-select {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    margin-top: 0.5rem;
+    margin-right: 1.5rem;
+    font-family: Tra, serif;
+    font-weight: 700;
+    text-align: right;
+    color: ${props => props.theme.primary};
+    h6 {
+      font-family: Tra, serif;
+      font-weight: 700;
+      text-align: right;
+      font-size: 0.875rem;
+      text-decoration: underline;
+      color: black;
+    }
+    input {
+    }
+    label {
     }
   }
 `

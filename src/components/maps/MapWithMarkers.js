@@ -12,8 +12,11 @@ class MapWithMarkers extends React.PureComponent {
     this.state = {
       markers: [],
       showMarkers: false,
-      showPath: false
+      showPath: false,
+      elevations: [],
+      theme: "night"
     }
+    this.themeRef = React.createRef()
   }
 
   componentDidMount() {
@@ -51,7 +54,6 @@ class MapWithMarkers extends React.PureComponent {
   }
 
   removePath = () => {
-    console.log("calling remove path")
     if (window) {
       window.polyline.setMap(null)
     }
@@ -98,9 +100,27 @@ class MapWithMarkers extends React.PureComponent {
     this.setState({ showMarkers: false, showPath: false, markers: [] })
   }
 
+  getElevationWindow = (map, markers) => () => {
+    const elevationService = new window.google.maps.ElevationService()
+    window.el = elevationService
+    const infoWindow = new window.google.maps.InfoWindow({ map })
+
+    const locations = markers.map(({ position }) => position)
+    console.log("LOCATIONS:", locations)
+    elevationService.getElevationForLocations(locations, (results, status) => {
+      if (status === "OK") {
+        console.log("ELEVATION RESULTS:", results)
+      }
+    })
+  }
+
+  handleThemeToggle = e => {
+    this.setState({ theme: e.target.value })
+  }
+
   render() {
-    const { showMarkers, showPath } = this.state
-    const { markerPositions } = this.props
+    const { showMarkers, showPath, theme } = this.state
+    const { exampleType, markerPositions } = this.props
     return (
       <Map {...this.props} {...this.state}>
         {({ map, ref }) => (
@@ -118,6 +138,35 @@ class MapWithMarkers extends React.PureComponent {
               ) : (
                 <h3>{this.props.title}</h3>
               )}
+            </div>
+            <div className="theme-select" ref={this.themeRef}>
+              <h6>Map Theme:</h6>
+              <form>
+                <label>
+                  <input
+                    type="radio"
+                    name="night-day"
+                    id="night-mode"
+                    value="night"
+                    className="toggle-control"
+                    checked={this.state.theme === "night"}
+                    onChange={this.handleThemeToggle}
+                  />
+                  Night
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="night-day"
+                    id="day-mode"
+                    value="day"
+                    className="toggle-control"
+                    checked={this.state.theme === "day"}
+                    onChange={this.handleThemeToggle}
+                  />
+                  Day
+                </label>
+              </form>
             </div>
 
             {markerPositions.length > 0 && (
@@ -143,6 +192,13 @@ class MapWithMarkers extends React.PureComponent {
                     {showPath ? "Hide Path!" : "Draw Path!"}
                   </button>
                 )}
+                {exampleType === "elevationInfobox" && showPath && (
+                  <button
+                    onClick={this.getElevationWindow(map, this.state.markers)}
+                  >
+                    Get Elevation
+                  </button>
+                )}
               </div>
             )}
           </s.MapStyles>
@@ -153,12 +209,14 @@ class MapWithMarkers extends React.PureComponent {
 }
 
 MapWithMarkers.propTypes = {
+  exampleType: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
   center: PropTypes.shape({
     lat: PropTypes.number,
     lng: PropTypes.number
   }),
+  layer: PropTypes.string,
   title: PropTypes.string,
   mapTypeId: PropTypes.string,
   markerPositions: PropTypes.arrayOf(
@@ -167,6 +225,7 @@ MapWithMarkers.propTypes = {
       lng: PropTypes.number
     })
   ),
+  theme: PropTypes.arrayOf(PropTypes.object),
   zoom: PropTypes.number
 }
 
@@ -181,28 +240,8 @@ MapWithMarkers.defaultProps = {
   },
   markerPositions: [],
   mapTypeId: "terrain",
+  theme: [],
   zoom: 15.5
 }
 
 export default MapWithMarkers
-
-// const markerPositions = [
-//   { lat: 37.80202084444066, lng: -122.41955600757011 },
-//   { lat: 37.80210111666835, lng: -122.41938048805349 },
-//   { lat: 37.80205025343619, lng: -122.41929733957403 },
-//   { lat: 37.8019909129544, lng: -122.41922223772161 },
-//   { lat: 37.802060849945775, lng: -122.4191310426151 },
-//   { lat: 37.802139264069496, lng: -122.41906935180776 },
-//   { lat: 37.802110779926295, lng: -122.4189838410803 },
-//   { lat: 37.80204578650493, lng: -122.4189061247899 },
-//   { lat: 37.802066979523865, lng: -122.41881761189241 },
-//   { lat: 37.80216234803381, lng: -122.41875860329408 },
-//   { lat: 37.802172635385745, lng: -122.41867557849932 },
-//   { lat: 37.80209915843709, lng: -122.41861060610567 },
-//   { lat: 37.802083812143856, lng: -122.41853485728969 },
-//   { lat: 37.80215401157957, lng: -122.41847048427333 },
-//   { lat: 37.802221829119375, lng: -122.41837392474879 },
-//   { lat: 37.80214523057462, lng: -122.41828445292184 },
-//   { lat: 37.80212615687803, lng: -122.41819862223336 },
-//   { lat: 37.80221092882507, lng: -122.41809938049981 }
-// ]

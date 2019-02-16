@@ -15,7 +15,7 @@ import {
   mapCenterHI,
   markerPositionsSF,
   mapCenterSF,
-  mapCenterNY
+  mapCenterESP
 } from "../../components/maps/data"
 
 <LoadMapsApi />
@@ -203,10 +203,14 @@ Let’s start drawing.
 First we’ll make a simple map:
 
 <MapWithMarkers
-  center={mapCenterNY}
-  title="Bedford-Stuyvesant, Brooklyn"
-  zoom={17}
+  layer="transit"
+  mapTypeId="roadmap"
+  center={mapCenterESP}
+  title="Metro de Madrid"
+  zoom={13.6}
 />
+
+“The Madrid Metro is a rapid transit system serving the city of Madrid, capital of Spain. The system is the 12th longest rapid transit system in the world, with a total length of 293 km, though Madrid is approximately the fiftieth most populous metropolitan area in the world.” _– Wikipedia_
 
 Next, we’ll draw some markers and connect them by polyline:
 
@@ -214,12 +218,14 @@ Next, we’ll draw some markers and connect them by polyline:
   center={mapCenterSF}
   markerPositions={markerPositionsSF}
   zoom={19.1}
+  mapTypeId="roadmap"
   title="Lombard Street, SF"
 />
 
 Finally, we’ll get our elevation samples:
 
 <MapWithMarkers
+  exampleType="elevationInfobox"
   center={mapCenterHI}
   markerPositions={markerPositionsHI}
   title="Waipio Rd – Waimea, Hawaii"
