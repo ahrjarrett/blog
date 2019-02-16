@@ -210,6 +210,7 @@ First we’ll render a simple map, because we need to make sure our API key is w
 Let’s start with Madrid. We can use the TransitLayer API to sketch out the arteries of the Metro de Madrid public transit system while we’re at it.
 
 <!-- <MapWithMarkers
+  type={basic}
   layer="transit"
   mapTypeId="roadmap"
   center={mapCenterESP}
@@ -239,6 +240,7 @@ In the app our team build, we rendered this data dynamically based on user input
 We’re going to keep hardcoding values for now, but we’ll switch it up to keep things lively. Let’s go to San Francisco because I can’t afford to go in real life anymore:
 
 <!-- <MapWithMarkers
+  type={markersAndPolyline}
   center={mapCenterSF}
   markerPositions={markerPositionsSF}
   zoom={12.8}
@@ -309,30 +311,34 @@ Notice that we did not make this method as flexible as `setMapBounds` w/r/t its 
 
 Now let’s get those elevation samples.
 
-### Map Showing Elevation Deltas Between Points
+### Map Showing Elevation at Locations
 
-<MapWithMarkers
+<!-- <MapWithMarkers
+  type={elevationForLocations}
   center={mapCenterHI}
   markerPositions={markerPositionsHI}
   title="Waipio Rd – Waimea, Hawaii"
   theme="retro"
   showDeltas={true}
   zoom={13.7}
-/>
+/> -->
 
-### Map Showing n Elevation Samples Along a Path
+### Map Fetching Elevation Samples Along Path
 
 Instead of getting the difference in elevation between each point, we can ask for `n` number of elevation samples along a path. Requesting 100 samples along a polyline, for example, is a relatively cheap request (1 API call) for how much data we get, and our area chart will be much more granular for it.
 
-<!--
 <MapWithMarkers
-  exampleType="elevationInfobox"
+  type="elevationAlongPath"
   center={mapCenterNZ}
   markerPositions={markerPositionsNZ}
   title="Baldwin St – Dunedin, NZ"
   theme="retro"
-  zoom={13.7}
-/> -->
+  zoom={13.8}
+/>
+
+To see the raw data that the Google Maps API is returning, click “Elevation Samples” and check your console for the green log:
+
+<img src="/images/console_results.png" alt="console results" />
 
 [Elevation Chart Styles](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/styles/ElevationChart.styles.js#L82)
 

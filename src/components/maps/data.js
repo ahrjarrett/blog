@@ -61,8 +61,8 @@ export const mapCenterESP = {
 }
 
 export const mapCenterNZ = {
-  lat: -45.876772392033075,
-  lng: 170.50504375969066
+  lat: -45.85806843030581,
+  lng: 170.51968535193052
 }
 
 export const markerPositionsNZ = [

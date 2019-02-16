@@ -14,6 +14,7 @@ class MapWithMarkers extends React.PureComponent {
     super(props)
     this.state = {
       elevationForLocations: [],
+      elevationSamples: [],
       markers: [],
       showDeltas: props.showDeltas,
       showMarkers: false,
@@ -37,12 +38,6 @@ class MapWithMarkers extends React.PureComponent {
     console.log("props:", this.props)
     console.log("state:", this.state)
     console.groupEnd("map with markers updated")
-
-    // When we get elevationForLocations for the 1st time:
-    // if (!prevState.elevationForLocations.length && this.state.elevationForLocations.length) {
-    //   this.createElevationInfoWindows()
-
-    // }
   }
 
   drawPath = (map, markers) => () => {
@@ -83,7 +78,6 @@ class MapWithMarkers extends React.PureComponent {
 
     const { maps } = window.google
     const markers = []
-    let bounds = new maps.LatLngBounds()
 
     const icon = {
       url: mapMarker,
@@ -125,19 +119,45 @@ class MapWithMarkers extends React.PureComponent {
   getElevationForLocations = (map, markers) => () => {
     const { maps } = window.google
     const elevator = new maps.ElevationService()
-    window.elevator = elevator
     const locations = markers.map(marker => marker.getPosition())
-
     elevator.getElevationForLocations({ locations }, (results, status) => {
       if (status === "OK") {
         const elevationForLocations = results.map(({ elevation }) => elevation)
         this.setState({ elevationForLocations }, () =>
           this.createElevationInfoWindows(map, markers)
         )
-      } else {
-        console.log("ELEVATION BORKED")
-      }
+      } else console.log("ELEVATION FOR LOCATIONS ERROR")
     })
+  }
+
+  getElevationAlongPath = (map, polyline) => () => {
+    const { maps } = window.google
+
+    window.polyline = polyline
+    console.log("calling get el along path", polyline)
+
+    const elevator = new maps.ElevationService()
+    elevator.getElevationAlongPath(
+      // TODO: makes more sense to get path by mapping over
+      // markers and doing marker.getPosition?
+      { path: polyline.getPath().j, samples: 100 },
+      (results, status) => {
+        if (status === "OK") {
+          console.log(
+            "%c GET ELEVATION ALONG PATH SUCCESS, RESULTS:",
+            "background: green; color: white;",
+            results
+          )
+
+          // Strip off `resolution` field; we don't need it:
+          const elevationSamples = results.map(({ elevation, location }) => ({
+            elevation,
+            location
+          }))
+          this.setState({ elevationSamples })
+        }
+      }
+    )
   }
 
   createElevationInfoWindows = (map, markers) => {
@@ -163,7 +183,7 @@ class MapWithMarkers extends React.PureComponent {
       showPath,
       theme
     } = this.state
-    const { markerPositions, title } = this.props
+    const { markerPositions, title, type } = this.props
     return (
       <Map {...this.props} {...this.state}>
         {({ map, ref }) => (
@@ -193,6 +213,7 @@ class MapWithMarkers extends React.PureComponent {
                 >
                   {showMarkers ? "Hide Markers!" : "Show Markers!"}
                 </button>
+
                 {showMarkers && (
                   <button
                     onClick={
@@ -204,6 +225,7 @@ class MapWithMarkers extends React.PureComponent {
                     {showPath ? "Hide Path!" : "Draw Path!"}
                   </button>
                 )}
+
                 {showPath &&
                   showDeltas &&
                   (elevationForLocations.length === 0 ? (
@@ -218,6 +240,14 @@ class MapWithMarkers extends React.PureComponent {
                   ) : (
                     <span>Click on a marker, any marker!</span>
                   ))}
+
+                {showPath && type === "elevationAlongPath" && (
+                  <button
+                    onClick={this.getElevationAlongPath(map, this.polyline)}
+                  >
+                    Elevation Samples
+                  </button>
+                )}
               </div>
             )}
           </s.MapStyles>
@@ -245,6 +275,7 @@ MapWithMarkers.propTypes = {
     })
   ),
   theme: PropTypes.string,
+  type: PropTypes.string,
   zoom: PropTypes.number
 }
 
