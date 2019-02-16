@@ -232,11 +232,11 @@ _Sí, tú estás luciendo bien allí, Madrid._
 
 ### Bounded Map with Markers & Polyline
 
-Next we need to draw some markers and connect them by a path (or “polyline”, in Google-Maps-speak). We can’t use the Directions API without a Premium account, and last I checked it takes \$10K to open one of those. So our polyline will be an approximation of a user path.
+Next we need to draw some markers and connect them by a path (or “polyline”, in Google-Maps-speak). We can’t use the Directions API without a Premium account, and last I checked it takes \$10K to open one of those. So our polyline will be an approximation of a user’s trajectory rather than a shortest path implementation.
 
-In our app, we made all of this data come from user interaction. Dropping, dragging and deleting markers and changing map state is not the focus of this post, and I’m sure you already have ideas about how you would go about doing that.
+In the app our team build, we rendered this data dynamically based on user input. Dropping, dragging and deleting markers and then updating map state is not the focus of this post, besides I’m sure you already have ideas about how you would go about doing that. Check out our repo if you’d like to see how we did it.
 
-We’re going to keep hardcoding values, but we’ll switch it up to keep things lively. Let’s go to San Francisco, because I can’t afford to go in real life anymore:
+We’re going to keep hardcoding values for now, but we’ll switch it up to keep things lively. Let’s go to San Francisco because I can’t afford to go in real life anymore:
 
 <MapWithMarkers
   center={mapCenterSF}
@@ -247,9 +247,11 @@ We’re going to keep hardcoding values, but we’ll switch it up to keep things
   title="Lombard Street, SF"
 />
 
-Great! We have 18 markers going down Lombard Street. Notice how clicking show adjusts the map’s zoom and bounds to neatly frame the markers, while hiding them returns our map to its initial state.
+Great! We now have 18 markers representing a stroll down Lombard Street.
 
-Here’s the method that builds up a `LatLngBounds` object for us and then adjusts our maps “lens” to contain it:
+Notice how clicking show adjusts the map’s zoom and bounds to neatly frame the markers, while hiding them returns our map to its initial state.
+
+Here’s the method that builds up a `LatLngBounds` object for us and then adjusts our map’s “lens” to contain it:
 
 ```javascript
 class MyMapComponent extends React.Component {
@@ -270,9 +272,9 @@ class MyMapComponent extends React.Component {
 }
 ```
 
-If you’ve worked with the GM API for any length of time, you’ve probably gotten tired of keeping track of whether you’re dealing with an instance of the LatLng class — where latitude, for example, is accessible by calling the function `LatLng.position.lat()`.
+**Lines 5-7:** If you’ve worked with the GM API for any length of time, you’ve probably gotten tired of keeping track of whether you’re dealing with an instance of the LatLng class — where latitude, for example, is accessible by calling the function `LatLng.position.lat()`.
 
-We got tired of converting back and forth, so `setMapBounds` accepts both. For every coordinate object or LatLng instance we pass in, we adjust the outer bounds of our map, and we fit the map to those boundaries.
+We got tired of converting back and forth, so we wrote `setMapBounds` to accept either type. For every coordinate object or LatLng instance we pass in, we adjust the outer bounds of our map, and finally we fit the map to those boundaries.
 
 Drawing the polyline is as simple as:
 
@@ -301,11 +303,11 @@ class MyMapComponent extends React.Component {
 }
 ```
 
-Notice that we did not make this method as flexible w/r/t its arguments as setMapBounds; we found drawing and especially redrawing polylines to be slightly more finicky, and did not feel like it needed _more_ flexibility as much as it needed proper documentation of its function signature.
+Notice that we did not make this method as flexible as `setMapBounds` w/r/t its arguments; we learned the hard way that drawing and especially _redrawing_ polylines to be slightly more finicky, and did not feel like it needed _more_ flexibility as much as it needed proper documentation of its function signature.
 
-We add the polyline to our class for use throughout the rest of the component. We also need to keep track of it so we can remove it later when the user clicks “Hide Path” (“Hide Markers” too, otherwise we’d have a marker-less path floating around with nothing anchoring it down!).
+**Line 14:** We add the polyline to our class for use throughout the rest of the component. We also need to keep track of it so we can remove it later when the user clicks “Hide Path” (“Hide Markers” too, otherwise we’d have a marker-less path floating around with nothing anchoring it down!).
 
-Finally, we’ll get our elevation samples.
+Now let’s get those elevation samples.
 
 ### Map Showing the Elevation Delta Between Points
 
@@ -317,6 +319,8 @@ Finally, we’ll get our elevation samples.
   theme="retro"
   zoom={13.7}
 />
+
+### Map Showing `n` Elevation Samples Along a Path
 
 Instead of getting the difference in elevation between each point, we can ask for `n` number of elevation samples along a path. Requesting 100 samples along a polyline, for example, is a relatively cheap request (1 API call) for how much data we get, and our area chart will be much more granular for it.
 

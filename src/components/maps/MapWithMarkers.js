@@ -115,7 +115,7 @@ class MapWithMarkers extends React.PureComponent {
     this.setState({ showMarkers: false, showPath: false, markers: [] })
   }
 
-  getElevationWindow = (map, markers) => () => {
+  getElevationDeltas = (map, markers) => () => {
     const elevationService = new window.google.maps.ElevationService()
     window.el = elevationService
     const infoWindow = new window.google.maps.InfoWindow({ map })
@@ -178,7 +178,7 @@ class MapWithMarkers extends React.PureComponent {
                 )}
                 {exampleType === "elevationInfobox" && showPath && (
                   <button
-                    onClick={this.getElevationWindow(map, this.state.markers)}
+                    onClick={this.getElevationDeltas(map, this.state.markers)}
                   >
                     Get Elevation
                   </button>
