@@ -10,6 +10,7 @@ export const loadScript = (url, domId) => {
     script.onload = resolve
     // trigger rejected state when script is not found
     script.onerror = reject
+
     window.document.head.appendChild(script)
     return script
   })

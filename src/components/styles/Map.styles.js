@@ -12,9 +12,11 @@ export const MapStyles = styled.div`
 
     div.googleMap {
       position: relative;
-      width: 600px;
-      height: 400px;
+      /* width and height will be reset by Map props */
+      width: 720px;
+      height: 540px;
       max-width: 100%;
+      min-width: 100%;
       margin: 0 auto;
     }
 

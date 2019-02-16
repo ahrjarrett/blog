@@ -55,6 +55,7 @@ class Map extends React.PureComponent {
       const map = new window.google.maps.Map(this.mapRef.current, {
         center: this.props.center,
         zoom: this.props.zoom,
+        mapTypeId: this.props.mapTypeId,
         disableDefaultUI: true
       })
       this.setState({ map, mapRendered: true })
@@ -79,6 +80,7 @@ Map.propTypes = {
     lat: PropTypes.number,
     lng: PropTypes.number
   }),
+  mapTypeId: PropTypes.string,
   zoom: PropTypes.number
 }
 
@@ -87,10 +89,19 @@ Map.defaultProps = {
   height: 480,
   center: {
     // Bedford-Stuyvesant, Brooklyn NY
-    lat: 40.6872176,
-    lng: -73.94177350000001
+    /* lat: 40.6872176,
+     * lng: -73.94177350000001 */
+
+    // Lombard Street, San Francisco
+    /* lat: 37.802145883206705,
+     * lng: -122.41884253997215 */
+
+    // Waipio Rd, Waimea, HI
+    lat: 20.114140010845457,
+    lng: -155.5897780659501
   },
-  zoom: 14
+  mapTypeId: "terrain",
+  zoom: 15.5
 }
 
 export default Map
