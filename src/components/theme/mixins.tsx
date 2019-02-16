@@ -32,7 +32,7 @@ export const media: MediaType = Object.keys(breakpoints).reduce(
 
 export const linkHoverMixin = css`
   &:hover {
-    font-family: TikRotalic sans-serif;
+    font-family: TikRotalic, sans-serif;
   }
 `
 

@@ -14,7 +14,7 @@ class MapWithMarkers extends React.PureComponent {
       showMarkers: false,
       showPath: false,
       elevations: [],
-      theme: "night"
+      theme: this.props.theme
     }
     this.themeRef = React.createRef()
   }
@@ -225,7 +225,7 @@ MapWithMarkers.propTypes = {
       lng: PropTypes.number
     })
   ),
-  theme: PropTypes.arrayOf(PropTypes.object),
+  theme: PropTypes.string,
   zoom: PropTypes.number
 }
 
@@ -240,7 +240,7 @@ MapWithMarkers.defaultProps = {
   },
   markerPositions: [],
   mapTypeId: "terrain",
-  theme: [],
+  theme: "night",
   zoom: 15.5
 }
 
