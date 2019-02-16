@@ -33,57 +33,63 @@ class MapWithMarkers extends React.Component {
   }
 
   drawPath = (map, markers) => () => {
-    const path = markers.map(marker => ({
-      lat: marker.getPosition().lat(),
-      lng: marker.getPosition().lng()
-    }))
-    const polyline = new window.google.maps.Polyline({
-      path,
-      strokeColor: "#000c3c",
-      strokeOpacity: 1,
-      strokeWeight: 2.5
-    })
-    window.polyline = polyline
-    polyline.setMap(map)
-    this.setState({ showPath: true })
+    if (window) {
+      const path = markers.map(marker => ({
+        lat: marker.getPosition().lat(),
+        lng: marker.getPosition().lng()
+      }))
+      const polyline = new window.google.maps.Polyline({
+        path,
+        strokeColor: "#000c3c",
+        strokeOpacity: 1,
+        strokeWeight: 2.5
+      })
+      window.polyline = polyline
+      polyline.setMap(map)
+      this.setState({ showPath: true })
+    }
   }
 
   removePath = () => {
     console.log("calling remove path")
-    window.polyline.setMap(null)
+    if (window) {
+      window.polyline.setMap(null)
+    }
     this.setState({ showPath: false })
   }
 
   addMarkers = (map, positions) => () => {
-    const { maps } = window.google
-    const markers = []
+    if (window) {
+      const { maps } = window.google
+      const markers = []
 
-    const icon = {
-      url: mapMarker,
-      anchor: new maps.Point(15, 30),
-      scaledSize: new maps.Size(30, 30),
-      labelOrigin: new maps.Point(15, 12)
-    }
-    const label = {
-      color: "white",
-      fontFamily: "Tra, serif",
-      fontSize: "14px",
-      fontWeight: "700"
-    }
+      const icon = {
+        url: mapMarker,
+        anchor: new maps.Point(15, 30),
+        scaledSize: new maps.Size(30, 30),
+        labelOrigin: new maps.Point(15, 12)
+      }
+      const label = {
+        color: "white",
+        fontFamily: "Tra, serif",
+        fontSize: "14px",
+        fontWeight: "700"
+      }
 
-    positions.forEach((position, index) => {
-      const marker = new maps.Marker({
-        position,
-        map,
-        draggable: false,
-        label: { ...label, text: indexToLetter(index) },
-        index,
-        icon
+      positions.forEach((position, index) => {
+        const marker = new maps.Marker({
+          position,
+          map,
+          draggable: false,
+          label: { ...label, text: indexToLetter(index) },
+          index,
+          icon
+        })
+        markers.push(marker)
       })
-      markers.push(marker)
-    })
 
-    this.setState({ markers, showMarkers: true })
+      this.setState({ markers, showMarkers: true })
+    }
   }
 
   removeMarkers = () => {

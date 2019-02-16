@@ -11,11 +11,16 @@ const scriptId = "googleMapsScript"
 class Map extends React.PureComponent {
   constructor(props) {
     super(props)
+    let window = window || {}
     this.state = {
       map: null,
       mapRendered: false,
-      mapsApiMounted:
-        window.google && Object.keys(window.google).length ? true : false
+      // TODO: Clean this up!
+      mapsApiMounted: !Object.keys(window).length
+        ? false
+        : window && window.google && Object.keys(window.google).length
+        ? true
+        : false
     }
     this.mapRef = React.createRef()
     this._google = null
@@ -25,8 +30,10 @@ class Map extends React.PureComponent {
   componentDidMount() {
     // Make sure we only mount the google maps API once!
     if (this.state.mapsApiMounted) {
-      this._google = window.google
-      this._scriptElement = window.document.getElementById(scriptId)
+      if (window) {
+        this._google = window.google
+        this._scriptElement = window.document.getElementById(scriptId)
+      }
       this.renderMap()
     } else {
       this.mountMapsApi()
@@ -38,30 +45,36 @@ class Map extends React.PureComponent {
     // rm google maps script from DOM
     this._scriptElement.parentNode.removeChild(this._scriptElement)
     // rm google from global scope
-    window.google = null
+    if (window) {
+      window.google = null
+    }
   }
 
   mountMapsApi = () => {
     loadScript(getMapsUri(MAPS_KEY), scriptId)
       .then(() => {
-        this._scriptElement = window.document.getElementById(scriptId)
+        if (window) {
+          this._scriptElement = window.document.getElementById(scriptId)
+        }
         this.renderMap()
       })
       .catch(e => console.log("ERROR MOUNTING MAP:", e))
   }
 
   renderMap = () => {
-    try {
-      const map = new window.google.maps.Map(this.mapRef.current, {
-        center: this.props.center,
-        zoom: this.props.zoom,
-        mapTypeId: this.props.mapTypeId,
-        disableDefaultUI: true
-      })
-      this.setState({ map, mapRendered: true })
-    } catch (e) {
-      console.error("ERROR RENDERING MAP:", e)
-      this.setState({ mapRendered: false })
+    if (window) {
+      try {
+        const map = new window.google.maps.Map(this.mapRef.current, {
+          center: this.props.center,
+          zoom: this.props.zoom,
+          mapTypeId: this.props.mapTypeId,
+          disableDefaultUI: true
+        })
+        this.setState({ map, mapRendered: true })
+      } catch (e) {
+        console.error("ERROR RENDERING MAP:", e)
+        this.setState({ mapRendered: false })
+      }
     }
   }
 

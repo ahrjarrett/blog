@@ -1,4 +1,8 @@
 export const loadScript = (url, domId) => {
+  if (!window) {
+    console.log("window undefined in loadScript")
+    return
+  }
   return new Promise((resolve, reject) => {
     const script = window.document.createElement("script")
     script.src = url
