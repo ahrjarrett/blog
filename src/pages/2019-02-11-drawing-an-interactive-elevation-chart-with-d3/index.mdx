@@ -209,15 +209,15 @@ First we’ll render a simple map, because we need to make sure our API key is w
 
 Let’s start with Madrid. We can use the TransitLayer API to sketch out the arteries of the Metro de Madrid public transit system while we’re at it.
 
-<!-- <MapWithMarkers
-  type={basic}
+<MapWithMarkers
+  type="basic"
   layer="transit"
   mapTypeId="roadmap"
   center={mapCenterESP}
   title="Metro de Madrid"
   theme="day"
   zoom={13.6}
-/> -->
+/>
 
 _Sí, tú estás luciendo bien allí, Madrid._
 
@@ -239,15 +239,15 @@ In the app our team build, we rendered this data dynamically based on user input
 
 We’re going to keep hardcoding values for now, but we’ll switch it up to keep things lively. Let’s go to San Francisco because I can’t afford to go in real life anymore:
 
-<!-- <MapWithMarkers
-  type={markersAndPolyline}
+<MapWithMarkers
+  type="markersAndPolyline"
   center={mapCenterSF}
   markerPositions={markerPositionsSF}
   zoom={12.8}
   mapTypeId="roadmap"
   theme="comic"
   title="Lombard Street, SF"
-/> -->
+/>
 
 Great! We now have 18 markers representing a stroll down Lombard Street.
 
@@ -313,15 +313,15 @@ Now let’s get those elevation samples.
 
 ### Map Showing Elevation at Locations
 
-<!-- <MapWithMarkers
-  type={elevationForLocations}
+<MapWithMarkers
+  type="elevationForLocations"
   center={mapCenterHI}
   markerPositions={markerPositionsHI}
   title="Waipio Rd – Waimea, Hawaii"
   theme="retro"
   showDeltas={true}
   zoom={13.7}
-/> -->
+/>
 
 ### Map Fetching Elevation Samples Along Path
 
