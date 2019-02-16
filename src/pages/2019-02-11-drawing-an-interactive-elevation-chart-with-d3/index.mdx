@@ -8,6 +8,9 @@ excerpt: "Data visualization is too fun. My team made an app that consumes a use
 published: true
 ---
 
+import Map from "../../components/Map"
+import * as s from "../../components/styles/Map.styles.js"
+
 ## Virtual DOM vs. the DOM
 
 One of the first decisions we have to make when using D3 and React together is **who gets control of the DOM**. In this video [Shirley Wu does a great job explaining](https://www.youtube.com/watch?v=zXBdNDnqV2Q) when each library should get control.
@@ -187,6 +190,15 @@ When we call our method (in our case, inside `componentDidUpdate`), our `ChartWr
 Success! ✨
 
 Let’s start drawing.
+
+<Map width={600} height={400}>
+  {({ map, ref, defaultStyles }) => (
+    <s.MapStyles>
+      <div className="googleMap" ref={ref} style={{ ...defaultStyles }} />
+      <h3> MAP STUFF </h3>
+    </s.MapStyles>
+  )}
+</Map>
 
 [Elevation Chart Styles](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/styles/ElevationChart.styles.js#L82)
 
