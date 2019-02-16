@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 import styled from "styled-components"
-import { linkHoverMixin, media } from "./theme/mixins";
+import { linkHoverMixin, media } from "./theme/mixins"
 
 const PostHeaderStyles = styled.header`
   .logo {
@@ -20,8 +20,9 @@ const PostHeaderStyles = styled.header`
     color: ${props => props.theme.primary};
     margin-top: 0.375rem;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-weight: 400;
+    font-family: TraFine, serif;
     letter-spacing: -0.01em;
   }
   nav.post-nav {
@@ -44,28 +45,47 @@ const PostHeaderStyles = styled.header`
       font-weight: 800;
       padding-left: 0.5rem;
       padding-right: 0.5rem;
-      line-height: 2;
+      line-height: 1.35;
       text-transform: uppercase;
-      ${linkHoverMixin};
       a {
         display: flex;
         flex-direction: column;
+        text-decoration: none;
+        ${linkHoverMixin};
+
+        border-bottom: 1px solid ${props => props.theme.offWhite};
+        box-shadow: inset 0 -3px 0 ${props => props.theme.offWhite};
+        transition: background 0.4s ease-out;
+        &:hover {
+          background: ${props => props.theme.offWhite};
+        }
       }
     }
   }
 
-  ${media.desktop`
+  ${media.tablet`
+    .tagline {
+      font-size: 1.5rem;
+    }
     .logo {
       padding-top: 5.25rem;
       a {
         font-size: 5.25rem;
       }
     }
+  `};
+
+  ${media.desktop`
+    /* .logo {
+      padding-top: 5.25rem;
+      a {
+        font-size: 5.25rem;
+      }
+    } */
 
     .tagline {
-      margin-top: 0.75rem;
+      margin-top: 0.625rem;
       font-size: 1.625rem;
-
     }
 
     nav.post-nav {
@@ -75,7 +95,7 @@ const PostHeaderStyles = styled.header`
         `}
       }
     }
-  `}
+  `};
 `
 
 const PostHeader = ({ next, prev }) => (
@@ -87,11 +107,25 @@ const PostHeader = ({ next, prev }) => (
       <div className="tagline">’cuz you can’t grep dead trees</div>
       <nav className="post-nav">
         <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><a href="https://thegrepper.com/">Portfolio</a></li>
-          <li><a href="https://thegrepper.com/resume">Resume</a></li>
-          {prev && <li><Link to="/">Previous Post</Link></li>}
-          {next && <li><Link to="/">Next Post</Link></li>}
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <a href="https://thegrepper.com/">Portfolio</a>
+          </li>
+          <li>
+            <a href="https://thegrepper.com/resume">Résumé</a>
+          </li>
+          {prev && (
+            <li>
+              <Link to="/">Previous Post</Link>
+            </li>
+          )}
+          {next && (
+            <li>
+              <Link to="/">Next Post</Link>
+            </li>
+          )}
         </ul>
       </nav>
     </div>

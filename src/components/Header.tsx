@@ -24,7 +24,7 @@ const TitleSubtitleStyles = styled.div`
     flex-wrap: wrap;
     display: flex;
 
-    .tagline {
+    .subtitle {
       ${media.tablet`
         font-size: 0.9375rem;
       `};
@@ -162,7 +162,7 @@ const TitleSubtitle = ({ data }: Props) => {
         <div className="content">
           <div className="landing">
             <div className="full">
-              <div className="tagline">
+              <div className="subtitle">
                 <span>g</span>lobal
                 <br />
                 <span>r</span>egular

@@ -26,18 +26,7 @@ import {
 
 One of the first decisions we have to make when using D3 and React together is **who gets control of the DOM**. In this video [Shirley Wu does a great job explaining](https://www.youtube.com/watch?v=zXBdNDnqV2Q) when each library should get control.
 
-<div class="box-quote">
-  <p class="box-quote-p">
-    Check out the project’s{" "}
-    <a
-      href="https://github.com/Lambda-School-Labs/LabsPT1_Backwoods"
-      target="_blank"
-    >
-      source code on GitHub
-    </a>
-    , or watch the 15-second demo below!
-  </p>
-</div>
+> Check out the project’s [source code on GitHub](https://github.com/Lambda-School-Labs/LabsPT1_Backwoods), or watch the 15-second demo below!
 
 Shirley goes on to explain that it’s usually best to let React paint the DOM since it manages state and, presumably, the inputs to our chart will live on state.
 
@@ -66,7 +55,7 @@ We won’t cover adding a map, creating markers or drawing the polyline; detaile
 Assuming you’ve got your map, some markers, and a polyline path that connects them, we’re ready to build the component. This is what we need to do:
 
 1. Get data: We’ll use Google’s Distance and Elevation APIs to create an array with 100 objects representing samples along our polyline
-1. Draw the maps: Use the Google Maps API to draw a map and its parts according to the data it receives as input.
+1. Draw the maps: Use the Google Maps API to draw a map and its parts according to the data it receives as input
 1. Draw the data: Add the D3 library and draw an SVG chart to represent this data visually
 1. Draw the infobox: When a user hovers over the chart, we show the user the Elevation and Grade at that point
 1. Draw the blip: Based on where the user hovers, we need to draw a blip (almost a marker, but not quite) on the map at that point along the path
@@ -79,12 +68,7 @@ Let’s look at the docs for the Google Maps [Elevation API](https://developers.
 
 From the [Google Map Docs](https://developers.google.com/maps/documentation/elevation/intro):
 
-<div class="box-quote">
-  <p class="box-quote-p">
-    ...you may request sampled elevation data along paths, allowing you to
-    calculate elevation changes along routes.
-  </p>
-</div>
+> ...you may request sampled elevation data along paths, allowing you to calculate elevation changes along routes.
 
 This is exactly what we need to do!
 
@@ -209,6 +193,7 @@ First we’ll render a simple map, because we need to make sure our API key is w
 
 Let’s start with Madrid. We can use the TransitLayer API to sketch out the arteries of the Metro de Madrid public transit system while we’re at it.
 
+<!--
 <MapWithMarkers
   type="basic"
   layer="transit"
@@ -218,27 +203,24 @@ Let’s start with Madrid. We can use the TransitLayer API to sketch out the art
   theme="day"
   zoom={13.6}
 />
+-->
 
 _Sí, tú estás luciendo bien allí, Madrid._
 
-<div class="box-quote">
-  <p class="box-quote-p">
-    The Madrid Metro is a rapid transit system serving the city of Madrid,
-    capital of Spain. The system is the 12th longest rapid transit system in the
-    world, with a total length of 293 km, though Madrid is approximately the
-    fiftieth most populous metropolitan area in the world.
-    <br />– Wikipedia
-  </p>
-</div>
+> The Madrid Metro is a rapid transit system serving the city of Madrid, capital of Spain. The system is the 12th longest rapid transit system in the world, with a total length of 293 km, though Madrid is approximately the fiftieth most populous metropolitan area in the world.
+
+> – Wikipedia
 
 ### Bounded Map with Markers & Polyline
 
-Next we need to draw some markers and connect them by a path (or “polyline”, in Google-Maps-speak). We can’t use the Directions API without a Premium account, and last I checked it takes \$10K to open one of those. So our polyline will be an approximation of a user’s trajectory rather than a shortest path implementation.
+<!-- prettier-ignore -->
+Next we need to draw some markers and connect them by a path (or “polyline”, in Google-Maps-speak). We can’t use the Directions API without a Premium account, and last I checked it takes $10,000 to open one of those. So our polyline will be an approximation of a user’s trajectory rather than a shortest path algorithm.
 
-In the app our team build, we rendered this data dynamically based on user input. Dropping, dragging and deleting markers and then updating map state is not the focus of this post, besides I’m sure you already have ideas about how you would go about doing that. Check out our repo if you’d like to see how we did it.
+Our team needed to support rendering this data dynamically based on user input. Dropping, dragging and deleting markers – and then updating map state – is not the focus of this article, plus besides I’m sure you already know how you would go about it. If you’re curious what we did, the [Maps folder of our repo](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/tree/master/client/src/components/Maps) is where all the logic is.
 
-We’re going to keep hardcoding values for now, but we’ll switch it up to keep things lively. Let’s go to San Francisco because I can’t afford to go in real life anymore:
+**Point being:** We’re going to keep hardcoding values for now, but we’ll switch it up to keep things lively. Let’s go to San Francisco because I can’t afford to go in real life anymore:
 
+<!--
 <MapWithMarkers
   type="markersAndPolyline"
   center={mapCenterSF}
@@ -248,6 +230,7 @@ We’re going to keep hardcoding values for now, but we’ll switch it up to kee
   theme="comic"
   title="Lombard Street, SF"
 />
+-->
 
 Great! We now have 18 markers representing a stroll down Lombard Street.
 
@@ -313,6 +296,7 @@ Now let’s get those elevation samples.
 
 ### Map Showing Elevation at Locations
 
+<!--
 <MapWithMarkers
   type="elevationForLocations"
   center={mapCenterHI}
@@ -322,6 +306,7 @@ Now let’s get those elevation samples.
   showDeltas={true}
   zoom={13.7}
 />
+-->
 
 ### Map Fetching Elevation Samples Along Path
 
@@ -336,7 +321,7 @@ Instead of getting the difference in elevation between each point, we can ask fo
   zoom={13.8}
 />
 
-To see the raw data that the Google Maps API is returning, click “Elevation Samples” and check your console for the green log:
+Click “Elevation Samples” and check your browser console to see the raw data the GM API is returning! It’ll be green, like this:
 
 <img src="/images/console_results.png" alt="console results" />
 

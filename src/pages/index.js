@@ -7,6 +7,7 @@ import Header from "../components/Header"
 import BlogIntro from "../components/BlogIntro"
 import Card from "../components/Card"
 import { pageFormatting } from "../components/theme/GlobalStyles"
+import { media } from "../components/theme/mixins"
 
 const CardsWrapper = styled.ul`
   display: flex;
@@ -18,12 +19,15 @@ const CardsWrapper = styled.ul`
 const IndexStyles = styled.div`
   background: ${props => props.theme.ghost};
   ${pageFormatting};
-  h3.posts-header {
-    text-align: center;
-    width: 900px;
+  .posts-header {
+    max-width: 70.5rem;
     border-top: 1px solid rgba(214, 209, 230, 0.5);
     margin: 0 auto;
     padding: 6.25rem 0 1.25rem;
+    h3 {
+      text-align: center;
+      width: 100%;
+    }
   }
 `
 
@@ -35,7 +39,9 @@ const Index = ({ data }) => {
       <IndexStyles>
         <Header />
         <BlogIntro />
-        <h3 className="posts-header">Latest Blog Posts</h3>
+        <div className="posts-header">
+          <h3>Latest Blog Posts</h3>
+        </div>
         <CardsWrapper>
           {edges.map(edge => {
             const { frontmatter } = edge.node

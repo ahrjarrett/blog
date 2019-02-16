@@ -16,8 +16,13 @@ const CodeStyles = styled.div`
     /* maxWidth: calc(38rem - 1.5rem); */
     width: 100%;
     min-width: 100%;
-    padding: 1.5rem;
+    padding: 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     overflow-x: scroll;
+    .token-line {
+      padding: 0 1.5rem;
+    }
   }
 `
 

@@ -17,61 +17,64 @@ const PostArticle = ({
 }) => (
   <s.ArticleStyles image={image} className="article-content">
     <div className="section-stretch">
-      <div className="byline">
-        <span className="by">By</span>
-        <h4>
+      <article>
+        <div className="byline">
+          <span className="by">By</span>
+          <h4>
+            <a
+              href="https://thegrepper.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Andrew Jarrett
+            </a>
+          </h4>
           <a
+            className="author-img"
             href="https://thegrepper.com/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Andrew Jarrett
+            <img src="/images/headshot.jpeg" alt="Andrew Jarrett" />
           </a>
-        </h4>
-        <a
-          href="https://thegrepper.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="/images/headshot.jpeg" alt="Andrew Jarrett" />
-        </a>
-        <h4>{date}</h4>
-      </div>
-      <p className="lead-paragraph">{excerpt}</p>
+          <h4>{date}</h4>
+        </div>
+        <p className="lead-paragraph">{excerpt}</p>
 
-      <div className="article-img">
-        <span className="img-overlay" />
-        <div className="article-img-overlay">
-          <h2>{title}</h2>
-          <h3>
-            Tags:{" "}
-            {tags.map((t, i) => (
-              <Link key={i} to={"/tags/" + t}>
-                {t}
+        <div className="article-img">
+          <span className="img-overlay" />
+          <div className="article-img-overlay">
+            <h2>{title}</h2>
+            <h3>
+              Tags:{" "}
+              {tags.map((t, i) => (
+                <Link key={i} to={"/tags/" + t}>
+                  {t}
+                </Link>
+              ))}
+            </h3>
+          </div>
+        </div>
+
+        <MDXRenderer>{body}</MDXRenderer>
+
+        <div style={{ marginBottom: "1rem" }}>
+          <div>
+            {prev && (
+              <Link to={prev.frontmatter.path}>
+                Previous Post: {prev.frontmatter.title}
               </Link>
-            ))}
-          </h3>
+            )}
+          </div>
+          <div>
+            {next && (
+              <Link to={next.frontmatter.path}>
+                Next Post: {next.frontmatter.title}
+              </Link>
+            )}
+          </div>
         </div>
-      </div>
-
-      <MDXRenderer>{body}</MDXRenderer>
-
-      <div style={{ marginBottom: "1rem" }}>
-        <div>
-          {prev && (
-            <Link to={prev.frontmatter.path}>
-              Previous Post: {prev.frontmatter.title}
-            </Link>
-          )}
-        </div>
-        <div>
-          {next && (
-            <Link to={next.frontmatter.path}>
-              Next Post: {next.frontmatter.title}
-            </Link>
-          )}
-        </div>
-      </div>
+      </article>
     </div>
   </s.ArticleStyles>
 )

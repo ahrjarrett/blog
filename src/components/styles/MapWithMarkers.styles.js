@@ -36,6 +36,11 @@ export const MapStyles = styled.div`
       font-family: Tra, serif;
       font-weight: 800;
       box-shadow: 0 0 0.625rem 0 rgba(0, 0, 0, 0.1);
+      @media screen and (max-width: 940px) {
+        /* Align map header to left so radio doesn't get in the way on smaller screens: */
+        text-align: left;
+        padding-left: 1.5rem;
+      }
     }
   }
 

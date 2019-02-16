@@ -18,7 +18,7 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 16px;
     margin: 0;
     padding: 0;
-    font-family: Tik;
+    font-family: Tik, sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -37,6 +37,7 @@ export const GlobalStyles = createGlobalStyle`
 
   a {
     color: ${props => props.theme.primary};
+    text-decoration: none;
     ${linkHoverMixin};
   }
 
@@ -55,7 +56,6 @@ export const GlobalStyles = createGlobalStyle`
   ${fontDeclarations};
   ${fontStyles};
   ${codeStyles};
-
 
   .youtube-video {
     ${media.newPhone`
@@ -76,20 +76,6 @@ export const GlobalStyles = createGlobalStyle`
     margin-bottom: 1.5rem;
   }
 
-  .box-quote {
-    padding: 2rem;
-    /* 2rem on smaller than tabletLg */
-    border: 2px solid ${props => props.theme.primary};
-    width: 80%;
-    margin: 2.75rem auto 2.375rem;
-    p.box-quote-p {
-      color: ${props => props.theme.primary};
-      padding: 0;
-      margin-bottom: 0;
-      font-size: 1.875rem;
-      font-weight: 600;
-    }
-  }
 `
 
 export const pageFormatting = css`
@@ -97,6 +83,39 @@ export const pageFormatting = css`
   ${media.desktop`
     padding-bottom: 6rem;
   `};
+
+  article {
+    p, li {
+      font-family: Tra, serif;
+      font-weight: 500;
+      color: ${props => props.theme.midGray};
+    }
+    p.lead-paragraph {
+      color: ${props => props.theme.primary};
+    }
+    strong, b {
+      font-family: Tra, serif;
+      font-weight: 700;
+      color: ${props => props.theme.midGray};
+    }
+    h2, h3 {
+      font-family: Tra, serif;
+      font-weight: 700;
+      color: ${props => props.theme.midGray};
+    }
+    a {
+      color: ${props => props.theme.gray};
+      border-bottom: 1px solid ${props => props.theme.offWhite};
+      box-shadow: inset 0 -3px 0 ${props => props.theme.offWhite};
+      transition: background 0.4s ease-out;
+      line-height: 1.3;
+      /* ${linkHoverMixin}; */
+      &:hover {
+        font-family: inherit;
+        background: ${props => props.theme.offWhite};
+      }
+    }
+  }
 
   header,
   div.title,
@@ -110,6 +129,10 @@ export const pageFormatting = css`
     .section-wide {
       padding-left: 1.5rem;
       padding-right: 1.5rem;
+      article {
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+      }
     }
 
     .section-stretch {

@@ -3,8 +3,7 @@ import { linkHoverMixin, media } from "../theme/mixins"
 
 export const ArticleStyles = styled.article`
   li,
-  p,
-  blockquote {
+  p {
     margin-bottom: 0.9375rem;
   }
 
@@ -16,16 +15,57 @@ export const ArticleStyles = styled.article`
     font-weight: 500;
   }
 
-  ${media.newPhone`
-    p, li, h1, h2, h3, h4 {
-      padding-left: 2.25rem;
-      padding-right: 2.25rem;
+  @media screen and (min-width: 40rem) {
+    article {
+      p,
+      li,
+      ol,
+      h2,
+      h3,
+      h4 {
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
+  }
+
+  @media screen and (min-width: 60rem) {
+    article {
+      p,
+      li,
+      ol,
+      h2,
+      h3,
+      h4 {
+        padding-left: 4.5rem;
+        padding-right: 4.5rem;
+      }
+    }
+  }
+
+  @media screen and (min-width: 64rem) {
+    article {
+      p,
+      li,
+      ol,
+      h2,
+      h3,
+      h4 {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+    }
+  }
+
+
+  ${media.newPhone`
+
+
     p, li {
-      font-size: 1rem;
+      font-size: 1.0625rem;
     }
     ol {
-      padding-left: 4.25rem;
+      /* padding-left: 4.25rem; */
       li {
         padding-left: 0.5rem;
       }
@@ -33,7 +73,9 @@ export const ArticleStyles = styled.article`
   `}
 
   ol {
-    padding-left: 7.25rem;
+    margin-left: 2.25rem;
+  }
+
   }
 
   ${media.tablet`
@@ -44,17 +86,13 @@ export const ArticleStyles = styled.article`
   `}
 
   ${media.desktop`
-    h1, h2, h3, h4, p, li {
-      padding-left: 4.5rem;
-      padding-right: 4.5rem;
-    }
     p, li {
       font-size: 1.25rem;
       font-weight: 500;
     }
     p.lead-paragraph {
       font-size: 1.375rem;
-      font-weight: 700;
+      font-weight: 900;
     }
     h1 {
       font-size: 4.5rem;
@@ -63,12 +101,12 @@ export const ArticleStyles = styled.article`
   `}
 
   h2 {
-    margin-top: 1.3125rem;
+    margin-top: 1.9375rem;
     margin-bottom: 0.9375rem;
   }
 
   h3 {
-    margin-top: 1.125rem;
+    margin-top: 1.4375rem;
     margin-bottom: 0.8rem;
   }
 
@@ -94,6 +132,15 @@ export const ArticleStyles = styled.article`
 
     a {
       text-decoration: none;
+      color: ${props => props.theme.primary};
+    }
+    a.author-img {
+      border-bottom: unset;
+      box-shadow: unset;
+      transition: unset;
+      &:hover {
+        background: transparent;
+      }
     }
     img {
       margin-left: 0.425rem;
@@ -107,9 +154,10 @@ export const ArticleStyles = styled.article`
     display: none;
   }
   .lead-paragraph {
-    font-weight: 400;
-    font-size: 1.125rem;
+    font-weight: 900;
+    font-size: 1.25rem;
     line-height: 1.375;
+    margin-bottom: 2.125rem;
     letter-spacing: -0.03em;
     text-transform: none;
     text-align: left;

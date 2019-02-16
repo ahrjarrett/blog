@@ -3,12 +3,17 @@
 const themeColor = null
 const black = "#000"
 const white = "#fff"
-// const ghost = "#f0f0f0"
+// const offWhite = "#e5eff5"
+// const offWhite = "rgba(62,176,239,0.4)"
+const offWhiteOld = "#f0f0f0"
+const offWhite = "rgba(234, 240, 244, 0.5)"
 const ghost = "#fcf8e4"
-const gray = "#dcdcdc"
+const gray = "#738a94"
+const midGray = "#3d454a"
+// const midGray = "#51626b"
 const primary = themeColor || "#30866f"
 const primaryHover = "rgb(43, 134, 110)"
-const primaryTrans = "rgba(43, 134, 110, 0.3)"
+const primaryTrans = "rgba(43, 134, 110, 0.75)"
 const secondary = "rgb(255, 180, 0)"
 const secondaryHover = "rgb(255, 180, 0)"
 const tertiary = "rgb(46, 49, 146)"
@@ -26,7 +31,10 @@ export const theme = {
   black,
   white,
   ghost,
+  offWhite,
+  offWhiteOld,
   gray,
+  midGray,
   primary,
   primaryHover,
   primaryTrans,

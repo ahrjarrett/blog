@@ -12,5 +12,6 @@
     "quotemark": [true, "single", "jsx-double"],
     "arrow-parens": false
   },
-  "rulesDirectory": []
+  "rulesDirectory": [],
+  "semicolon": [true, "never"]
 }

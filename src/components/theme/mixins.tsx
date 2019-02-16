@@ -47,86 +47,32 @@ export const fontStyles = css`
     font-weight: 700;
   }
 
-  /*** CODE BLOCK STYLES ***/
-  blockquote {
-    /* general styles */
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0;
-    position: relative;
-
-    &::before,
-    &::after {
-      font-size: 1.925em;
-      font-weight: 600;
-      position: absolute;
-      left: 50%;
-      line-height: 0;
+  /* blockquote {
+    font-family: Tik, sans-serif;
+    code {
+      font-family: Fira Code;
     }
-    &::before {
-      content: "“";
-      top: -0.625rem;
-    }
-    &::after {
-      content: "”";
-      bottom: -2rem;
-    }
-
-    /* specific styles */
-    text-align: center;
-    margin-top: 2.75rem;
     margin-bottom: 3rem;
+    color: ${props => props.theme.gray};
     line-height: 1.35;
-
-    &,
-    p {
-      font-weight: 600;
-    }
-    a,
-    code,
-    pre {
-      font-weight: 800;
-    }
+    pre,
     b,
-    strong {
-      font-weight: 800;
+    a {
+      color: ${props => props.theme.midGray};
     }
-    cite {
-      text-transform: uppercase;
-      ${linkHoverMixin};
-    }
-
     a {
       text-decoration: none;
+      border-bottom: 1px solid ${props => props.theme.offWhite};
+      box-shadow: inset 0 -3px 0 ${props => props.theme.offWhite};
+      transition: background 0.4s ease-out;
+      &:hover, &:focus {
+        background: ${props => props.theme.offWhite};
+      }
     }
+  } */
 
-    &,
-    a,
-    b,
-    strong,
-    p,
-    cite,
-    code,
-    pre {
-      font-size: 2rem;
-      ${media.tablet`
-      font-size: 1.5rem;
-    `};
-      ${media.tabletLg`
-      font-size: 1.625rem;
-    `};
-    }
 
-    ${media.desktop`
-      width: calc(100vw - 320px);
-      font-size: 1.75rem;
-    `};
-
-    sup a {
-      font-size: 1rem;
-    }
-  }
+  /*** CODE BLOCK STYLES ***/
 
   h1,
   h2,
@@ -134,8 +80,8 @@ export const fontStyles = css`
   h4,
   h5,
   h6,
-  button,
-  p {
+  p,
+  button {
     font-family: Tik, sans-serif;
   }
 
@@ -166,11 +112,11 @@ export const fontStyles = css`
     h1 {
       font-size: 1.875rem;
     }
-  `}
+  `};
 
   ${media.tablet`
     h1 {
-      font-size: rem;
+      font-size: 2.75rem;
       font-weight: 500;
     }
     h2 {
@@ -181,8 +127,85 @@ export const fontStyles = css`
       font-size: 1.75rem;
       font-weight: 600;
     }
+  `};
 
-  `}
+  blockquote {
+    font-family: Tik, sans-serif;
+    line-height: 1.35;
+    /* 2rem on smaller than tabletLg */
+    padding: 2rem;
+    color: ${props => props.theme.gray};
+    border: 2px dashed #738a94;
+    width: 80%;
+    margin: 2.75rem auto 2.375rem;
+
+    font-weight: 600;
+
+    p {
+      margin-bottom: 0;
+      font-weight: 600 !important;
+      font-family: Tik, sans-serif !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      color: ${props => props.theme.gray} !important;
+      font-size: 1.75rem !important;
+    }
+    code,
+    pre {
+      font-weight: 700;
+      font-family: Fira Code;
+      color: ${props => props.theme.midGray};
+    }
+    b,
+    strong {
+      font-weight: 700;
+      color: ${props => props.theme.midGray};
+      font-family: Tik, sans-serif;
+    }
+    cite {
+      text-transform: uppercase;
+      font-weight: 700;
+      ${linkHoverMixin};
+    }
+
+    a {
+      font-family: Tik, sans-serif;
+      text-decoration: none;
+      color: ${props => props.theme.midGray} !important;
+      border-bottom: 1px solid ${props => props.theme.offWhite};
+      box-shadow: inset 0 -3px 0 ${props => props.theme.offWhite};
+      transition: background 0.4s ease-out;
+      &:hover, &:focus {
+        background: ${props => props.theme.offWhite};
+      }
+    }
+
+    &,
+    a,
+    b,
+    strong,
+    p,
+    cite,
+    code,
+    pre {
+      font-size: 1.5rem;
+      ${media.tablet`
+        font-size: 1.5rem;
+      `};
+      ${media.tabletLg`
+        font-size: 1.625rem;
+      `};
+    }
+
+    /* ${media.desktop`
+      width: calc(100vw - 320px);
+      font-size: 1.75rem;
+    `}; */
+
+    sup a {
+      font-size: 1rem;
+    }
+  }
 `
 
 export const fontDeclarations = css`
@@ -531,66 +554,18 @@ export const fontDeclarations = css`
 `
 
 export const codeStyles = css`
+  pre {
+    padding: 0;
+  }
   pre,
   code {
     font-family: Fira Code;
-    font-weight: 500;
+    font-weight: 600;
     display: inline;
     font-size: 0.75rem;
     ${media.tablet`
       font-size: 1rem;
     `}
-  }
-
-  /**
-  * Add back the container background-color, border-radius, padding, margin
-  * and overflow that we removed from <pre>.
-  */
-  .gatsby-highlight {
-    background-color: #2d2d2d;
-    border-radius: 0.3rem;
-    margin: 1.5rem 0;
-    padding: 1rem;
-    overflow: auto;
-    max-width: 900px;
-  }
-
-  /**
-  * Remove the default PrismJS theme background-color, border-radius, margin,
-  * padding and overflow.
-  * 1. Make the element just wide enough to fit its content.
-  * 2. Always fill the visible space in .gatsby-highlight.
-  * 3. Adjust the position of the line numbers
-  */
-  .gatsby-highlight pre[class*="language-"] {
-    background-color: transparent;
-    margin: 0;
-    padding: 0;
-    overflow: initial;
-    float: left; /* 1 */
-    min-width: 100%; /* 2 */
-    padding-left: 0;
-    ${media.tablet`
-      /* Adjustments for line numbers! */
-      padding-left: 2.8rem;
-    `};
-  }
-
-  /* Code blocks: */
-  .gatsby-highlight-code-line {
-    background: hsla(24, 20%, 50%, 0.08);
-    background: linear-gradient(
-      to right,
-      hsla(24, 20%, 50%, 0.1) 70%,
-      hsla(24, 20%, 50%, 0)
-    );
-
-    display: block;
-    margin-right: -1em;
-    margin-left: -1em;
-    padding-right: 1em;
-    padding-left: 0.75em;
-    border-left: 0.25em solid #f99;
   }
 
   /* Hide line-numbers on mobile */
