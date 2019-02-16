@@ -11,7 +11,8 @@ class MapWithMarkers extends React.Component {
     super(props)
     this.state = {
       markers: [],
-      showMarkers: false
+      showMarkers: false,
+      showPath: false
     }
   }
 
@@ -29,6 +30,28 @@ class MapWithMarkers extends React.Component {
     console.log("props:", this.props)
     console.log("state:", this.state)
     console.groupEnd("map with markers updated")
+  }
+
+  drawPath = (map, markers) => () => {
+    const path = markers.map(marker => ({
+      lat: marker.getPosition().lat(),
+      lng: marker.getPosition().lng()
+    }))
+    const polyline = new window.google.maps.Polyline({
+      path,
+      strokeColor: "#000c3c",
+      strokeOpacity: 1,
+      strokeWeight: 2.5
+    })
+    window.polyline = polyline
+    polyline.setMap(map)
+    this.setState({ showPath: true })
+  }
+
+  removePath = () => {
+    console.log("calling remove path")
+    window.polyline.setMap(null)
+    this.setState({ showPath: false })
   }
 
   addMarkers = (map, positions) => () => {
@@ -65,11 +88,12 @@ class MapWithMarkers extends React.Component {
 
   removeMarkers = () => {
     this.state.markers.forEach(marker => marker.setMap(null))
-    this.setState({ showMarkers: false, markers: [] })
+    this.removePath()
+    this.setState({ showMarkers: false, showPath: false, markers: [] })
   }
 
   render() {
-    const { showMarkers } = this.state
+    const { showMarkers, showPath } = this.state
     return (
       <Map width={720} height={540}>
         {({ map, ref, defaultStyles }) => (
@@ -82,6 +106,15 @@ class MapWithMarkers extends React.Component {
               }
             >
               {showMarkers ? "Hide Markers!" : "Show Markers!"}
+            </button>
+            <button
+              onClick={
+                showPath
+                  ? this.removePath
+                  : this.drawPath(map, this.state.markers)
+              }
+            >
+              {showPath ? "Hide Path!" : "Draw Path!"}
             </button>
             <div className="childrenWrapper">
               <div
