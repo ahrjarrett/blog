@@ -13,11 +13,12 @@ class MapWithMarkers extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      elevationForLocations: [],
       markers: [],
+      showDeltas: props.showDeltas,
       showMarkers: false,
       showPath: false,
-      elevations: [],
-      theme: this.props.theme
+      theme: props.theme
     }
     this.polyline = null
   }
@@ -36,6 +37,12 @@ class MapWithMarkers extends React.PureComponent {
     console.log("props:", this.props)
     console.log("state:", this.state)
     console.groupEnd("map with markers updated")
+
+    // When we get elevationForLocations for the 1st time:
+    // if (!prevState.elevationForLocations.length && this.state.elevationForLocations.length) {
+    //   this.createElevationInfoWindows()
+
+    // }
   }
 
   drawPath = (map, markers) => () => {
@@ -115,17 +122,32 @@ class MapWithMarkers extends React.PureComponent {
     this.setState({ showMarkers: false, showPath: false, markers: [] })
   }
 
-  getElevationDeltas = (map, markers) => () => {
-    const elevationService = new window.google.maps.ElevationService()
-    window.el = elevationService
-    const infoWindow = new window.google.maps.InfoWindow({ map })
+  getElevationForLocations = (map, markers) => () => {
+    const { maps } = window.google
+    const elevator = new maps.ElevationService()
+    window.elevator = elevator
+    const locations = markers.map(marker => marker.getPosition())
 
-    const locations = markers.map(({ position }) => position)
-    console.log("LOCATIONS:", locations)
-    elevationService.getElevationForLocations(locations, (results, status) => {
+    elevator.getElevationForLocations({ locations }, (results, status) => {
       if (status === "OK") {
-        console.log("ELEVATION RESULTS:", results)
+        const elevationForLocations = results.map(({ elevation }) => elevation)
+        this.setState({ elevationForLocations }, () =>
+          this.createElevationInfoWindows(map, markers)
+        )
+      } else {
+        console.log("ELEVATION BORKED")
       }
+    })
+  }
+
+  createElevationInfoWindows = (map, markers) => {
+    const { maps } = window.google
+    const { elevationForLocations } = this.state
+    markers.forEach((m, i) => {
+      const infoWindow = new maps.InfoWindow({
+        content: `Elevation: ${elevationForLocations[i].toFixed(1)}m`
+      })
+      m.addListener("click", () => infoWindow.open(map, m))
     })
   }
 
@@ -134,8 +156,14 @@ class MapWithMarkers extends React.PureComponent {
   }
 
   render() {
-    const { showMarkers, showPath, theme } = this.state
-    const { exampleType, markerPositions, title } = this.props
+    const {
+      elevationForLocations,
+      showDeltas,
+      showMarkers,
+      showPath,
+      theme
+    } = this.state
+    const { markerPositions, title } = this.props
     return (
       <Map {...this.props} {...this.state}>
         {({ map, ref }) => (
@@ -176,13 +204,20 @@ class MapWithMarkers extends React.PureComponent {
                     {showPath ? "Hide Path!" : "Draw Path!"}
                   </button>
                 )}
-                {exampleType === "elevationInfobox" && showPath && (
-                  <button
-                    onClick={this.getElevationDeltas(map, this.state.markers)}
-                  >
-                    Get Elevation
-                  </button>
-                )}
+                {showPath &&
+                  showDeltas &&
+                  (elevationForLocations.length === 0 ? (
+                    <button
+                      onClick={this.getElevationForLocations(
+                        map,
+                        this.state.markers
+                      )}
+                    >
+                      Get Elevations
+                    </button>
+                  ) : (
+                    <span>Click on a marker, any marker!</span>
+                  ))}
               </div>
             )}
           </s.MapStyles>
@@ -193,7 +228,7 @@ class MapWithMarkers extends React.PureComponent {
 }
 
 MapWithMarkers.propTypes = {
-  exampleType: PropTypes.string,
+  showDeltas: PropTypes.bool,
   width: PropTypes.number,
   height: PropTypes.number,
   center: PropTypes.shape({
@@ -224,6 +259,7 @@ MapWithMarkers.defaultProps = {
   },
   markerPositions: [],
   mapTypeId: "terrain",
+  showDeltas: false,
   theme: "night",
   zoom: 15.5
 }

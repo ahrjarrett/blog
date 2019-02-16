@@ -209,14 +209,14 @@ First we’ll render a simple map, because we need to make sure our API key is w
 
 Let’s start with Madrid. We can use the TransitLayer API to sketch out the arteries of the Metro de Madrid public transit system while we’re at it.
 
-<MapWithMarkers
+<!-- <MapWithMarkers
   layer="transit"
   mapTypeId="roadmap"
   center={mapCenterESP}
   title="Metro de Madrid"
   theme="day"
   zoom={13.6}
-/>
+/> -->
 
 _Sí, tú estás luciendo bien allí, Madrid._
 
@@ -238,14 +238,14 @@ In the app our team build, we rendered this data dynamically based on user input
 
 We’re going to keep hardcoding values for now, but we’ll switch it up to keep things lively. Let’s go to San Francisco because I can’t afford to go in real life anymore:
 
-<MapWithMarkers
+<!-- <MapWithMarkers
   center={mapCenterSF}
   markerPositions={markerPositionsSF}
   zoom={12.8}
   mapTypeId="roadmap"
   theme="comic"
   title="Lombard Street, SF"
-/>
+/> -->
 
 Great! We now have 18 markers representing a stroll down Lombard Street.
 
@@ -309,21 +309,22 @@ Notice that we did not make this method as flexible as `setMapBounds` w/r/t its 
 
 Now let’s get those elevation samples.
 
-### Map Showing the Elevation Delta Between Points
+### Map Showing Elevation Deltas Between Points
 
 <MapWithMarkers
-  exampleType="elevationInfobox"
   center={mapCenterHI}
   markerPositions={markerPositionsHI}
   title="Waipio Rd – Waimea, Hawaii"
   theme="retro"
+  showDeltas={true}
   zoom={13.7}
 />
 
-### Map Showing `n` Elevation Samples Along a Path
+### Map Showing n Elevation Samples Along a Path
 
 Instead of getting the difference in elevation between each point, we can ask for `n` number of elevation samples along a path. Requesting 100 samples along a polyline, for example, is a relatively cheap request (1 API call) for how much data we get, and our area chart will be much more granular for it.
 
+<!--
 <MapWithMarkers
   exampleType="elevationInfobox"
   center={mapCenterNZ}
@@ -331,7 +332,7 @@ Instead of getting the difference in elevation between each point, we can ask fo
   title="Baldwin St – Dunedin, NZ"
   theme="retro"
   zoom={13.7}
-/>
+/> -->
 
 [Elevation Chart Styles](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/styles/ElevationChart.styles.js#L82)
 

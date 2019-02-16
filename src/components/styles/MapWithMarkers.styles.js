@@ -59,6 +59,13 @@ export const MapStyles = styled.div`
       font-weight: 600;
       padding: 0.625rem 1rem;
     }
+    span {
+      margin-left: 1rem;
+      width: 8.5rem;
+      text-align: center;
+      font-weight: 500;
+      line-height: 1.1;
+    }
   }
 
   /* THEME TOGGLE: */
