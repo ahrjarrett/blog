@@ -2,9 +2,12 @@ import React from "react"
 import Map from "./Map"
 import PropTypes from "prop-types"
 
+import ThemeSelect from "../ThemeSelect"
 import mapMarker from "../icons/MapMarker.svg"
 import { indexToLetter } from "../../utils/indexToLetter"
-import * as s from "../styles/Map.styles"
+import * as s from "../styles/MapWithMarkers.styles"
+
+export const normalizeTitle = str => str.replace(/[^a-zA-Z0-9]/g, "_")
 
 class MapWithMarkers extends React.PureComponent {
   constructor(props) {
@@ -16,7 +19,7 @@ class MapWithMarkers extends React.PureComponent {
       elevations: [],
       theme: this.props.theme
     }
-    this.themeRef = React.createRef()
+    this.polyline = null
   }
 
   componentDidMount() {
@@ -36,67 +39,79 @@ class MapWithMarkers extends React.PureComponent {
   }
 
   drawPath = (map, markers) => () => {
-    if (window) {
-      const path = markers.map(marker => ({
-        lat: marker.getPosition().lat(),
-        lng: marker.getPosition().lng()
-      }))
-      const polyline = new window.google.maps.Polyline({
-        path,
-        strokeColor: "#000c3c",
-        strokeOpacity: 1,
-        strokeWeight: 2.5
-      })
-      window.polyline = polyline
-      polyline.setMap(map)
-      this.setState({ showPath: true })
-    }
+    if (!window) return
+    const path = markers.map(marker => ({
+      lat: marker.getPosition().lat(),
+      lng: marker.getPosition().lng()
+    }))
+    const polyline = new window.google.maps.Polyline({
+      path,
+      strokeColor: "#000c3c",
+      strokeOpacity: 1,
+      strokeWeight: 2.5
+    })
+    this.polyline = polyline
+    polyline.setMap(map)
+    this.setState({ showPath: true })
   }
 
   removePath = () => {
-    if (window) {
-      window.polyline.setMap(null)
-    }
+    if (this.polyline) this.polyline.setMap(null)
     this.setState({ showPath: false })
   }
 
-  addMarkers = (map, positions) => () => {
-    if (window) {
-      const { maps } = window.google
-      const markers = []
-
-      const icon = {
-        url: mapMarker,
-        anchor: new maps.Point(15, 30),
-        scaledSize: new maps.Size(30, 30),
-        labelOrigin: new maps.Point(15, 12)
-      }
-      const label = {
-        color: "white",
-        fontFamily: "Tra, serif",
-        fontSize: "14px",
-        fontWeight: "700"
-      }
-
-      positions.forEach((position, index) => {
-        const marker = new maps.Marker({
-          position,
-          map,
-          draggable: false,
-          label: { ...label, text: indexToLetter(index) },
-          index,
-          icon
-        })
-        markers.push(marker)
-      })
-
-      this.setState({ markers, showMarkers: true })
-    }
+  setMapBounds = (map, positions) => {
+    let bounds = new window.google.maps.LatLngBounds()
+    positions.forEach(p => {
+      const bound = p.position
+        ? { lat: p.position.lat(), lng: p.position.lng() }
+        : { lat: p.lat, lng: p.lng }
+      bounds.extend(bound)
+    })
+    map.fitBounds(bounds)
   }
 
-  removeMarkers = () => {
+  addMarkers = (map, positions) => () => {
+    if (!window) return
+
+    const { maps } = window.google
+    const markers = []
+    let bounds = new maps.LatLngBounds()
+
+    const icon = {
+      url: mapMarker,
+      anchor: new maps.Point(15, 30),
+      scaledSize: new maps.Size(30, 30),
+      labelOrigin: new maps.Point(15, 12)
+    }
+    const label = {
+      color: "white",
+      fontFamily: "Tra, serif",
+      fontSize: "14px",
+      fontWeight: "700"
+    }
+
+    positions.forEach((position, index) => {
+      const marker = new maps.Marker({
+        position,
+        map,
+        draggable: false,
+        label: { ...label, text: indexToLetter(index) },
+        index,
+        icon
+      })
+      markers.push(marker)
+    })
+
+    this.setMapBounds(map, markers)
+    this.setState({ markers, showMarkers: true })
+  }
+
+  removeMarkers = map => () => {
     this.state.markers.forEach(marker => marker.setMap(null))
     this.removePath()
+    map.setCenter(this.props.center)
+    map.setZoom(this.props.zoom)
     this.setState({ showMarkers: false, showPath: false, markers: [] })
   }
 
@@ -120,54 +135,23 @@ class MapWithMarkers extends React.PureComponent {
 
   render() {
     const { showMarkers, showPath, theme } = this.state
-    const { exampleType, markerPositions } = this.props
+    const { exampleType, markerPositions, title } = this.props
     return (
       <Map {...this.props} {...this.state}>
         {({ map, ref }) => (
           <s.MapStyles>
             <div className="childrenWrapper">
               <div
-                className={`googleMap map_${this.props.title.replace(
-                  /[^a-zA-Z0-9]/g,
-                  "_"
-                )}`}
+                className={`googleMap map_${normalizeTitle(title)}`}
                 ref={ref}
               />
-              {map === null ? (
-                <h3>Loading... </h3>
-              ) : (
-                <h3>{this.props.title}</h3>
-              )}
+              {map === null ? <h3>Loading... </h3> : <h3>{title}</h3>}
             </div>
-            <div className="theme-select" ref={this.themeRef}>
-              <h6>Map Theme:</h6>
-              <form>
-                <label>
-                  <input
-                    type="radio"
-                    name="night-day"
-                    id="night-mode"
-                    value="night"
-                    className="toggle-control"
-                    checked={this.state.theme === "night"}
-                    onChange={this.handleThemeToggle}
-                  />
-                  Night
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="night-day"
-                    id="day-mode"
-                    value="day"
-                    className="toggle-control"
-                    checked={this.state.theme === "day"}
-                    onChange={this.handleThemeToggle}
-                  />
-                  Day
-                </label>
-              </form>
-            </div>
+
+            <ThemeSelect
+              theme={theme}
+              handleThemeToggle={this.handleThemeToggle}
+            />
 
             {markerPositions.length > 0 && (
               <div className="map-buttons">
@@ -175,7 +159,7 @@ class MapWithMarkers extends React.PureComponent {
                 <button
                   onClick={
                     showMarkers
-                      ? this.removeMarkers
+                      ? this.removeMarkers(map)
                       : this.addMarkers(map, markerPositions)
                   }
                 >

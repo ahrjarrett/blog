@@ -66,20 +66,22 @@ export const MapStyles = styled.div`
     position: absolute;
     top: 0%;
     right: 0%;
-    margin-top: 0.5rem;
-    margin-right: 1.5rem;
+    margin-top: 0.25rem;
+    margin-right: 0.5rem;
     font-family: Tra, serif;
     font-weight: 700;
     text-align: right;
     color: ${props => props.theme.primary};
-    h6 {
-      font-family: Tra, serif;
-      font-weight: 700;
-      text-align: right;
-      font-size: 0.875rem;
-      text-decoration: underline;
-      color: black;
+
+    form {
+      display: flex;
+      justify-content: flex-end;
+      max-width: 194px;
+      width: 184px;
+      flex-wrap: wrap;
+      font-size: 0.925rem;
     }
+
     input {
     }
     label {

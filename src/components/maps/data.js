@@ -11,8 +11,8 @@ export const markerPositionsHI = [
 ]
 
 export const mapCenterHI = {
-  lat: 20.114140010845457,
-  lng: -155.5897780659501
+  lat: 20.116521838422806,
+  lng: -155.590969384691
 }
 
 export const markerPositionsSF = [
@@ -38,8 +38,8 @@ export const markerPositionsSF = [
 
 export const mapCenterSF = {
   // Lombard Street, San Francisco
-  lat: 37.802145883206705,
-  lng: -122.41884253997215
+  lat: 37.80508261545093,
+  lng: -122.40331937291076
 }
 
 export const mapCenterNY = {
@@ -59,3 +59,17 @@ export const mapCenterESP = {
   lat: 40.41823753663909,
   lng: -3.7147311000803462
 }
+
+export const mapCenterNZ = {
+  lat: -45.876772392033075,
+  lng: 170.50504375969066
+}
+
+export const markerPositionsNZ = [
+  { lat: -45.84830669087012, lng: 170.53305542533894 },
+  { lat: -45.848634159292786, lng: 170.53348563987493 },
+  { lat: -45.84896413053948, lng: 170.53392062933256 },
+  { lat: -45.84932386923649, lng: 170.53442954164962 },
+  { lat: -45.84971326028466, lng: 170.5349524277966 },
+  { lat: -45.85006223567713, lng: 170.53541608967237 }
+]

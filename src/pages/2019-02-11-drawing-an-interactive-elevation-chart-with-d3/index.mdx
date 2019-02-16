@@ -15,7 +15,9 @@ import {
   mapCenterHI,
   markerPositionsSF,
   mapCenterSF,
-  mapCenterESP
+  mapCenterESP,
+  markerPositionsNZ,
+  mapCenterNZ
 } from "../../components/maps/data"
 
 <LoadMapsApi />
@@ -64,6 +66,7 @@ We won’t cover adding a map, creating markers or drawing the polyline; detaile
 Assuming you’ve got your map, some markers, and a polyline path that connects them, we’re ready to build the component. This is what we need to do:
 
 1. Get data: We’ll use Google’s Distance and Elevation APIs to create an array with 100 objects representing samples along our polyline
+1. Draw the maps: Use the Google Maps API to draw a map and its parts according to the data it receives as input.
 1. Draw the data: Add the D3 library and draw an SVG chart to represent this data visually
 1. Draw the infobox: When a user hovers over the chart, we show the user the Elevation and Grade at that point
 1. Draw the blip: Based on where the user hovers, we need to draw a blip (almost a marker, but not quite) on the map at that point along the path
@@ -78,7 +81,7 @@ From the [Google Map Docs](https://developers.google.com/maps/documentation/elev
 
 <div class="box-quote">
   <p class="box-quote-p">
-    [...] you may request sampled elevation data along paths, allowing you to
+    ...you may request sampled elevation data along paths, allowing you to
     calculate elevation changes along routes.
   </p>
 </div>
@@ -196,40 +199,134 @@ When we call our method (in our case, inside `componentDidUpdate`), our `ChartWr
 }
 ```
 
-Success! ✨
+Success! ✨ Let’s start drawing.
 
-Let’s start drawing.
+## 2. Drawing the Maps
 
-First we’ll make a simple map:
+First we’ll render a simple map, because we need to make sure our API key is working and because it’s fun.
+
+### Basic Map with Layer
+
+Let’s start with Madrid. We can use the TransitLayer API to sketch out the arteries of the Metro de Madrid public transit system while we’re at it.
 
 <MapWithMarkers
   layer="transit"
   mapTypeId="roadmap"
   center={mapCenterESP}
   title="Metro de Madrid"
+  theme="day"
   zoom={13.6}
 />
 
-“The Madrid Metro is a rapid transit system serving the city of Madrid, capital of Spain. The system is the 12th longest rapid transit system in the world, with a total length of 293 km, though Madrid is approximately the fiftieth most populous metropolitan area in the world.” _– Wikipedia_
+_Sí, tú estás luciendo bien allí, Madrid._
 
-Next, we’ll draw some markers and connect them by polyline:
+<div class="box-quote">
+  <p class="box-quote-p">
+    The Madrid Metro is a rapid transit system serving the city of Madrid,
+    capital of Spain. The system is the 12th longest rapid transit system in the
+    world, with a total length of 293 km, though Madrid is approximately the
+    fiftieth most populous metropolitan area in the world.
+    <br />– Wikipedia
+  </p>
+</div>
+
+### Bounded Map with Markers & Polyline
+
+Next we need to draw some markers and connect them by a path (or “polyline”, in Google-Maps-speak). We can’t use the Directions API without a Premium account, and last I checked it takes \$10K to open one of those. So our polyline will be an approximation of a user path.
+
+In our app, we made all of this data come from user interaction. Dropping, dragging and deleting markers and changing map state is not the focus of this post, and I’m sure you already have ideas about how you would go about doing that.
+
+We’re going to keep hardcoding values, but we’ll switch it up to keep things lively. Let’s go to San Francisco, because I can’t afford to go in real life anymore:
 
 <MapWithMarkers
   center={mapCenterSF}
   markerPositions={markerPositionsSF}
-  zoom={19.1}
+  zoom={12.8}
   mapTypeId="roadmap"
+  theme="comic"
   title="Lombard Street, SF"
 />
 
-Finally, we’ll get our elevation samples:
+Great! We have 18 markers going down Lombard Street. Notice how clicking show adjusts the map’s zoom and bounds to neatly frame the markers, while hiding them returns our map to its initial state.
+
+Here’s the method that builds up a `LatLngBounds` object for us and then adjusts our maps “lens” to contain it:
+
+```javascript
+class MyMapComponent extends React.Component {
+  setMapBounds = (map, positions) => {
+    let bounds = new window.google.maps.LatLngBounds()
+    positions.forEach(p => {
+      const bound = p.position
+        ? { lat: p.position.lat(), lng: p.position.lng() }
+        : { lat: p.lat, lng: p.lng }
+      bounds.extend(bound)
+    })
+    map.fitBounds(bounds)
+  }
+
+  render() {
+    /* ... */
+  }
+}
+```
+
+If you’ve worked with the GM API for any length of time, you’ve probably gotten tired of keeping track of whether you’re dealing with an instance of the LatLng class — where latitude, for example, is accessible by calling the function `LatLng.position.lat()`.
+
+We got tired of converting back and forth, so `setMapBounds` accepts both. For every coordinate object or LatLng instance we pass in, we adjust the outer bounds of our map, and we fit the map to those boundaries.
+
+Drawing the polyline is as simple as:
+
+```javascript
+class MyMapComponent extends React.Component {
+  polyline = null
+  drawPath = (map, markers) => () => {
+    const path = markers.map(marker => ({
+      lat: marker.getPosition().lat(),
+      lng: marker.getPosition().lng()
+    }))
+    const polyline = new window.google.maps.Polyline({
+      path,
+      strokeColor: "#000c3c",
+      strokeOpacity: 1,
+      strokeWeight: 2.5
+    })
+    this.polyline = polyline
+    polyline.setMap(map)
+    this.setState({ showPath: true })
+  }
+
+  render() {
+    /* ... */
+  }
+}
+```
+
+Notice that we did not make this method as flexible w/r/t its arguments as setMapBounds; we found drawing and especially redrawing polylines to be slightly more finicky, and did not feel like it needed _more_ flexibility as much as it needed proper documentation of its function signature.
+
+We add the polyline to our class for use throughout the rest of the component. We also need to keep track of it so we can remove it later when the user clicks “Hide Path” (“Hide Markers” too, otherwise we’d have a marker-less path floating around with nothing anchoring it down!).
+
+Finally, we’ll get our elevation samples.
+
+### Map Showing the Elevation Delta Between Points
 
 <MapWithMarkers
   exampleType="elevationInfobox"
   center={mapCenterHI}
   markerPositions={markerPositionsHI}
   title="Waipio Rd – Waimea, Hawaii"
-  theme="day"
+  theme="retro"
+  zoom={13.7}
+/>
+
+Instead of getting the difference in elevation between each point, we can ask for `n` number of elevation samples along a path. Requesting 100 samples along a polyline, for example, is a relatively cheap request (1 API call) for how much data we get, and our area chart will be much more granular for it.
+
+<MapWithMarkers
+  exampleType="elevationInfobox"
+  center={mapCenterNZ}
+  markerPositions={markerPositionsNZ}
+  title="Baldwin St – Dunedin, NZ"
+  theme="retro"
+  zoom={13.7}
 />
 
 [Elevation Chart Styles](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/styles/ElevationChart.styles.js#L82)
@@ -252,4 +349,4 @@ export const metersToMiles = m => m * 0.000621371
 export const metersToFeet = m => m * 3.28084
 ```
 
-## 2. Drawing the data
+## 3. Drawing the data
