@@ -21,7 +21,7 @@ class MapWithMarkers extends React.PureComponent {
       showPath: false,
       theme: props.theme
     }
-    this.polyline = null
+    this._polyline = null
   }
 
   componentDidMount() {
@@ -52,13 +52,13 @@ class MapWithMarkers extends React.PureComponent {
       strokeOpacity: 1,
       strokeWeight: 2.5
     })
-    this.polyline = polyline
+    this._polyline = polyline
     polyline.setMap(map)
     this.setState({ showPath: true })
   }
 
   removePath = () => {
-    if (this.polyline) this.polyline.setMap(null)
+    if (this._polyline) this._polyline.setMap(null)
     this.setState({ showPath: false })
   }
 
@@ -132,18 +132,13 @@ class MapWithMarkers extends React.PureComponent {
 
   getElevationAlongPath = (map, polyline) => () => {
     const { maps } = window.google
-
-    window.polyline = polyline
-    console.log("calling get el along path", polyline)
-
     const elevator = new maps.ElevationService()
     elevator.getElevationAlongPath(
-      // TODO: makes more sense to get path by mapping over
-      // markers and doing marker.getPosition?
       { path: polyline.getPath().j, samples: 100 },
       (results, status) => {
         if (status === "OK") {
-          console.log(
+          // KEEP THIS LOG:
+          console.info(
             "%c GET ELEVATION ALONG PATH SUCCESS, RESULTS:",
             "background: green; color: white;",
             results
@@ -243,7 +238,7 @@ class MapWithMarkers extends React.PureComponent {
 
                 {showPath && type === "elevationAlongPath" && (
                   <button
-                    onClick={this.getElevationAlongPath(map, this.polyline)}
+                    onClick={this.getElevationAlongPath(map, this._polyline)}
                   >
                     Elevation Samples
                   </button>

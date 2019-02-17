@@ -5,6 +5,7 @@ import { media } from "../components/theme/mixins"
 const BlogIntroWrapper = styled.div`
   max-width: 900px;
   margin: 0 auto;
+
   blockquote {
     margin-bottom: 3rem;
     color: ${props => props.theme.gray};
@@ -18,21 +19,19 @@ const BlogIntroWrapper = styled.div`
     a {
       text-decoration: none;
       border-bottom: 1px solid ${props => props.theme.offWhite};
-      /* border-bottom: 1px solid #f5f1f2; */
       box-shadow: inset 0 -3px 0 ${props => props.theme.offWhite};
       transition: background 0.4s ease-out;
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         background: ${props => props.theme.offWhite};
       }
     }
+  }
 
-
-    }
-    footer {
-      margin-top: 1rem;
-      text-align: right;
-      margin-right: 1.5rem;
-    }
+  footer {
+    margin-top: 1rem;
+    text-align: right;
+    margin-right: 1.5rem;
   }
 
   h3 {

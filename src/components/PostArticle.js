@@ -46,7 +46,7 @@ const PostArticle = ({
           <div className="article-img-overlay">
             <h2>{title}</h2>
             <h3>
-              Tags:{" "}
+              tags:{" "}
               {tags.map((t, i) => (
                 <Link key={i} to={"/tags/" + t}>
                   {t}

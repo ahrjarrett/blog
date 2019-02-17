@@ -212,13 +212,18 @@ export const ArticleStyles = styled.article`
       position: absolute;
     }
     h2 {
-      top: 50%;
+      top: 35%;
       transform: translateY(-50%);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
       z-index: 2;
       font-size: 1.5rem;
-      width: 100%;
       max-width: 100%;
       text-align: center;
+      text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
     h3 {
       top: 1rem;
@@ -227,8 +232,9 @@ export const ArticleStyles = styled.article`
       font-size: 0.9375rem;
     }
     a {
+
       color: white;
-      padding-right: 0.5rem;
+      margin-right: 0.5rem;
       ${linkHoverMixin};
     }
 

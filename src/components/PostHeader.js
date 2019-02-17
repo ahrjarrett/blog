@@ -21,6 +21,7 @@ const PostHeaderStyles = styled.header`
     margin-top: 0.375rem;
     text-align: center;
     font-size: 1.125rem;
+    font-style: italic;
     font-weight: 400;
     font-family: TraFine, serif;
     letter-spacing: -0.01em;
@@ -104,7 +105,7 @@ const PostHeader = ({ next, prev }) => (
       <div className="logo">
         <Link to="/">The Grepper</Link>
       </div>
-      <div className="tagline">’cuz you can’t grep dead trees</div>
+      <div className="tagline">you can’t grep dead trees</div>
       <nav className="post-nav">
         <ul>
           <li>

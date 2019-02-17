@@ -1,15 +1,16 @@
 ---
 path: "/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react"
 date: "2019-02-11"
-title: "Draw an Interactive Elevation Chart with D3 & React"
+title: "Draw an Interactive Elevation Chart with D3 & React, Part 1"
 image: "/images/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react.gif"
 tags: ["react", "d3", "javascript", "google maps"]
-excerpt: "Data visualization is too fun. My team made an app that consumes a user’s trip data and uses it to draw cool stuff. Here’s how we used React, D3 and Google Maps to do it."
+excerpt: "Part 1: Data visualization is too fun. My team made an app that consumes a user’s trip data and uses it to draw cool stuff. Here’s how we used React, D3 and Google Maps to do it, step by step."
 published: true
 ---
 
 import MapWithMarkers from "../../components/maps/MapWithMarkers"
 import LoadMapsApi from "../../components/maps/LoadMapsApi"
+
 import {
   markerPositionsHI,
   mapCenterHI,
@@ -74,16 +75,20 @@ This is exactly what we need to do!
 
 **Note:** See the [docs on the LatLng class](https://developers.google.com/maps/documentation/javascript/reference/coordinates#LatLng) and the [Marker API](https://developers.google.com/maps/documentation/javascript/markers) for more info on the Google Maps objects we’ll be working with.
 
-Let’s define a class method called `getElevationsAlongPath` that handles this:
+By the end of this post you’ll be defining a custom React map component with a method called `getElevationAlongPath` that does exactly this.
+
+Let’s skim this code so you have an idea where we’re headed, then we’ll fool around with some maps.
 
 ```jsx
 import React from "react"
 
+// Calculates beeline distance between 2 points along geodesic surface:
 const calcDistance = (
   { lat: fromLat, lng: fronLng },
   { lat: toLat, lng: toLng }
 ) => {
-  // IMPURE! assumes google is available on the window object:
+  // Assumes google is available on the window object
+  // (we’ll talk about how to handle this later):
   return window.google.maps.geometry.spherical.computeDistanceBetween(
     new window.google.maps.LatLng(fromLat, fromLng),
     new window.google.maps.LatLng(toLat, toLng)
@@ -94,13 +99,15 @@ export default class ChartWrapper extends React.Component {
   state = {
     distances: [],
     elevations: [],
-    markers: [],
+    markers: []
   }
 
   // componentDidMount() { ... }
   // componentDidUpdate(prevProps, prevState) { ... }
 
+  // Returns a bunch of elevation samples along the path we provide it:
   getElevationsAlongPath = () => {
+    // Check if we have enough markers to make a path (2+):
     if (this.state.markers.length > 1) {
       const elevator = new window.google.maps.ElevationService()
       const latLngs = this.state.markers.map(marker => ({
@@ -108,11 +115,12 @@ export default class ChartWrapper extends React.Component {
         lng: marker.getPosition().lng()
       }))
 
+      // We can also use the Distance API to calculate distance btwn Markers:
       const { distances } = latLngs.reduce(
         (acc, curr, i, arr) => {
           if (i === arr.length - 1) return acc
           const distances = acc.distances.concat(
-            // use the helper function we defined above:
+            // Use the helper function we defined above:
             calcDistance(
               { lat: curr.lat, lng: curr.lng },
               { lat: arr[i + 1].lat, lng: arr[i + 1].lng }
@@ -123,7 +131,7 @@ export default class ChartWrapper extends React.Component {
         { distances: [] }
       )
 
-      // API call to get our elevations:
+      // API request to get our elevation samples:
       elevator.getElevationAlongPath(
         {
           path: latLngs,
@@ -132,7 +140,7 @@ export default class ChartWrapper extends React.Component {
         results => {
           this.setState({
             distances,
-            // we’ll probably want to change the data shape later:
+            // We’ll probably want to massage the data shape later:
             elevations: results.map(result => result)
           })
         }
@@ -141,9 +149,7 @@ export default class ChartWrapper extends React.Component {
   }
 
   render() {
-    return (
-      // ...
-    )
+    /* ... */
   }
 }
 ```
@@ -319,24 +325,85 @@ Click “Elevation Samples” and check your browser console to see the raw data
 
 <img src="/images/console_results.png" alt="console results" />
 
-[Elevation Chart Styles](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/styles/ElevationChart.styles.js#L82)
+Here’s how I implemented it for this blogpost (alternatively, see [how we did it in production](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/6acb51996506f714c16479a274a047bb5d0ae708/client/src/components/Maps/SingleTrip/TripPanel.js#L89)):
 
 ```jsx
-import React, { Component } from "react"
-import * as d3 from "d3"
+class MyComponent extends React.Component {
+  getElevationAlongPath = (map, polyline) => () => {
+    const { maps } = window.google
+    const elevator = new maps.ElevationService()
+    elevator.getElevationAlongPath(
+      { path: polyline.getPath().j, samples: 100 },
+      (results, status) => {
+        if (status === "OK") {
+          // Keep this log around so a reader has access via her console:
+          console.info(
+            "%c GET ELEVATION ALONG PATH SUCCESS, RESULTS:",
+            "background: green; color: white;",
+            results
+          )
+          // Strip off `resolution` field; we don't need it:
+          const elevationSamples = results.map(({ elevation, location }) => ({
+            elevation,
+            location
+          }))
+          this.setState({ elevationSamples })
+        }
+      }
+    )
+  }
 
-import ChartIcon from "./icons/ChartSvg"
-import * as s from "../styles/ElevationChart.styles"
-
-const margin = { top: 0, right: 0, bottom: 15, left: 50 }
-const width = 750 - margin.left - margin.right
-const height = 155 - margin.top - margin.bottom
-const xAxisTicks = 8
-const yAxisTicks = 6
-
-export const numOfSamples = 100
-export const metersToMiles = m => m * 0.000621371
-export const metersToFeet = m => m * 3.28084
+  render() {
+    /* ... */
+  }
+}
 ```
 
+<!--
+[Elevation Chart Styles](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/styles/ElevationChart.styles.js#L82) -->
+
+To keep this example simple, we store the elevation samples at `this.state.elevationSamples`, an array containing 100 objects of shape:
+
+```javascript
+{
+  elevation: Number,
+  location: {
+    lat: () => Number,
+    lng: () => Number,
+  }
+  resolution: Number
+}
+```
+
+If you select the `MapWithMarkers` component using React DevTools, you can go back to your regular console with access to a new global `$r`.
+
+`$r` is essential for debugging React applications. In our case, we can look at our data as it exists on state. This is what I did to get the coordinates where our first sample was taken:
+
+<iframe
+  className="youtube-video"
+  width="720"
+  height="480"
+  src="https://www.youtube.com/embed/oX3A2gPxv9I"
+  frameBorder="0"
+  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>
+
+Here’s what I did to access the elevation and created a latLng object from the object at the first index:
+
+```javascript
+> es = $r.state.elevationSamples
+// => (100) [{...}, {...}, {...}, {...}, ...]
+> es.elevation
+// => 35.52785110473633
+> { lat: es[0].location.lat(), lng: es[0].location.lng() }
+// => { lat: -45.84831, lng: 170.53305999999998 }
+```
+
+Great. Save it to state and let’s get start using D3!
+
 ## 3. Drawing the data
+
+For browser performance and my own sanity, I broke the D3 portion out into a separate post.
+
+#### [Read all the juicy D3 deets here!](https://blog.thegrepper.com/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react-pt-2)

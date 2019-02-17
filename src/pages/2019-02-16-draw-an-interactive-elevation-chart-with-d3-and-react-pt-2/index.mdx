@@ -1,0 +1,55 @@
+---
+path: "/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react"
+date: "2019-02-16"
+title: "Draw an Interactive Elevation Chart with D3 & React, Part 2"
+image: "/images/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react-pt-2.gif"
+tags: ["react", "d3", "javascript", "google maps", "data-visualization"]
+excerpt: "Part 2: Data visualization is too fun. My team made an app that consumes a user’s trip data and uses it to draw cool stuff. Here’s how we used React, D3 and Google Maps to do it, step by step."
+published: true
+---
+
+import MapWithMarkers from "../../components/maps/MapWithMarkers"
+import LoadMapsApi from "../../components/maps/LoadMapsApi"
+// import ElevationGraph from "../../components/d3/ElevationGraph"
+
+import { markerPositionsNZ, mapCenterNZ } from "../../components/maps/data"
+
+<LoadMapsApi />
+
+## Drawing the Chart
+
+This is a series on using D3, React and the Google Maps API to create data visualizations. We’ll be building an interactive, dynamic area chart that plots distance on the x-axis and elevation on the y-axis.
+
+#### [Catch up on part 1 here!](https://blog.thegrepper.com/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react)
+
+First let’s remind ourselves what we’re building:
+
+<iframe
+  className="youtube-video"
+  width="720"
+  height="480"
+  src="https://www.youtube.com/embed/9HXlmXwyuKk"
+  frameBorder="0"
+  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>
+
+We’ve got 5 things to do, plus 1 bonus step to spruce up your chart’s appearance with gridlines that span across the x- and y-scales at each tick on the chart.
+
+## 5 Steps + 1 Bonus
+
+1. Declare our constants, helper functions, and configure D3 so it’s ready for action.
+1. Map out our "ElevationGraph" component, including:
+
+   <ul style={{ marginLeft: "3rem" }}>
+     <li>– what lives on state & what comes on props?</li>
+     <li>– decide which lifecycle methods we’ll need</li>
+     <li>– name and pseudocode our custom methods</li>
+   </ul>
+
+1. Draw the chart using D3’s API! This is the fun part, and the meat and potatoes of our task today
+1. Render that bad boy! We’ll talk styles here too, especially regarding svg styling (wtf is viewPort vs. viewBox, etc.)
+1. Write a callback function that draws a DOM element on the map depending on where the user is hovering
+1. [Bonus] Make it pretty
+
+### 1. Declarations & Config

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "babel-plugin-styled-components": "1.8.0",
+    "d3": "5.9.1",
     "gatsby": "^2.0.33",
     "gatsby-mdx": "0.3.6",
     "gatsby-plugin-styled-components": "3.0.2",
