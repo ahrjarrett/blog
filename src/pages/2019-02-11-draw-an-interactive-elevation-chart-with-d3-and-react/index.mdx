@@ -318,6 +318,22 @@ Now let’s get those elevation samples.
   zoom={13.7}
 />
 
+Looks like we’re in Hawaii now. What are we doing here?
+
+<img
+  src="/images/waipio_road_street_view.jpg"
+  alt="Waipio Valley Road - Street View"
+  style={{ width: "100%" }}
+/>
+
+> [Waipio Valley Road] gains 800 vertical feet (243.84 m) in 0.6 miles (0.9 km) at a 25% average grade, with steeper grades in sections. This is a paved public road but it is open only to 4 wheel drive vehicles. It is the steepest road of its length in the United States.
+
+> – Wikipedia
+
+If you click through the markers you’ll can see how quickly the elevation changes. We’ll probably want to start thinking about how to calculate the distance between points, too, so our users have more concrete data to work with when using our app.
+
+Let’s take this a step further. What if we could show users the elevation delta _along_ the path they’ve drawn?
+
 ### Map Fetching Elevation Samples Along Path
 
 Instead of getting the difference in elevation between each point, we can ask for `n` number of elevation samples along a path. Requesting 100 samples along a polyline, for example, is a relatively cheap request (1 API call) for how much data we get, and our area chart will be much more granular for it.
