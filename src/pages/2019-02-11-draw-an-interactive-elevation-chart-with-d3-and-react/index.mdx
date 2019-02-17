@@ -51,9 +51,19 @@ Here’s the feature we’ll be building:
   allowFullScreen
 />
 
-We won’t cover adding a map, creating markers or drawing the polyline; detailed instructions for how to create those are all available in the [Google Maps Documentation](https://developers.google.com/maps/documentation/).
+We have 2 topics to cover: making Google Maps in React and data-visualizations with D3.
 
-Assuming you’ve got your map, some markers, and a polyline path that connects them, we’re ready to build the component. This is what we need to do:
+**First** we’ll cover 1) configuring and theming your map, 2) adding markers and drawing polylines, 3) dynamically adjusting the map’s “frame”, 4) using InfoWindows to show a marker’s elevation, and 5) getting a list of elevations along a pathline.
+
+**Second** we’ll build an ElevationChart using the list of elevation samples along the pathline. We’ll add interactive features and user hover events to dynamically render a DOM node on the map we created in the first section.
+
+I won’t cover how to get a Google Maps API key, and I assume you have a working knowledge of React lifecycle methods. We’ll be coding everything in JavaScript, but it would not be difficult to port this project to a different language if you prefer.
+
+A detailed API specs is available in the [Google Maps Documentation](https://developers.google.com/maps/documentation/).
+
+## Making Maps with React
+
+This is what we need to do:
 
 1. Get data: We’ll use Google’s Distance and Elevation APIs to create an array with 100 objects representing samples along our polyline
 1. Draw the maps: Use the Google Maps API to draw a map and its parts according to the data it receives as input
@@ -164,7 +174,7 @@ However, if we have 5 markers, there will be 4 distance calculations between the
 
 Now we have 5 markers and 5 distances and we don’t have to do maths later.
 
-**Second**, in lines 49-61 we call the Elevations API, passing in the path we want to take samples from along with the number of samples we want. We ask for 100 samples because again, math is hard (also because I like the way these zeroes look: **0**).
+**Second**, in lines 49-61 we call the Elevations API, passing in the path we want to take samples from along with the number of samples we want. We ask for 100 samples because again, math is hard.
 
 When we call our method (in our case, inside `componentDidUpdate`), our `ChartWrapper` state will look something like this:
 
@@ -220,9 +230,9 @@ _Sí, tú estás luciendo bien allí, Madrid._
 <!-- prettier-ignore -->
 Next we need to draw some markers and connect them by a path (or “polyline”, in Google-Maps-speak). We can’t use the Directions API without a Premium account, and last I checked it takes $10,000 to open one of those. So our polyline will be an approximation of a user’s trajectory rather than a shortest path algorithm.
 
-Our team needed to support rendering this data dynamically based on user input. Dropping, dragging and deleting markers – and then updating map state – is not the focus of this article, plus besides I’m sure you already know how you would go about it. If you’re curious what we did, the [Maps folder of our repo](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/tree/master/client/src/components/Maps) is where all the logic is.
+Our team needed to support rendering this data dynamically based on user input. Dropping, dragging and deleting markers – and then updating map state – is not the focus of this article, plus besides I’m sure you already know how you would go about it. If you’re curious what we did, the [Maps folder of our repo](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/tree/master/client/src/components/Maps) contains all that logic.
 
-**Point being:** We’re going to keep hardcoding values for now, but we’ll switch it up to keep things lively. Let’s go to San Francisco because I can’t afford to go in real life anymore:
+**Point being:** We’re going to keep hardcoding values for now, but we’ll switch it up to keep things lively. Let’s go to San Francisco now because I can’t afford to go in real life:
 
 <MapWithMarkers
   type="markersAndPolyline"
@@ -236,7 +246,7 @@ Our team needed to support rendering this data dynamically based on user input. 
 
 Great! We now have 18 markers representing a stroll down Lombard Street.
 
-Notice how clicking show adjusts the map’s zoom and bounds to neatly frame the markers, while hiding them returns our map to its initial state.
+Notice how clicking “Show Markers” adjusts the map’s zoom and bounds to neatly frame the markers, while hiding them returns our map to its initial state.
 
 Here’s the method that builds up a `LatLngBounds` object for us and then adjusts our map’s “lens” to contain it:
 
