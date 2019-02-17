@@ -7,7 +7,6 @@ import Header from "../components/Header"
 import BlogIntro from "../components/BlogIntro"
 import Card from "../components/Card"
 import { pageFormatting } from "../components/theme/GlobalStyles"
-import { media } from "../components/theme/mixins"
 
 const CardsWrapper = styled.ul`
   display: flex;
