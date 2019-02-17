@@ -58,18 +58,18 @@ const PostArticle = ({
 
         <MDXRenderer>{body}</MDXRenderer>
 
-        <div style={{ marginBottom: "1rem" }}>
-          <div>
+        <div className="article-footer" style={{ marginBottom: "1rem" }}>
+          <div className="footer-prev">
             {prev && (
               <Link to={prev.frontmatter.path}>
-                Previous Post: {prev.frontmatter.title}
+                ← Previous Post: {prev.frontmatter.title}
               </Link>
             )}
           </div>
-          <div>
+          <div className="footer-next">
             {next && (
               <Link to={next.frontmatter.path}>
-                Next Post: {next.frontmatter.title}
+                → Next Post: {next.frontmatter.title}
               </Link>
             )}
           </div>

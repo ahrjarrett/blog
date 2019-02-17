@@ -263,4 +263,33 @@ export const ArticleStyles = styled.article`
       }
     `};
   }
+
+  .article-footer {
+    margin-top: 3.5rem;
+    margin-bottom: 3rem;
+
+    .footer-prev {
+      margin: 0.5rem 0rem;
+    }
+    .footer-next {
+      margin: 0.5rem 0rem;
+    }
+
+    ${media.tablet`
+      /* .footer-prev {
+        margin: 0.375rem 4.5rem;
+      }
+      .footer-next {
+        margin: 0.375rem 4.5rem;
+      } */
+    `};
+    ${media.desktop`
+      .footer-prev {
+        margin: 0.375rem 4.5rem;
+      }
+      .footer-next {
+        margin: 0.375rem 4.5rem;
+      }
+    `};
+  }
 `

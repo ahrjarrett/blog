@@ -4,7 +4,7 @@ date: "2019-02-11"
 title: "Draw an Interactive Elevation Chart with D3 & React, Part 1"
 image: "/images/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react.gif"
 tags: ["react", "d3", "javascript", "google maps"]
-excerpt: "Part 1: Data visualization is too fun. My team made an app that consumes a user’s trip data and uses it to draw cool stuff. Here’s how we used React, D3 and Google Maps to do it, step by step."
+excerpt: "Part 1: Data visualization is too fun. My team made an app that consumes a user’s trip data and uses it to draw cool stuff. Here’s how we used React, D3 and Google Maps to do it."
 published: true
 ---
 
@@ -248,7 +248,7 @@ Great! We now have 18 markers representing a stroll down Lombard Street.
 
 Notice how clicking “Show Markers” adjusts the map’s zoom and bounds to neatly frame the markers, while hiding them returns our map to its initial state.
 
-Here’s the method that builds up a `LatLngBounds` object for us and then adjusts our map’s “lens” to contain it:
+Here’s the method that builds up a `LatLngBounds` object for us and then adjusts our map’s “lens”<span className="asterisk"><a href="#asterisk1">\*</a></span> to contain it:
 
 ```javascript
 class MyMapComponent extends React.Component {
@@ -300,7 +300,11 @@ class MyMapComponent extends React.Component {
 }
 ```
 
-Notice that we did not make this method as flexible as `setMapBounds` w/r/t its arguments; we learned the hard way that drawing and especially _redrawing_ polylines to be slightly more finicky, and did not feel like it needed _more_ flexibility as much as it needed proper documentation of its function signature.
+Notice that we did not make this method as flexible as `setMapBounds` w/r/t its arguments; we learned the hard way that drawing and especially _redrawing_ polylines is more complex than adjusting the map’s zoom and position. If this seems counterintuitive (it did to me at first), think of changing a map like adjusting a lens, instead of destroying and rebuilding a DOM element: nothing in the environment has actually changed, just your window into the state of the world has shifted.
+
+> The map is not the territory.
+
+> Alfred Korzybski
 
 **Line 14:** We add the polyline to our class for use throughout the rest of the component. We also need to keep track of it so we can remove it later when the user clicks “Hide Path” (“Hide Markers” too, otherwise we’d have a marker-less path floating around with nothing anchoring it down!).
 
@@ -437,3 +441,27 @@ Great! On to the next one.
 For browser performance (and my own sanity), I broke the D3 portion out into a separate post.
 
 #### [Read all the juicy D3 deets here!](https://blog.thegrepper.com/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react-pt-2)
+
+> ... In that Empire, the Art of Cartography attained such Perfection that the map of a single Province occupied the entirety of a City, and the map of the Empire, the entirety of a Province. In time, those Unconscionable Maps no longer satisfied, and the Cartographers Guilds struck a Map of the Empire whose size was that of the Empire, and which coincided point for point with it. The following Generations, who were not so fond of the Study of Cartography as their Forebears had been, saw that that vast map was Useless, and not without some Pitilessness was it, that they delivered it up to the Inclemencies of Sun and Winters. In the Deserts of the West, still today, there are Tattered Ruins of that Map, inhabited by Animals and Beggars; in all the Land there is no other Relic of the Disciplines of Geography.
+
+> [– Borges, “On Exactitude in Science”](https://kwarc.info/teaching/TDM/Borges.pdf)
+
+<React.Fragment>
+  <h5 id="asterisk1" className="asterisk-body">
+    “Big” thought of the day: Even though client-side map services are often
+    referred to as “canvases”, the user’s interaction with the canvas is more or
+    less limited to the bounds of the viewport and the dimensions of the viewbox
+    that comprise her interface. In my eyes this muddles the abstraction that a
+    map provides, especially given the artist-as-creator connotations a word
+    like “canvas” evokes; _lens_ might be a more appropriate metaphor. Certainly
+    that the dynamic of our relationship with mapping software could be
+    pessimistically summarized as a sequence of Ouija board manipulations that
+    either translate or dilate our aperture onto a model that we drew up to
+    compensate for the limitations of the human nervous system ought to give us
+    pause. Maybe someday mapping softwae will be studied not for its direct
+    applications to the physical world around us, but for its wider
+    anthropological significance, as artifact become tool again.
+  </h5>
+</React.Fragment>
+
+<hr />

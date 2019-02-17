@@ -24,22 +24,6 @@ class MapWithMarkers extends React.PureComponent {
     this._polyline = null
   }
 
-  componentDidMount() {
-    console.group("map with markers mounted")
-    console.log("props:", this.props)
-    console.log("state:", this.state)
-    console.groupEnd("map with markers mounted")
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    console.group("map with markers updated")
-    console.log("prev props:", prevProps)
-    console.log("prev state:", prevState)
-    console.log("props:", this.props)
-    console.log("state:", this.state)
-    console.groupEnd("map with markers updated")
-  }
-
   drawPath = (map, markers) => () => {
     if (!window) return
     const path = markers.map(marker => ({
@@ -137,14 +121,13 @@ class MapWithMarkers extends React.PureComponent {
       { path: polyline.getPath().j, samples: 100 },
       (results, status) => {
         if (status === "OK") {
-          // KEEP THIS LOG:
+          // Keep this log around so reader can see API response in her console:
           console.info(
             "%c GET ELEVATION ALONG PATH SUCCESS, RESULTS:",
             "background: green; color: white;",
             results
           )
-
-          // Strip off `resolution` field; we don't need it:
+          // Strip off `resolution` field, we don't need it:
           const elevationSamples = results.map(({ elevation, location }) => ({
             elevation,
             location

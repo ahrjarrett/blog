@@ -108,6 +108,40 @@ export const fontStyles = css`
     font-weight: 800;
   }
 
+  h5 {
+    font-size: 0.825rem;
+    font-family: TraFine;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    margin-bottom: 2.25rem;
+    color: ${props => props.theme.midGray};
+  }
+
+  .asterisk a {
+    font-weight: 700;
+    font-size: 107.5%;
+    padding-left: 1px;
+    border: unset !important;
+    box-shadow: unset !important;
+  }
+
+  .asterisk-body {
+    margin-top: 6.25rem;
+    line-height: 1.6;
+    &::before {
+      content: "*";
+      position: absolute;
+      margin-left: -11px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+  }
+
   ${media.newPhone`
     h1 {
       font-size: 1.875rem;
@@ -148,8 +182,12 @@ export const fontStyles = css`
       padding-left: 0 !important;
       padding-right: 0 !important;
       color: ${props => props.theme.gray} !important;
-      font-size: 1.75rem !important;
+      font-size: 1.375rem !important;
     }
+    ${media.tabletLg`
+      /* font-size: 1.75rem !important; */
+    `};
+
     code,
     pre {
       font-weight: 700;

@@ -76,6 +76,11 @@ export const GlobalStyles = createGlobalStyle`
     margin-bottom: 1.5rem;
   }
 
+  hr {
+    border: 0.5px solid rgba(214, 209, 230, 0.5);
+    margin-top: 5rem;
+    margin-bottom: 3.75rem;
+  }
 `
 
 export const pageFormatting = css`
