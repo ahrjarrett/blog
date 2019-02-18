@@ -36,3 +36,7 @@ Inside the pages directory create a directory for each post. Inside each, write 
 Run =gatsby develop= and then navigate to =localhost:8000/___graphql=
 
 
+* TODO
+
+- [ ] Generate new Google Maps API key
+- [ ] Figure out how to lazy load dependencies, i.e. we don't need D3 for all blogposts
