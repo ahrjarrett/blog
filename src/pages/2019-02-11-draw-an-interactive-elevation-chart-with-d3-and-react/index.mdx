@@ -248,7 +248,9 @@ Great! We now have 18 markers representing a stroll down Lombard Street.
 
 Notice how clicking “Show Markers” adjusts the map’s zoom and bounds to neatly frame the markers, while hiding them returns our map to its initial state.
 
-Here’s the method that builds up a `LatLngBounds` object for us and then adjusts our map’s “lens”<span className="asterisk"><a href="#asterisk1">\*</a></span> to contain it:
+<!-- Here’s the method that builds up a `LatLngBounds` object for us and then adjusts our map’s “lens”<span className="asterisk"><a href="#asterisk1">\*</a></span> to contain it: -->
+
+Here’s the method that builds up a `LatLngBounds` object for us and then adjusts our map’s “lens” to contain it:
 
 ```javascript
 class MyMapComponent extends React.Component {
@@ -446,6 +448,7 @@ For browser performance (and my own sanity), I broke the D3 portion out into a s
 
 > [– Borges, “On Exactitude in Science”](https://kwarc.info/teaching/TDM/Borges.pdf)
 
+<!--
 <React.Fragment>
   <h5 id="asterisk1" className="asterisk-body">
     “Big” thought of the day: Even though client-side map services are often
@@ -463,5 +466,6 @@ For browser performance (and my own sanity), I broke the D3 portion out into a s
     anthropological significance, as artifact.
   </h5>
 </React.Fragment>
+-->
 
 <hr />
