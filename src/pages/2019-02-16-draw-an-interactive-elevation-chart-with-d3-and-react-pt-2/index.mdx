@@ -55,3 +55,47 @@ We’ve got 5 things to do, plus 1 bonus step to spruce up your chart’s appear
 ### 1. Declarations & Config
 
 [WIP]
+
+First we need some helper functions. This first batch is pure JavaScript, and do not require the D3 library yet (although `fromLatLngToPoint` does expect a Google Map instance as a parameter):
+
+```javascript
+export const numOfSamples = 100
+export const metersToMiles = m => m * 0.000621371
+export const metersToFeet = m => m * 3.28084
+
+export const arraysEqual = (arr1, arr2) => {
+  if (arr1.length !== arr2.length) return false
+  for (let i = arr1.length; i--; ) {
+    if (arr1[i] !== arr2[i]) return false
+  }
+  return true
+}
+
+export const fromLatLngToPoint = (latLng, map) => {
+  const topRight = map
+    .getProjection()
+    .fromLatLngToPoint(map.getBounds().getNorthEast())
+  const bottomLeft = map
+    .getProjection()
+    .fromLatLngToPoint(map.getBounds().getSouthWest())
+  const scale = Math.pow(2, map.getZoom())
+  const worldPoint = map.getProjection().fromLatLngToPoint(latLng)
+  const point = new window.google.maps.Point(
+    (worldPoint.x - bottomLeft.x) * scale,
+    (worldPoint.y - topRight.y) * scale
+  )
+  return point
+}
+```
+
+We export these because ideally we’re putting them in a separate `utils.js` file, to be imported as needed in our `ElevationGraph` component.
+
+The first, `numOfSamples`, is a constant; we will be using the number of samples in a few places, so it’s easier to change later because we declare it in a single place. We choose 100 samples along our pathline because it makes the math easy. For example, if our area chart is 600 pixels wide, then we need to divide it up into 6px sections and create a hover event over each to dynamically render a point or “blip” on the map to show the user exactly where on the path she would encounter the elevation and grade our Infobox shows her.
+
+The next two are functions we will use to do unit conversion. The Google Maps Elevation and Distance APIs return us meters, but since we do things backwards in the States, we need to convert those to miles and feet so our user doesn’t have to do conversions herself.
+
+`arraysEqual` returns true if 2 arrays contain the same elements and false if they don’t.
+
+We will come back to `fromLatLngToPoint` toward the end of the article — in a nutshell, it takes a `LatLng` object and a Google Map instance and does a lookup to see where a particular coordinate exists on the user’s screen, so we know where to draw the blip.
+
+_Work in progress_

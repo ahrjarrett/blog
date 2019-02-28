@@ -15,7 +15,7 @@ export const numOfSamples = 100
 export const metersToMiles = m => m * 0.000621371
 export const metersToFeet = m => m * 3.28084
 
-function fromLatLngToPoint(latLng, map) {
+const fromLatLngToPoint = (latLng, map) => {
   const topRight = map
     .getProjection()
     .fromLatLngToPoint(map.getBounds().getNorthEast())
