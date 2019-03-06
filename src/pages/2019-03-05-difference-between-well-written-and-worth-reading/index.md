@@ -41,7 +41,7 @@ The only balm to the guilt I would otherwise feel about writing something in a s
 
 Below is an excerpt from a chapter I wrote in 2012 and revised, half-heartedly, just now. But before that, an image that I think captures everything I’m about to try to say but better, in a language I can’t read, and without speaking a word.
 
-![Numerology on the streets in Bangkok, Thailand]("/images/2019-03-05-numerology-in-bangkok.jpg")
+![The Writing on the Wall: Numerology in the Streets of Bangkok, Thailand](/images/2019-03-05-numerology-in-bangkok.jpg)
 
 > Image: BANGKOK - MAY 27: View of numerology written on a wall in the city centre on May 27, 2013 in Bangkok, Thailand. It is commonplace to see numerology written in public areas in the Thai capital.
 
@@ -50,4 +50,31 @@ From `Soup Is Good Food`, 2012:
 > And as she slid deeper into her bench, her final thoughts before drifting off were questions she didn't try to answer: where the words had come from and why they’d chosen her, where the tycoon vacationed, if cigars tasted like they smelled and whether God was in it, whether she owed him for the words, whether she might think to write them down so she doesn’t forget the Campbell Soup Company’s new slogan between now and her meeting with Mr. Kirkland at eight.
 > Four words that came from nowhere. She dreamed of a stained glass window and rain that fell in angles.
 
-Still pretty cringy, especially the meter at the end — probably reading Bolaño at the time — but maybe if I loosen up a bit and revise more often, maybe someday I’ll write a thing and it will almost get enough momentum to justify a second printing, and then across the pond someone will read it and think, Yeah.
+Still pretty cringy, especially the meter at the end — probably reading Bolaño at the time — but maybe if I loosen up a bit and revise more often, maybe someday I’ll write a thing and it will almost get enough momentum to justify a second printing, and then across the pond someone will read it and think, yeah.
+
+Today I bought:
+
+- [vampire.dev]()
+- [dracula.dev]()
+- [jeeves.dev]()
+- a friend a dev domain that reminded me of him
+
+Today I thought about buying:
+
+- [ooo.dev]()
+- [blob.dev]()
+- [mobydick.dev]()
+- [zombie.dev]() for my dad, who let zombiebegone.com expire
+- Essential oils and candles
+- A record player
+
+Today I should have bought:
+
+- Socks
+- Oatmeal and omega-3s
+
+Tomorrow I will stay home and play in the AWS console all day until I finally understand how DNS resolves a request. Or until think of something humorous to do with these domains.
+
+I’m Andrew, I’d say you should hire me but if you’re really looking for engineers, you stopped a long time ago.
+
+In the off chance that you have something constructive or hilarious to say, you can reach me at ask@jeeves.dev — only give it a week from today before you send anything, I haven’t gotten around to configuring my name servers yet.
