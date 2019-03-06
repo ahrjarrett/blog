@@ -31,4 +31,23 @@ So I pulled out the bankers box whose ever so stationary perch atop my desk used
 
 I opened the box and of course, everything is shit. Even this paragraph that I’m going to put here is pretty cringe-worthy, but screw it nobody reads this and plus besides, I’m secretly kinda happy with how it aged and what it could be if I found a good mentor and started again.
 
+The feeling of hunger after you’ve forgotten to eat two-three meals and there’s a bag in the crisper and — no.
+
+Just a half-eaten sandwich and some soggy napkins. Will be the name of the autobiography I’d probably have the hubris to some day write.
+
+Who knows. What if this tone and general mood ends up being just my pace and I start thinking aloud in my head to myself, as if I’m on stage but constantly pulling myself over for an aside, less to say anything but more to give myself a change to look at myself in the mirror, wink, and nod approvingly, as if to say: “You, you should write more.”
+
+The only balm to the guilt I would otherwise feel about writing something in a single draft that is neither well written, nor worth reading, is the fact that I created a `published` field on my posts model that allows me to hide my words and procrastinate revision until 6 years from now I find them piled up in a forgotten Dropbox account like a treasure somewhere, and as I pull out pieces and papers I hold my breath because of course, everyone wants to discover the unwitting brilliance of her former self in a Dropbox account somewhere, only to find myself underwhelmed once again by the magnitude of effort, measured in sheer volume of pages or even years, by the enormous amount of time it takes me to find one good, simple sentence.
+
+Below is an excerpt from a chapter I wrote in 2012 and revised, half-heartedly, just now. But before that, an image that I think captures everything I’m about to try to say but better, in a language I can’t read, and without speaking a word.
+
+![Numerology on the streets in Bangkok, Thailand]("/images/2019-03-05-numerology-in-bangkok.jpg")
+
 > Image: BANGKOK - MAY 27: View of numerology written on a wall in the city centre on May 27, 2013 in Bangkok, Thailand. It is commonplace to see numerology written in public areas in the Thai capital.
+
+From `Soup Is Good Food`, 2012:
+
+> And as she slid deeper into her bench, her final thoughts before drifting off were questions she didn't try to answer: where the words had come from and why they’d chosen her, where the tycoon vacationed, if cigars tasted like they smelled and whether God was in it, whether she owed him for the words, whether she might think to write them down so she doesn’t forget the Campbell Soup Company’s new slogan between now and her meeting with Mr. Kirkland at eight.
+> Four words that came from nowhere. She dreamed of a stained glass window and rain that fell in angles.
+
+Still pretty cringy, especially the meter at the end — probably reading Bolaño at the time — but maybe if I loosen up a bit and revise more often, maybe someday I’ll write a thing and it will almost get enough momentum to justify a second printing, and then across the pond someone will read it and think, Yeah.
