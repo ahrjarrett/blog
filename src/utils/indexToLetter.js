@@ -1,14 +1,3 @@
-const start = 97
-// const alphabetMap = [...Array(26)]
-//   .reduce((a, _, i) => {
-//     console.log("reducing! a:")
-//     console.log("reducing! _:")
-//     console.log("reducing! i:")
-//     return a.concat(String.fromCharCode(start + i))
-//   }, "")
-//   .split("")
-//   .map(a => console.log("thing: ", a))
-//   .reduce((acc, curr, i) => ({ ...acc, [i]: curr }), {})
 const alphabetMap = {
   0: "a",
   1: "b",
@@ -40,7 +29,3 @@ const alphabetMap = {
 
 export const indexToLetter = index => alphabetMap[index].toUpperCase()
 
-console.log("start:", start)
-console.log("alphabetMap:", alphabetMap)
-console.log("indexToLetter.js:", indexToLetter(3))
-console.log("indexToLetter.js:", indexToLetter(0))

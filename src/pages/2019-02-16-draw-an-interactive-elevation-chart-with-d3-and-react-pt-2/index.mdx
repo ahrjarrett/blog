@@ -10,11 +10,11 @@ published: true
 
 import MapWithMarkers from "../../components/maps/MapWithMarkers"
 import LoadMapsApi from "../../components/maps/LoadMapsApi"
-// import ElevationGraph from "../../components/d3/ElevationGraph"
+import D3Version from "./D3Version"
+import * as d3 from "d3"
 
 import { markerPositionsNZ, mapCenterNZ } from "../../components/maps/data"
-
-<LoadMapsApi />
+;<LoadMapsApi />
 
 ## Drawing the Chart
 
@@ -54,7 +54,7 @@ We’ve got 5 things to do, plus 1 bonus step to spruce up your chart’s appear
 
 ### 1. Declarations & Config
 
-[WIP]
+#### Helper Functions
 
 First we need some helper functions. This first batch is pure JavaScript, and do not require the D3 library yet (although `fromLatLngToPoint` does expect a Google Map instance as a parameter):
 
@@ -98,4 +98,57 @@ The next two are functions we will use to do unit conversion. The Google Maps El
 
 We will come back to `fromLatLngToPoint` toward the end of the article — in a nutshell, it takes a `LatLng` object and a Google Map instance and does a lookup to see where a particular coordinate exists on the user’s screen, so we know where to draw the blip.
 
-_Work in progress_
+#### D3 Config
+
+It’s finally time to start working with D3! First let’s make sure we installed and imported it correctly:
+
+```jsx
+import * as d3 from "d3"
+
+const D3Version = () => (
+  <p id="d3-version">
+    D3 Version: <strong>{d3.version}</strong>
+  </p>
+)
+
+<D3Version />
+```
+
+That renders:
+
+<br />
+<D3Version />
+
+Cool! Let’s start configuring:
+
+```javascript
+// 1. DECLARATIONS / CONFIG
+const margin = { top: 0, right: 0, bottom: 15, left: 50 }
+const width = 750 - margin.left - margin.right
+const height = 155 - margin.top - margin.bottom
+const xAxisTicks = 8
+const yAxisTicks = 6
+```
+
+This is the conventional way of creating margins around your chart in D3.
+
+Next week need to create our xScale and yScale. We will use a linear scale for both.
+
+> For continuous quantitative data, you typically want a linear scale.
+>
+> [- D3 Docs](https://github.com/d3/d3-scale#linear-scales)
+
+We need to give our linear scale a domain and a range:
+
+```javascript
+const xScale = d3
+  .scaleLinear()
+  .domain(d3.extent(data, d => d.x))
+  .range([0, width])
+
+const yScale = d3
+  .scaleLinear()
+  .domain([d3.min(data, co => co.y), d3.max(data, co => co.y)])
+  .range([height, 0])
+```
+
