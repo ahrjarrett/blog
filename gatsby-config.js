@@ -13,7 +13,7 @@ module.exports = {
       `
     }
   },
-  pathPrefix: `/test`,
+  //pathPrefix: `/test`,
   plugins: [
     `gatsby-plugin-typescript`,
     `gatsby-plugin-react-helmet`,
