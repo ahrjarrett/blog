@@ -71,6 +71,9 @@ class SEO extends React.Component {
                 canonicalUrl
                 image
                 altImage
+                author {
+                  minibio
+                }
               }
             }
           }
@@ -81,15 +84,18 @@ class SEO extends React.Component {
           this.isHomePage = this.props.isHomePage
           this.frontmatter = frontmatter
           this.siteMetadata = siteMetadata
-          const { description, canonicalUrl } = siteMetadata
-
-          // const image = siteMetadata.image
+          // const { canonicalUrl } = siteMetadata
+          const canonicalUrl = new URL(window.location.href).origin
 
           const image = this.isBlogPost
             ? frontmatter.image
             : this.isHomePage
             ? siteMetadata.image
             : siteMetadata.altImage
+
+          const description = this.isBlogPost
+            ? frontmatter.excerpt
+            : siteMetadata.author.minibio
 
           return (
             <PageVisibility onChange={this.handleVisibilityChange}>
