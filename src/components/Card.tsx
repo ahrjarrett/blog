@@ -101,13 +101,13 @@ const Card: React.FunctionComponent<Props> = ({ frontmatter }) => {
     <CardWrapper>
       <CardContent>
         <ImgWrapper>
-          <Link to={path}>
+          <Link to={`/posts${path}`}>
             <img src={image} alt="some alt" />
           </Link>
         </ImgWrapper>
         <CardMeta>
           <FlexContainer>
-            <Link to={path}>{title}</Link>
+            <Link to={`/posts${path}`}>{title}</Link>
             <span>{date}</span>
           </FlexContainer>
           <p>{excerpt}</p>

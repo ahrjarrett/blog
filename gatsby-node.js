@@ -39,11 +39,6 @@ const createTagPages = (createPage, posts) => {
   })
 }
 
-// exports.createPages = ({ actions }) => {
-//   const { createPage } = actions
-//   Object.keys(routes).forEach(route => createPage(routes[route]))
-// }
-
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
@@ -79,7 +74,7 @@ exports.createPages = ({ graphql, actions }) => {
           if (!published) return
 
           createPage({
-            path,
+            path: `/posts${path}`,
             component: blogPostTemplate,
             context: {
               // using "pathSlug" bc "path" is a reserved keyword

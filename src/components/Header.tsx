@@ -153,7 +153,6 @@ interface Props {
 }
 
 const TitleSubtitle = ({ data }: Props) => {
-  console.log("TITLE AND SUBHEADER DATA:", data)
   const { title, description } = data.site.siteMetadata
   return (
     <TitleSubtitleStyles>

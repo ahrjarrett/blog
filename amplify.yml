@@ -7,7 +7,6 @@ frontend:
     build:
       commands:
         - yarn build
-        - yarn serve
   artifacts:
     baseDirectory: public
     files:

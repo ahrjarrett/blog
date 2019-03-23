@@ -45,7 +45,11 @@ export default ({ children, location }) => (
   <ThemeProvider theme={theme}>
     <MDXProvider components={components}>
       <GlobalStyles />
-      <SEO pathname={location.pathname} />
+      <SEO
+        pathname={location.pathname}
+        isHomePage={location.pathname === "/" ? true : false}
+        // isBlogPost={location.pathname.slice(0, 6) === "/posts" ? true : false}
+      />
       <Layout>{children}</Layout>
     </MDXProvider>
   </ThemeProvider>

@@ -119,12 +119,12 @@ const PostHeader = ({ next, prev }) => (
           </li>
           {prev && (
             <li>
-              <Link to={`${prev.frontmatter.path}`}>Previous Post</Link>
+              <Link to={`/posts${prev.frontmatter.path}`}>Previous Post</Link>
             </li>
           )}
           {next && (
             <li>
-              <Link to={`${next.frontmatter.path}`}>Next Post</Link>
+              <Link to={`/posts${next.frontmatter.path}`}>Next Post</Link>
             </li>
           )}
         </ul>

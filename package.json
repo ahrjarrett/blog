@@ -12,6 +12,7 @@
     "cover": "jest --coverage"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0-0",
     "babel-plugin-styled-components": "1.8.0",
     "d3": "5.9.1",
     "gatsby": "2.2.8",
@@ -24,18 +25,19 @@
     "prism-react-renderer": "0.1.5",
     "prismjs": "1.15.0",
     "prop-types": "15.6.2",
-    "react": "^16.5.1",
-    "react-dom": "^16.5.1",
+    "react": "16.8.5",
+    "react-dom": "16.8.5",
     "react-helmet": "5.2.0",
     "react-live": "1.12.0",
+    "react-page-visibility": "3.2.1",
     "styled-components": "4.1.1"
   },
   "devDependencies": {
     "@mdx-js/loader": "0.17.3",
-    "@mdx-js/mdx": "0.17.3",
+    "@mdx-js/mdx": "^0.20.1",
     "@mdx-js/tag": "0.17.0",
-    "@types/react": "16.8.3",
-    "@types/react-dom": "16.8.1",
+    "@types/react": "16.8.5",
+    "@types/react-dom": "16.8.3",
     "@types/styled-components": "4.1.10",
     "jest": "24.1.0",
     "loader-utils": "1.2.3",
