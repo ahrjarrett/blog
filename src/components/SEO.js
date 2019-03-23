@@ -123,8 +123,8 @@ class SEO extends React.Component {
                 <meta property="og:type" content="website" />
                 <meta property="og:locale" content="en" />
                 <meta property="og:site_name" content={siteMetadata.title} />
-                {/* <meta property="og:image:width" content="512" />
-                <meta property="og:image:height" content="225" /> */}
+                <meta property="og:image:width" content="512" />
+                <meta property="og:image:height" content="225" />
                 <meta name="docsearch:version" content="2.0" />
                 <meta
                   name="viewport"

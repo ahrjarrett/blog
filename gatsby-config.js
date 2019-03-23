@@ -5,7 +5,7 @@ module.exports = {
     subtitle: `Global Search Regex + Print`,
     description: `Here’s where I write stuff. Mostly about functional programming. But also sometimes about a book that a friend has recommended, or a dumb thought that my brain had.`,
     canonicalUrl: `https://blog.thegrepper.com`,
-    image: `/images/the-grepper-monkeying-around.jpg`,
+    image: `/images/the-grepper-monkey-see-monkey-flew.jpg`,
     altImage: `/images/the-grepper-goldfish-brain.jpg`,
     author: {
       name: `Andrew Jarrett`,
@@ -34,6 +34,13 @@ module.exports = {
       options: {
         name: `pages`,
         path: `${__dirname}/src/pages`
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: `${__dirname}/src/images`
       }
     }
   ]
