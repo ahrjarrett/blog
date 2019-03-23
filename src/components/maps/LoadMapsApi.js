@@ -4,6 +4,8 @@ import { loadScript } from "../../utils/loadScript"
 
 const getMapsUri = key => `https://maps.googleapis.com/maps/api/js?key=${key}`
 const { MAPS_KEY } = process.env
+console.log("process.env:", process.env)
+console.log("MAPS KEY:", MAPS_KEY)
 const scriptId = "googleMapsScript"
 
 class LoadMapsApi extends React.Component {
