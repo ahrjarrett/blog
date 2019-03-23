@@ -1,4 +1,5 @@
 const path = require("path")
+//const { routes } = require("./src/routes")
 
 const createTagPages = (createPage, posts) => {
   const allTagsIndexTemplate = path.resolve("src/templates/AllTagsIndex.js")
@@ -37,6 +38,11 @@ const createTagPages = (createPage, posts) => {
     })
   })
 }
+
+// exports.createPages = ({ actions }) => {
+//   const { createPage } = actions
+//   Object.keys(routes).forEach(route => createPage(routes[route]))
+// }
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
