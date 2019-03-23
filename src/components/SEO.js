@@ -67,7 +67,7 @@ class SEO extends React.Component {
                 title
                 shortTitle
                 subtitle
-                description
+                # description
                 canonicalUrl
                 image
                 altImage
@@ -85,7 +85,7 @@ class SEO extends React.Component {
           this.frontmatter = frontmatter
           this.siteMetadata = siteMetadata
           // const { canonicalUrl } = siteMetadata
-          const canonicalUrl = new URL(window.location.href).origin
+          const canonicalUrl = new window.URL(window.location.href).origin
 
           const image = this.isBlogPost
             ? frontmatter.image
