@@ -11,14 +11,18 @@ import { RouterProps } from "@reach/router"
 type Props = PostQueryData & RouterProps
 
 // pageContext is passed thru via context object in gatsby-node.js
-const Template: React.FunctionComponent<Props> = ({ data, pageContext }) => {
+const Template: React.FunctionComponent<Props> = ({
+  data,
+  pageContext,
+  location
+}) => {
   const { mdx } = data
   const { title, date, excerpt, tags, image } = mdx.frontmatter
   const { code } = mdx
   const { prev, next } = pageContext
 
   return (
-    <Layout>
+    <Layout location={location}>
       <s.BlogPostStyles>
         <PostHeader next={next} prev={prev} />
         <div className="title">
@@ -36,11 +40,6 @@ const Template: React.FunctionComponent<Props> = ({ data, pageContext }) => {
           next={next}
           prev={prev}
         />
-        {/* <footer>
-          <div className="section-stretch">
-            <h1>FOOTER</h1>
-          </div>
-        </footer> */}
       </s.BlogPostStyles>
     </Layout>
   )

@@ -30,11 +30,11 @@ const IndexStyles = styled.div`
   }
 `
 
-const Index = ({ data }) => {
+const Index = ({ data, location }) => {
   const { edges } = data.allMdx
 
   return (
-    <Layout>
+    <Layout location={location}>
       <IndexStyles>
         <Header />
         <BlogIntro />
@@ -52,7 +52,7 @@ const Index = ({ data }) => {
         <div
           style={{ maxWidth: "840px", margin: "3rem auto", padding: "0 3rem" }}
         >
-          <Link to="/tags">Browse all tags</Link>
+          <Link to="/test/tags">Browse all tags</Link>
         </div>
         <div
           style={{

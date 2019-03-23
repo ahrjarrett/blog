@@ -13,8 +13,10 @@ module.exports = {
       `
     }
   },
+  pathPrefix: `/test`,
   plugins: [
     `gatsby-plugin-typescript`,
+    `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-mdx`,
       options: {

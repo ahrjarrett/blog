@@ -6,6 +6,7 @@ import { MDXProvider } from "@mdx-js/tag"
 import Code from "../components/Code"
 import { GlobalStyles } from "./theme/GlobalStyles"
 import { theme } from "./theme/theme"
+import SEO from "./SEO"
 
 const CodeStyles = styled.div`
   display: flex;
@@ -40,10 +41,11 @@ const components = {
 
 const Layout = styled.div``
 
-export default ({ children }) => (
+export default ({ children, location }) => (
   <ThemeProvider theme={theme}>
     <MDXProvider components={components}>
       <GlobalStyles />
+      <SEO pathname={location.pathname} />
       <Layout>{children}</Layout>
     </MDXProvider>
   </ThemeProvider>

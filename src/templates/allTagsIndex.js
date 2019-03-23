@@ -3,11 +3,11 @@ import { Link } from 'gatsby'
 
 import Layout from '../components/Layout'
 
-const AllTagsTemplate = ({ data, pageContext }) => {
+const AllTagsTemplate = ({ data, pageContext, location }) => {
 	const { tags } = pageContext
 
 	return (
-		<Layout>
+	    <Layout location={location}>
 			<div>
 				<p>All tags:</p>
 				<ul style={{ listStyle: 'none' }}>
