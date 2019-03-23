@@ -1,4 +1,5 @@
 import * as React from "react"
+import Img from "gatsby-image"
 import { StaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 
@@ -176,8 +177,9 @@ const TitleSubtitle = ({ data }: Props) => {
             </div>
             <div className="hero">
               {/* <img src="/images/hero.jpeg" /> */}
-              <div className="hero-img" />
-              <span className="hero-img-overlay" />
+              {/* <div className="hero-img" /> */}
+              {/* <span className="hero-img-overlay" /> */}
+              <Img fluid={data.file.childImageSharp.fluid} />
             </div>
           </div>
           <div className="blurb">
@@ -193,6 +195,13 @@ const Header = () => (
   <StaticQuery
     query={graphql`
       query {
+        file(relativePath: { eq: "hero.jpeg" }) {
+          childImageSharp {
+            fluid(maxWidth: 1600, maxHeight: 1000) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
         site {
           siteMetadata {
             title

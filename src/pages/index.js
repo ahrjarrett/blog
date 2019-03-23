@@ -63,7 +63,7 @@ const Index = ({ data, location }) => {
         >
           Hi! Not sure how you got here but I’m glad you did{" "}
           <span role="img" aria-label="sunflower">
-            🌻
+       🌻
           </span>
           <br />
           <br />

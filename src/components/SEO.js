@@ -45,9 +45,9 @@ class SEO extends React.Component {
 
   getPageTitle = isVisible => {
     if (isVisible && this.isBlogPost) return this.frontmatter.title
-    if (!isVisible && this.isBlogPost) return `I’m watching you  👀 `
+    if (!isVisible && this.isBlogPost) return `Where ya going?  👀 `
     if (isVisible && this.isHomePage) return this.siteMetadata.shortTitle
-    if (!isVisible && this.isHomePage) return `👎 Beat it creep! `
+    if (!isVisible && this.isHomePage) return `Where ya going?  👀 `
     else return this.siteMetadata.title
   }
 
@@ -59,7 +59,7 @@ class SEO extends React.Component {
     if (isVisible && this.isHomePage)
       return `${pageTitle} – ${this.siteMetadata.shortTitle}`
     if (!isVisible && this.isHomePage)
-      return `${pageTitle} – ${this.siteMetadata.subtitle}`
+      return `${pageTitle} ... ${this.siteMetadata.subtitle}`
   }
 
   render() {
@@ -123,8 +123,8 @@ class SEO extends React.Component {
                 <meta property="og:type" content="website" />
                 <meta property="og:locale" content="en" />
                 <meta property="og:site_name" content={siteMetadata.title} />
-                {/* <meta property="og:image:width" content="512" />
-                <meta property="og:image:height" content="225" /> */}
+                <meta property="og:image:width" content="512" />
+                <meta property="og:image:height" content="225" />
                 <meta name="docsearch:version" content="2.0" />
                 <meta
                   name="viewport"
