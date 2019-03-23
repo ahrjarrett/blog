@@ -2,6 +2,7 @@ import * as React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/Layout"
+import SEO from "../components/SEO"
 import PostHeader from "../components/PostHeader"
 import PostArticle from "../components/PostArticle"
 import * as s from "../components/styles/BlogPost.styles"
@@ -17,12 +18,14 @@ const Template: React.FunctionComponent<Props> = ({
   location
 }) => {
   const { mdx } = data
-  const { title, date, excerpt, tags, image } = mdx.frontmatter
+  const { frontmatter } = mdx
+  const { title, date, excerpt, tags, image } = frontmatter
   const { code } = mdx
   const { prev, next } = pageContext
 
   return (
     <Layout location={location}>
+      <SEO pathname={location.pathname} frontmatter={frontmatter} isBlogPost />
       <s.BlogPostStyles>
         <PostHeader next={next} prev={prev} />
         <div className="title">

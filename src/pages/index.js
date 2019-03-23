@@ -52,7 +52,7 @@ const Index = ({ data, location }) => {
         <div
           style={{ maxWidth: "840px", margin: "3rem auto", padding: "0 3rem" }}
         >
-          <Link to="/test/tags">Browse all tags</Link>
+          <Link to="/tags">Browse all tags</Link>
         </div>
         <div
           style={{
