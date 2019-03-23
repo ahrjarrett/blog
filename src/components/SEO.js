@@ -45,9 +45,9 @@ class SEO extends React.Component {
 
   getPageTitle = isVisible => {
     if (isVisible && this.isBlogPost) return this.frontmatter.title
-    if (!isVisible && this.isBlogPost) return `I’m watching you  👀 `
+    if (!isVisible && this.isBlogPost) return `Where ya going?  👀 `
     if (isVisible && this.isHomePage) return this.siteMetadata.shortTitle
-    if (!isVisible && this.isHomePage) return `👎 Beat it creep! `
+    if (!isVisible && this.isHomePage) return `Where ya going?  👀 `
     else return this.siteMetadata.title
   }
 
@@ -59,7 +59,7 @@ class SEO extends React.Component {
     if (isVisible && this.isHomePage)
       return `${pageTitle} – ${this.siteMetadata.shortTitle}`
     if (!isVisible && this.isHomePage)
-      return `${pageTitle} – ${this.siteMetadata.subtitle}`
+      return `${pageTitle} ... ${this.siteMetadata.subtitle}`
   }
 
   render() {
