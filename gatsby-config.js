@@ -9,7 +9,7 @@ module.exports = {
     altImage: `/images/the-grepper-goldfish-brain.jpg`,
     author: {
       name: `Andrew Jarrett`,
-      minibio: `<strong>Andrew Jarrett</strong> is a React contractor and functional programming advocate who lives in Austin, Texas with his pomeranian Ash Nabisco.`,
+      minibio: `Andrew Jarrett is a React contractor and functional programming advocate who lives in Austin, Texas with his pomeranian Ash Nabisco.`,
       image: `https://blog.thegrepper.com/images/headshot.jpeg`
     }
   },
