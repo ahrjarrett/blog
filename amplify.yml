@@ -6,7 +6,7 @@ frontend:
         - yarn install
     build:
       commands:
-        - yarn build:$MAPS_KEY
+        - yarn build
   artifacts:
     baseDirectory: public
     files:

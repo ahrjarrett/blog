@@ -1,6 +1,15 @@
 const path = require("path")
-require("dotenv").config()
-//const { routes } = require("./src/routes")
+
+exports.onCreateWebpackConfig = ({ actions, plugins }) => {
+  actions.setWebpackConfig({
+    plugins: [
+      // Inject environment variables:
+      plugins.define({
+        MAPS_KEY: process.env.MAPS_KEY
+      })
+    ]
+  })
+}
 
 const createTagPages = (createPage, posts) => {
   const allTagsIndexTemplate = path.resolve("src/templates/AllTagsIndex.js")

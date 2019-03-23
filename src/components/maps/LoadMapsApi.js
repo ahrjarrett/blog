@@ -1,5 +1,4 @@
 import React from "react"
-
 import { loadScript } from "../../utils/loadScript"
 
 const getMapsUri = key => `https://maps.googleapis.com/maps/api/js?key=${key}`
