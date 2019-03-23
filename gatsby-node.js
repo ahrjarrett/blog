@@ -3,7 +3,7 @@ const path = require("path")
 exports.onCreateWebpackConfig = ({ actions, plugins }) => {
   actions.setWebpackConfig({
     plugins: [
-      // Inject environment variables:
+      // Inject environment variables for the client here:
       plugins.define({
         MAPS_KEY: process.env.MAPS_KEY
       })
