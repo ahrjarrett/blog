@@ -61,7 +61,10 @@ const Index = ({ data, location }) => {
             margin: "0 auto 4.25rem"
           }}
         >
-          Hi! Not sure how you got here but I’m glad you did 🌻
+          Hi! Not sure how you got here but I’m glad you did{" "}
+          <span role="img" aria-label="sunflower">
+            🌻
+          </span>
           <br />
           <br />
           This site was built with GraphQL, Gatsby 2.0 and other cool stuff. It

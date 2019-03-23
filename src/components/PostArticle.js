@@ -61,14 +61,14 @@ const PostArticle = ({
         <div className="article-footer" style={{ marginBottom: "1rem" }}>
           <div className="footer-prev">
             {prev && (
-              <Link to={prev.frontmatter.path}>
+              <Link to={`/posts${prev.frontmatter.path}`}>
                 ← Previous Post: {prev.frontmatter.title}
               </Link>
             )}
           </div>
           <div className="footer-next">
             {next && (
-              <Link to={next.frontmatter.path}>
+              <Link to={`/posts${next.frontmatter.path}`}>
                 → Next Post: {next.frontmatter.title}
               </Link>
             )}
