@@ -4,9 +4,9 @@ frontend:
     preBuild:
       commands:
         - yarn install
-        - yarn build
     build:
       commands:
+        - yarn build
         - yarn serve
   artifacts:
     baseDirectory: public
