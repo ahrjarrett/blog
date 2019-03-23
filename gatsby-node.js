@@ -1,4 +1,5 @@
 const path = require("path")
+require("dotenv").config()
 //const { routes } = require("./src/routes")
 
 const createTagPages = (createPage, posts) => {
