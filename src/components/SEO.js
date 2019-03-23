@@ -20,6 +20,11 @@ class SEO extends React.Component {
 
   componentDidMount() {
     const pageTitle = this.getPageTitle(this.state.isVisible)
+
+    if (window && window.location) {
+      this.canonicalUrl = new window.URL(window.location.href).origin
+    }
+
     const titleTemplate = this.makeTitleTemplate(
       this.state.isVisible,
       pageTitle
@@ -68,7 +73,7 @@ class SEO extends React.Component {
                 shortTitle
                 subtitle
                 # description
-                canonicalUrl
+                # canonicalUrl
                 image
                 altImage
                 author {
@@ -80,12 +85,11 @@ class SEO extends React.Component {
         `}
         render={({ site: { siteMetadata } }) => {
           const { frontmatter } = this.props
+          const { canonicalUrl } = this
           this.isBlogPost = this.props.isBlogPost
           this.isHomePage = this.props.isHomePage
           this.frontmatter = frontmatter
           this.siteMetadata = siteMetadata
-          // const { canonicalUrl } = siteMetadata
-          const canonicalUrl = new window.URL(window.location.href).origin
 
           const image = this.isBlogPost
             ? frontmatter.image
