@@ -40,3 +40,4 @@ Run =gatsby develop= and then navigate to =localhost:8000/___graphql=
 
 - [ ] Generate new Google Maps API key
 - [ ] Figure out how to lazy load dependencies, i.e. we don't need D3 for all blogposts
+ 
