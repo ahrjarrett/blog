@@ -52,8 +52,6 @@ const createTagPages = (createPage, posts) => {
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
-  console.log("\n\n\n\nprocess.env:\n", process.env)
-
   // createPage returns a promise bc file creation is asynchronous
   return new Promise((resolve, reject) => {
     const blogPostTemplate = path.resolve("src/templates/BlogPost.tsx")
