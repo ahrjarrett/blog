@@ -3,7 +3,6 @@ import { loadScript } from "../../utils/loadScript"
 
 const getMapsUri = key => `https://maps.googleapis.com/maps/api/js?key=${key}`
 const { GATSBY_MAPS_KEY } = process.env
-console.log("GATSBY_MAPS KEY:", GATSBY_MAPS_KEY)
 const scriptId = "googleMapsScript"
 
 class LoadMapsApi extends React.Component {
