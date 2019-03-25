@@ -4,6 +4,17 @@ import { Helmet } from "react-helmet"
 import { graphql, StaticQuery } from "gatsby"
 import PageVisibility from "react-page-visibility"
 
+const { GATSBY_MAPS_KEY } = process.env
+
+if (typeof window !== "undefined") {
+  window.initMap = function() {
+    new window.google.maps.Map(document.getElementById("map"), {
+      center: { lat: 40, lng: 10 },
+      zoom: 5
+    })
+  }
+}
+
 class SEO extends React.Component {
   constructor(props) {
     super(props)

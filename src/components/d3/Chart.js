@@ -11,13 +11,13 @@ export const numOfSamples = 100
 export const metersToMiles = m => m * 0.000621371
 export const metersToFeet = m => m * 3.28084
 
-const arraysEqual = (arr1, arr2) => {
-  if (arr1.length !== arr2.length) return false
-  for (let i = arr1.length; i--; ) {
-    if (arr1[i] !== arr2[i]) return false
-  }
-  return true
-}
+// const arraysEqual = (arr1, arr2) => {
+//   if (arr1.length !== arr2.length) return false
+//   for (let i = arr1.length; i--; ) {
+//     if (arr1[i] !== arr2[i]) return false
+//   }
+//   return true
+// }
 
 class Chart extends React.Component {
   constructor(props) {
