@@ -143,27 +143,33 @@ class Chart extends React.Component {
         // chart3? This is your last stop.
         return
       }
+
+      console.log("here?", this.props.targetNode, this.props.gridlines)
+
       // No gridlines? This is your last stop.
       if (!this.props.gridlines) return
     }
+
     /************************/
     /*** END NO GRIDLINES ***/
     /**********************I*/
 
-    // Make X grid:
+    console.log("making grid!!")
+
+    // MAKE X GRID:
     svg
       .append("g")
-      .attr("class", "elevationChartGrid")
+      .attr("class", "chartGrid")
       .attr("transform", `translate(0, ${height})`)
       .call(
         makeXGridlines(xScale)
           .tickSize(-height)
           .tickFormat("")
       )
-    // Make Y grid:
+    // MAKE Y GRID:
     svg
       .append("g")
-      .attr("class", "elevationChartGrid")
+      .attr("class", "chartGrid")
       .call(
         makeYGridlines(yScale)
           .tickSize(-width)
@@ -195,8 +201,8 @@ class Chart extends React.Component {
   }
 
   render() {
-    const { data } = this.state
-    return <ChartStyles {...this.props}>{this.props.children}</ChartStyles>
+    const { data, children, ...rest } = this.props
+    return <ChartStyles {...rest}>{children}</ChartStyles>
   }
 }
 

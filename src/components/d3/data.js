@@ -531,5 +531,5 @@ module.exports = {
     { x: 25, y: 40000 }
   ],
 
-  fakeData4: allData.map(d => ({ x: d.elevation, y: d.resolution }))
+  fakeData4: stratifiedValues.map(d => ({ x: d.elevation, y: d.resolution }))
 }
