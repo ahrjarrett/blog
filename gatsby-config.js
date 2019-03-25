@@ -10,7 +10,12 @@ module.exports = {
     author: {
       name: `Andrew Jarrett`,
       minibio: `Andrew Jarrett is a React contractor and functional programming advocate who lives in Austin, Texas with his pomeranian Ash Nabisco.`,
-      image: `/images/headshot.jpeg`
+      image: `/images/headshot.jpeg`,
+      social: {
+        linkedin: `https://www.linkedin.com/in/andrewhjarrett/`,
+        github: `https://github.com/ahrjarrett`,
+        twitter: `https://twitter.com/ahrjarrett`
+      }
     }
   },
   //pathPrefix: `/test`,

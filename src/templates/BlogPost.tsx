@@ -73,11 +73,7 @@ export const query = graphql`
     }
     metadata: site {
       siteMetadata {
-        author {
-          name
-          minibio
-          image
-        }
+        ...AuthorFragment
       }
     }
   }
