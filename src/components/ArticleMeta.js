@@ -8,7 +8,7 @@ const ArticleMetaStyles = styled.div`
   .byline-social {
     display: none;
   }
-
+/* 
   ${media.tabletLg`
     .byline {
       position: absolute;
@@ -17,20 +17,16 @@ const ArticleMetaStyles = styled.div`
       flex-direction: column;
       align-items: start;
       border-bottom: none;
-      /* date */
       & > :nth-child(4) {
         order: 1;
       }
-      /* author name */
       & > :nth-child(2) {
         order: 2;
       }
-      /* share buttons */
       & > :nth-child(5) {
         order: 3;
         display: inherit;
       }
-      /* headshot */
       & > :nth-child(3) {
         display: none;
       }
@@ -66,7 +62,7 @@ const ArticleMetaStyles = styled.div`
       align-items: center;
     }
 
-  `};
+  `}; */
 `
 
 const ArticleMeta = ({ author, date }) => (
