@@ -175,16 +175,16 @@ const TitleSubtitle = ({ data }: Props) => {
                 <h1>{title}</h1>
               </div>
             </div>
-            <div className="hero">
-              {/* <img src="/images/hero.jpeg" /> */}
-              {/* <div className="hero-img" /> */}
-              {/* <span className="hero-img-overlay" /> */}
-              <Img fluid={data.file.childImageSharp.fluid} />
-            </div>
           </div>
-          <div className="blurb">
-            <h3>{description}</h3>
+          <div className="hero">
+            {/* <img src="/images/hero.jpeg" /> */}
+            {/* <div className="hero-img" /> */}
+            {/* <span className="hero-img-overlay" /> */}
+            <Img fluid={data.file.childImageSharp.fluid} />
           </div>
+        </div>
+        <div className="blurb">
+          <h3>{description}</h3>
         </div>
       </div>
     </TitleSubtitleStyles>

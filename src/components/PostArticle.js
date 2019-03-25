@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "gatsby"
+import Img from "gatsby-image"
 import PropTypes from "prop-types"
+import styled from "styled-components"
 import MDXRenderer from "gatsby-mdx/mdx-renderer"
 
 import * as s from "./styles/PostArticle.styles"
@@ -9,75 +11,137 @@ const PostArticle = ({
   body,
   date,
   excerpt,
-  image,
+  imagePath,
+  sharpImage,
   tags,
   title,
   prev,
   next
-}) => (
-  <s.ArticleStyles image={image} className="article-content">
-    <div className="section-stretch">
-      <article>
-        <div className="byline">
-          <span className="by">By</span>
-          <h4>
+}) => {
+  const [state, setState] = useState({ width: 0, fontSize: 0 })
+  let article
+  let h2
+  let width
+  let fontSize
+  useEffect(() => {
+    article = document.getElementById("postArticle")
+    h2 = document.getElementById("h2Size")
+    width = article.offsetWidth
+    fontSize = window.getComputedStyle(h2, null).getPropertyValue("font-size")
+
+    window.h2 = h2
+    window.fontSize = fontSize
+
+    setState(() => ({ width, fontSize }))
+  }, [])
+
+  return (
+    <s.ArticleStyles
+      sharpImage={sharpImage}
+      imagePath={imagePath}
+      className="article-content"
+    >
+      <div className="section-stretch">
+        <article id="postArticle">
+          <div className="byline">
+            <span className="by">By</span>
+            <h4>
+              <a
+                href="https://thegrepper.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Andrew Jarrett
+              </a>
+            </h4>
             <a
+              className="author-img"
               href="https://thegrepper.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Andrew Jarrett
+              <img src="/images/headshot.jpeg" alt="Andrew Jarrett" />
             </a>
-          </h4>
-          <a
-            className="author-img"
-            href="https://thegrepper.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img src="/images/headshot.jpeg" alt="Andrew Jarrett" />
-          </a>
-          <h4>{date}</h4>
-        </div>
-        <p className="lead-paragraph">{excerpt}</p>
+            <h4>{date}</h4>
+          </div>
+          <p className="lead-paragraph">{excerpt}</p>
 
-        <div className="article-img">
-          <span className="img-overlay" />
-          <div className="article-img-overlay">
-            <h2>{title}</h2>
-            <h3>
-              tags:{" "}
-              {tags.map((t, i) => (
-                <Link key={i} to={"/tags/" + t}>
-                  {t}
+          {console.log("WIDTH IN RENDER:", width)}
+          {sharpImage ? (
+            <div
+              className="sharp-article-img"
+              style={
+                !state.width
+                  ? null
+                  : {
+                      width: state.width,
+                      height: state.width / sharpImage.aspectRatio
+                    }
+              }
+            >
+              <div className="article-img-overlay sharp-img-overlay">
+                <Img fluid={sharpImage} />
+
+                <h2
+                  id="h2Size"
+                  style={{
+                    top: !state.fontSize
+                      ? `inherit`
+                      : `calc(50% - ${state.fontSize} - 20px`
+                  }}
+                >
+                  {title}
+                </h2>
+                <h3>
+                  tags:{" "}
+                  {tags.map((t, i) => (
+                    <Link key={i} to={"/tags/" + t}>
+                      {t}
+                    </Link>
+                  ))}
+                </h3>
+              </div>
+            </div>
+          ) : (
+            <div className="article-img">
+              <div className="article-img-overlay">
+                <span className="img-overlay" />
+                <h2 id="h2Size">{title}</h2>
+                <h3>
+                  tags:{" "}
+                  {tags.map((t, i) => (
+                    <Link key={i} to={"/tags/" + t}>
+                      {t}
+                    </Link>
+                  ))}
+                </h3>
+              </div>
+            </div>
+          )}
+
+          <MDXRenderer>{body}</MDXRenderer>
+
+          <div className="article-footer" style={{ marginBottom: "1rem" }}>
+            <div className="footer-prev">
+              {prev && (
+                <Link to={`/posts${prev.frontmatter.path}`}>
+                  ← Previous Post: {prev.frontmatter.title}
                 </Link>
-              ))}
-            </h3>
+              )}
+            </div>
+            <div className="footer-next">
+              {next && (
+                <Link to={`/posts${next.frontmatter.path}`}>
+                  → Next Post: {next.frontmatter.title}
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
-
-        <MDXRenderer>{body}</MDXRenderer>
-
-        <div className="article-footer" style={{ marginBottom: "1rem" }}>
-          <div className="footer-prev">
-            {prev && (
-              <Link to={`/posts${prev.frontmatter.path}`}>
-                ← Previous Post: {prev.frontmatter.title}
-              </Link>
-            )}
-          </div>
-          <div className="footer-next">
-            {next && (
-              <Link to={`/posts${next.frontmatter.path}`}>
-                → Next Post: {next.frontmatter.title}
-              </Link>
-            )}
-          </div>
-        </div>
-      </article>
-    </div>
-  </s.ArticleStyles>
-)
+        </article>
+      </div>
+    </s.ArticleStyles>
+  )
+}
 
 PostArticle.propTypes = {
   body: PropTypes.string.isRequired,
@@ -85,7 +149,8 @@ PostArticle.propTypes = {
   excerpt: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string.isRequired,
-  image: PropTypes.string,
+  imagePath: PropTypes.string,
+  sharpImage: PropTypes.object,
   next: PropTypes.object,
   prev: PropTypes.object
 }

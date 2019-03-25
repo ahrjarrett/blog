@@ -68,6 +68,7 @@ exports.createPages = ({ graphql, actions }) => {
                   path
                   tags
                   published
+                  image
                 }
               }
             }
@@ -79,7 +80,7 @@ exports.createPages = ({ graphql, actions }) => {
         createTagPages(createPage, posts)
 
         posts.forEach(({ node }, index) => {
-          const { path, published } = node.frontmatter
+          const { path, published, image } = node.frontmatter
           // bail if post is not published yet
           if (!published) return
 
@@ -90,7 +91,8 @@ exports.createPages = ({ graphql, actions }) => {
               // using "pathSlug" bc "path" is a reserved keyword
               pathSlug: path,
               prev: index === 0 ? null : posts[index - 1].node,
-              next: index === posts.length - 1 ? null : posts[index + 1].node
+              next: index === posts.length - 1 ? null : posts[index + 1].node,
+              image
             }
           })
 

@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link } from "gatsby"
+import Img from "gatsby-image"
 import styled from "styled-components"
 import { media } from "./theme/mixins"
 
@@ -57,7 +58,6 @@ const CardMeta = styled.div`
 
   /* padding: 0; */
   ${media.tablet`
-    /* padding: 0 0.625rem; */
     padding: 0 0.875rem;
   `};
 `
@@ -92,17 +92,22 @@ const TagsContainer = styled.div`
 
 interface Props {
   frontmatter: FrontmatterI
+  img?: object
 }
 
 // date, path, tags, title, excerpt, image
-const Card: React.FunctionComponent<Props> = ({ frontmatter }) => {
+const Card: React.FunctionComponent<Props> = ({ frontmatter, img }) => {
   const { date, excerpt, path, tags, title, image } = frontmatter
   return (
     <CardWrapper>
       <CardContent>
         <ImgWrapper>
           <Link to={`/posts${path}`}>
-            <img src={image} alt="some alt" />
+            {img ? (
+              <Img fluid={img.fluid} />
+            ) : (
+              <img src={`/images/${image}`} alt="some alt" />
+            )}
           </Link>
         </ImgWrapper>
         <CardMeta>
