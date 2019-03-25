@@ -1,6 +1,6 @@
 import React from "react"
 import * as d3 from "d3"
-import { data } from "../../pages/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react-pt-2/data"
+import { data } from "./data"
 import { ChartStyles } from "./Chart.styles"
 
 const margin = { top: 0, right: 0, bottom: 15, left: 50 }
