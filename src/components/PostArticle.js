@@ -5,6 +5,7 @@ import PropTypes from "prop-types"
 import styled from "styled-components"
 import MDXRenderer from "gatsby-mdx/mdx-renderer"
 
+import ArticleMeta from "./ArticleMeta"
 import * as s from "./styles/PostArticle.styles"
 
 const PostArticle = ({
@@ -12,6 +13,7 @@ const PostArticle = ({
   date,
   excerpt,
   imagePath,
+  metadata,
   sharpImage,
   tags,
   title,
@@ -43,27 +45,7 @@ const PostArticle = ({
     >
       <div className="section-stretch">
         <article id="postArticle">
-          <div className="byline">
-            <span className="by">By</span>
-            <h4>
-              <a
-                href="https://thegrepper.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Andrew Jarrett
-              </a>
-            </h4>
-            <a
-              className="author-img"
-              href="https://thegrepper.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src="/images/headshot.jpeg" alt="Andrew Jarrett" />
-            </a>
-            <h4>{date}</h4>
-          </div>
+          <ArticleMeta date={date} author={metadata.author} />
           <p className="lead-paragraph">{excerpt}</p>
 
           {console.log("WIDTH IN RENDER:", width)}

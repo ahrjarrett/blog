@@ -95,6 +95,21 @@ interface Props {
   img?: object
 }
 
+const SharpImg = styled(Img)`
+  &:hover {
+    div + img {
+      opacity: 1 !important;
+      transition: none !important;
+    }
+    img + picture > img {
+      opacity: 0 !important;
+    }
+    span: {
+      opacity: 1 !important;
+    }
+  }
+`
+
 // date, path, tags, title, excerpt, image
 const Card: React.FunctionComponent<Props> = ({ frontmatter, img }) => {
   const { date, excerpt, path, tags, title, image } = frontmatter
@@ -104,7 +119,7 @@ const Card: React.FunctionComponent<Props> = ({ frontmatter, img }) => {
         <ImgWrapper>
           <Link to={`/posts${path}`}>
             {img ? (
-              <Img fluid={img.fluid} />
+              <SharpImg fluid={img.fluid} />
             ) : (
               <img src={`/images/${image}`} alt="some alt" />
             )}

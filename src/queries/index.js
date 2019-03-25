@@ -13,3 +13,18 @@ export const FrontmatterFragment = graphql`
     }
   }
 `
+
+export const AuthorFragment = graphql`
+  fragment AuthorFragment on SiteSiteMetadata {
+    author {
+      name
+      minibio
+      image
+      social {
+        github
+        linkedin
+        twitter
+      }
+    }
+  }
+`
