@@ -9,13 +9,9 @@ excerpt: "Part 2: Data visualization is too fun. My team made an app that consum
 published: true
 ---
 
-import MapWithMarkers from "../../components/maps/MapWithMarkers"
-import LoadMapsApi from "../../components/maps/LoadMapsApi"
-import D3Version from "./D3Version"
 import * as d3 from "d3"
-
-import { markerPositionsNZ, mapCenterNZ } from "../../components/maps/data"
-;<LoadMapsApi />
+import D3Version from "./D3Version"
+import Chart from "../../components/d3/Chart"
 
 ## Drawing the Chart
 
@@ -152,3 +148,110 @@ const yScale = d3
   .domain([d3.min(data, co => co.y), d3.max(data, co => co.y)])
   .range([height, 0])
 ```
+
+`d3.scaleLinear` is a function that creates a scale based on the domain and range you pass it.
+
+1. `domain` takes an array of 2 values that represent the maximum and minimum values in our data set.
+
+To avoid having to hardcode this, we can use `d3.min` and `d3.max`, passing in our entire data set and a function that tells D3 how to resolve our data objects to the values we care about.
+
+In this case, because the x-axis only cares about `data.x` and our y-axis only cares about `data.y`, mapping out the domain is really simple:
+
+```javascript
+d3.scaleLinear().domain([d3.min(data, co => co.y), d3.max(data, co => co.y)])
+```
+
+2. `range` takes an array of 2 values that represent the boundaries of our svg chart as they will be drawn on the screen.
+
+Cool! Let’s draw the chart. We won’t be plotting the data yet, but it should render at the side we expect based on the data we pass in.
+
+### Drawing the SVG
+
+How do we actually draw the chart?
+
+We're going to use D3 the select a DOM node, append an svg element, give it some attributes, and append elements to it (=path= and =g= elements, specifically).
+
+```javascript
+const svg = d3
+  .select("#elevationChart")
+  .append("svg")
+  .attr("width", 750)
+  .attr("height", 155)
+  .attr("viewBox", "0 0 " + width + " " + 160)
+```
+
+D3 is nice to read. Even without knowing the library, we can follow what is going on. D3 selectors and DOM mutations are so much easier to work with than vanilla JavaScript!
+
+_Aside:_ It’s almost _too_ easy with D3! We should be mindful of this, and only be mutating our chart, and delegate any other stateful effects to React to be handled more responsibly.
+
+Let’s call `drawChart` when the component has mounted, and voilà!
+
+<Chart style={{ paddingTop: "25px", paddingBottom: "10px" }} />
+
+**Look, we did a thing!** We’re like, _artists_ or something.
+
+Here’s what the code looks like right now. This is just everything we’ve done thus far, put together:
+
+```jsx
+import React from "react"
+import * as d3 from "d3"
+import { data } from "./data" // This would be an API call IRL!
+const margin = { top: 0, right: 0, bottom: 15, left: 50 }
+const width = 700 - margin.left - margin.right
+const height = 155 - margin.top - margin.bottom
+
+export default class Chart extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: null
+    }
+  }
+
+  componentDidMount() {
+    this.setState({ data }, () => this.drawChart())
+  }
+
+  drawChart = () => {
+    const { data } = this.state
+    const xScale = d3
+      .scaleLinear()
+      .domain(d3.extent(data, d => d.x))
+      .range([0, width])
+    const yScale = d3
+      .scaleLinear()
+      .domain([d3.min(data, co => co.y), d3.max(data, co => co.y)])
+      .range([height, 0])
+    const svg = d3
+      .select("#elevationChart")
+      .append("svg")
+      .attr("width", 700)
+      .attr("height", 155)
+      .attr("viewBox", "0 0 " + width + " " + 160)
+      .attr("preserveAspectRatio", "xMinYMid")
+      .append("g")
+      .attr("transform", `translate(${margin.left}, 2.5)`)
+
+    svg
+      .append("g")
+      .attr("transform", `translate(0, ${height})`)
+      .call(d3.axisBottom(xScale))
+
+    svg.append("g").call(d3.axisLeft(yScale))
+  }
+
+  render() {
+    return (
+      <div style={{
+        display: "flex",
+        justify-content: "center",
+        box-shadow: "rgba(0, 0, 0, 0.1) 0px 0px 0.625rem 0px"
+      }}>
+        {this.state.data.length > 0 && <div id="elevationChart" />}
+      </div>
+    )
+  }
+}
+```
+
+This is all pretty simple and stateful. We draw a chart by mutating the DOM and pass it our data. But how do we know what our x- and y-domains are without labels?
