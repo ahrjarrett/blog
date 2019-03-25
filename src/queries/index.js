@@ -6,6 +6,7 @@ export const FrontmatterFragment = graphql`
       title
       date(formatString: "MMM DD, YYYY")
       image
+      sharpImage
       excerpt
       path
       tags

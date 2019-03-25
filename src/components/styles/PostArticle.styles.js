@@ -53,10 +53,7 @@ export const ArticleStyles = styled.article`
     }
   }
 
-
   ${media.newPhone`
-
-
     p, li {
       font-size: 1.0625rem;
     }
@@ -70,8 +67,6 @@ export const ArticleStyles = styled.article`
 
   ol {
     margin-left: 2.25rem;
-  }
-
   }
 
   ${media.tablet`
@@ -162,9 +157,10 @@ export const ArticleStyles = styled.article`
 
   .article-img {
     position: relative;
-    height: 14rem;
+    /* height: 14rem; */
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+
     span.img-overlay {
       position: absolute;
       z-index: 1;
@@ -172,7 +168,7 @@ export const ArticleStyles = styled.article`
       left: 0;
       width: 100%;
       height: 100%;
-      /* background: url(${props => props.image}); */
+      background-image: ${props => `url(${props.imagePath})`};
       background-repeat: no-repeat;
       background-position: center center;
       background-size: cover;
@@ -196,7 +192,6 @@ export const ArticleStyles = styled.article`
     z-index: 2;
     top: 0;
     left: 0;
-    height: 100%;
     background: ${props => props.theme.tertiaryTrans};
 
     h2,
@@ -221,7 +216,7 @@ export const ArticleStyles = styled.article`
       font-size: 1.5rem;
       max-width: 100%;
       text-align: center;
-      text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+      text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
       padding-left: 1rem;
       padding-right: 1rem;
     }
@@ -232,7 +227,6 @@ export const ArticleStyles = styled.article`
       font-size: 0.9375rem;
     }
     a {
-
       color: white;
       margin-right: 0.5rem;
       ${linkHoverMixin};
@@ -262,6 +256,27 @@ export const ArticleStyles = styled.article`
         font-size: 1.125rem;
       }
     `};
+  }
+
+  .sharp-article-img {
+    position: relative;
+    /* height: ${props => props.sharpImage.presentationHeight + "px"}; */
+    /* max-height: ${props => props.sharpImage.presentationHeight}; */
+    height: ${({ sharpImage }) =>
+      !sharpImage
+        ? null
+        : sharpImage.aspectRatio * (sharpImage.presentationHeight / 2) + "px"};
+  }
+
+  .sharp-img-overlay {
+    background: unset;
+    h2 {
+      position: absolute;
+      /* top: calc(50% - 1.125rem); */
+      margin: 0;
+      padding: 0;
+      line-height: 1.2;
+    }
   }
 
   .article-footer {

@@ -32,6 +32,12 @@ const IndexStyles = styled.div`
 
 const Index = ({ data, location }) => {
   const { edges } = data.allMdx
+  const { edges: imgEdges } = data.allFile
+  const imgs = imgEdges.reduce((acc, curr) => {
+    const { node } = curr
+    acc[node.relativePath] = node.childImageSharp
+    return acc
+  }, {})
 
   return (
     <Layout location={location}>
@@ -42,10 +48,14 @@ const Index = ({ data, location }) => {
           <h3>Latest Blog Posts</h3>
         </div>
         <CardsWrapper>
-          {edges.map(edge => {
-            const { frontmatter } = edge.node
+          {edges.map(({ node }) => {
+            const { frontmatter } = node
             return !frontmatter.published ? null : (
-              <Card key={frontmatter.path} frontmatter={frontmatter} />
+              <Card
+                key={frontmatter.path}
+                frontmatter={frontmatter}
+                img={imgs[frontmatter.image]}
+              />
             )
           })}
         </CardsWrapper>
@@ -63,7 +73,7 @@ const Index = ({ data, location }) => {
         >
           Hi! Not sure how you got here but I’m glad you did{" "}
           <span role="img" aria-label="sunflower">
-       🌻
+            🌻
           </span>
           <br />
           <br />
@@ -100,6 +110,24 @@ export const query = graphql`
             excerpt
             tags
             image
+          }
+        }
+      }
+    }
+    allFile(
+      filter: {
+        sourceInstanceName: { eq: "images" }
+        extension: { ne: "gif" }
+        base: { regex: "/.(png|jpg|jpeg)$/" }
+      }
+    ) {
+      edges {
+        node {
+          relativePath
+          childImageSharp {
+            fixed(width: 500) {
+              ...GatsbyImageSharpFixed
+            }
           }
         }
       }
