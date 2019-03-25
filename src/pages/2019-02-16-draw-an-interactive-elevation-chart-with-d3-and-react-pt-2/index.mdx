@@ -164,13 +164,13 @@ d3.scaleLinear().domain([d3.min(data, co => co.y), d3.max(data, co => co.y)])
 
 2. `range` takes an array of 2 values that represent the boundaries of our svg chart as they will be drawn on the screen.
 
-Cool! Let’s draw the chart. We won’t be plotting the data yet, but it should render at the side we expect based on the data we pass in.
+Cool! Let’s draw the chart. We won’t be plotting the data yet, but it should render at the size we expect based on the data we pass in.
 
 ### Drawing the SVG
 
 How do we actually draw the chart?
 
-We're going to use D3 the select a DOM node, append an svg element, give it some attributes, and append elements to it (=path= and =g= elements, specifically).
+We're going to use D3 the select a DOM node, append an svg element, give it some attributes, and append elements to it (`path` and `g` elements, specifically).
 
 ```javascript
 const svg = d3
@@ -438,4 +438,176 @@ Let’s see how our gridlines turned out:
   <div id="chart4" />
 </Chart>
 
-This stuff isn’t super hard. Think of all the stuff we can draw. What if we could consume an API to paint a picture of how little crypto is worth today, compared to its market cap 2 years ago?
+See? This stuff isn’t so bad. Think of all the stuff we can draw. What if we could consume an API to paint a picture of how little crypto is worth today, compared to its market cap 2 years ago?
+
+To do that, we would simply use a [D3 time-scale](https://github.com/d3/d3-scale#time-scales) instead of a linear-scale. That’s outside the scope of this tutorial, but it isn’t hard to do once you understand `scaleLinear`.
+
+## Creating User Interaction
+
+This is where our app becomes dynamic.
+
+Although the data for this blog is hardcoded, you could use the Google Maps Markers API to allow users to drag and drop pins on a map (see [Part I for more info on maps and markers](/posts/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react)).
+
+D3 gives you some callback functions that give you control over when and how your visualizations should rerender. Let’s see how that works.
+
+### 1. Create an Infobox & Crossbar on Hover
+
+When a user hovers over our chart, they should be able to see specific data for that particular intersection.
+
+Changes along the x-axis will draw a vertical line (which I’m calling a `crossBar`) at that point, and next to it an `infobox` should read back the specific x- and y- values at the nearest point.
+
+We’re going to use D3 to create them; note that their display is initialized to `none` because the user has not yet hovered:
+
+```javascript
+const crossBar = svg
+  .append("g")
+  .attr("class", "crossBar")
+  .style("display", "none")
+
+crossBar
+  .append("line")
+  .attr("x1", 0)
+  .attr("x2", 0)
+  .attr("y1", height)
+  .attr("y2", 0)
+
+crossBar
+  .append("text")
+  .attr("x", 10)
+  .attr("y", 17.5)
+  .attr("class", "crossBarText")
+
+const infoBox = svg
+  .append("g")
+  .attr("class", "infoBox")
+  .style("display", "none")
+
+infoBox
+  .append("rect")
+  .attr("x", 0)
+  .attr("y", 10)
+  .style("height", 45)
+  .style("width", 125)
+
+const infoBoxElevation = infoBox
+  .append("text")
+  .attr("x", 8)
+  .attr("y", 30)
+  .attr("class", "infoBoxElevation")
+
+infoBoxElevation
+  .append("tspan")
+  .attr("class", "infoBoxElevationTitle")
+  .text("Elev: ")
+
+infoBoxElevation.append("tspan").attr("class", "infoBoxElevationValue")
+```
+
+These are both just SVG elements that we’re creating, so we have access to all the same methods and utilities that we used for our chart.
+
+Next we need to create a `rect` element that will act as an overlay for our entire chart. The overlay will have a higher z-index than the chart so that it takes precedence when receiving mouseover events.
+
+```javascript
+svg
+  .append("rect")
+  .attr("class", "chartOverlay")
+  .attr("width", width)
+  .attr("height", height)
+  .on("mouseover", function() {
+    crossBar.style("display", null)
+    infoBox.style("display", null)
+  })
+  .on("mouseout", function() {
+    crossBar.style("display", "none")
+    infoBox.style("display", "none")
+  })
+  .on("mousemove", mousemove)
+
+function mousemove() {
+  return null
+}
+```
+
+Did you see that? I snuck in the event handlers. A dozen lines of code is all it took!
+
+D3 makes it easy to manage events with its `on` method, which might remind you of jQuery.
+
+We create our overlay, giving it the same width and height as our chart, along with a className so we give it absolute positioning and a z-index higher than the chart.
+
+Then we define 3 eventhandlers: one when a user mouses over our overlay, one when a user mouses out, and one that listens for changes in the user’s screenX and screenY coordinates.
+
+If you’re familiar with eventhandlers then you probably already see what this code is doing. Since we stored references to our crossBar and infoBox earlier, we can mutate their display to appear or disapear when the user enters or exits the chart with her mouse.
+
+We will implement `mousemove` next, as it requires a little extra work. For now it’s just a noop to satisfy the compiler.
+
+Let’s fire things up and see if our eventhandlers do what we want:
+
+<Chart
+  targetNode={"#chart5"}
+  data={data.fakeData5}
+  transform="translate(47.5, 5)"
+  ticks={true}
+  gridlines={true}
+  lineColor="127, 54, 61"
+  fillColor="250, 104, 118"
+  background="rgba(255,163,85,0.15)"
+>
+  <div id="chart5" />
+</Chart>
+
+This is getting fun. Now the user can hover over the area chart and get a localized display of the elevation and distance at that point in space.
+
+There were a couple other things I had to implement to get this to work, namely the `mousemove` function.
+
+After we get through this part, the last thing to do is wire this chart up to a map so they can start working together.
+
+## D3 Event Callbacks & Bisection
+
+Bisection. It just sounds hard. To be honest I didn’t fully understand why this was the right solution until after I saw it in action (and even then it still took some time to sink in).
+
+Let’s eat the frog and learn about bisecting data.
+
+### 1. Bisecting
+
+```javascript
+const bisect = d3.bisector(function(d) {
+  return d.x
+}).left
+```
+
+[WIP]
+
+### 2. D3 Callbacks
+
+Phew, now that that’s over, callbacks are going to be easy. Let’s dive right in.
+
+Check out what the `mouseover` function is doing.
+
+**Note** that it needs to be a function declaration or a function expression so we keep `this` context around — _an arrow function won’t work_ unless you keep a reference to this around (remember, these aren’t React classes, so in my opinion `apply` would be my preference over `bind`).
+
+```javascript
+// NEEDS TO BE A FUNCTION EXPRESSION FOR ACCESS TO `THIS`!
+function mousemove() {
+  const x0 = xScale.invert(d3.mouse(this)[0])
+  const i = bisect(data, x0, 1)
+  const d0 = data[i - 1]
+  const d1 = data[i]
+  const d = !d1 ? d0 : x0 - d0.x > d1.x - x0 ? d1 : d0
+  crossBar.attr("transform", `translate(${xScale(d.x)}, 0)`)
+  crossBar.select("text").text(d3.format(".1f")(metersToMiles(d.x)) + " mi")
+  infoBox.attr("transform", `translate(${xScale(d.x) + 10}, 12.5)`)
+  infoBox
+    .select(".infoBoxElevationValue")
+    .text(d3.format(",.0f")(metersToFeet(d.y)) + " ft")
+  infoBox.select(".infoBoxGradeValue").text(d3.format(".1%")(d.grade))
+  return null
+}
+```
+
+That’s it. There’s a lot going on in there, and we’ll unpack it, but that’s all the set up for our elevation chart.
+
+We already got our maps set up last time, but if you aren’t familiar with the Google Maps API I recommend [reading this first](/posts/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react), as it goes over the exact requirements that we need to finish up this project.
+
+Almost done. We’ll put the finishing touches on our feature in Part 3.
+
+Until next time!

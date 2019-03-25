@@ -32,14 +32,17 @@ class Chart extends React.Component {
   }
 
   drawChart = () => {
-    const { data } = this.props
+    const { data, xResolver, yResolver } = this.props
     const xScale = d3
       .scaleLinear()
-      .domain(d3.extent(data, d => d.x))
+      .domain(d3.extent(data, xResolver ? xResolver : d => d.x))
       .range([0, width])
     const yScale = d3
       .scaleLinear()
-      .domain([d3.min(data, co => co.y), d3.max(data, co => co.y)])
+      .domain([
+        d3.min(data, yResolver ? yResolver : co => co.y),
+        d3.max(data, yResolver ? yResolver : co => co.y)
+      ])
       .range([height, 0])
 
     const svg = d3
@@ -162,7 +165,6 @@ class Chart extends React.Component {
           .tickSize(-height)
           .tickFormat("")
       )
-
     // MAKE Y GRID:
     svg
       .append("g")
@@ -191,6 +193,114 @@ class Chart extends React.Component {
         .style("fill", this.props.fillColor)
         .style("fill-opacity", 0.25)
       // chart4? This is your last stop.
+      return
+    }
+
+    const crossBar = svg
+      .append("g")
+      .attr("class", "crossBar")
+      .style("display", "none")
+
+    crossBar
+      .append("line")
+      .attr("x1", 0)
+      .attr("x2", 0)
+      .attr("y1", height)
+      .attr("y2", 0)
+
+    crossBar
+      .append("text")
+      .attr("x", 10)
+      .attr("y", 17.5)
+      .attr("class", "crossBarText")
+
+    const infoBox = svg
+      .append("g")
+      .attr("class", "infoBox")
+      .style("display", "none")
+
+    infoBox
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", 10)
+      .style("height", 45)
+      .style("width", 125)
+
+    const infoBoxElevation = infoBox
+      .append("text")
+      .attr("x", 8)
+      .attr("y", 30)
+      .attr("class", "infoBoxElevation")
+
+    infoBoxElevation
+      .append("tspan")
+      .attr("class", "infoBoxElevationTitle")
+      .text("Elev: ")
+
+    infoBoxElevation.append("tspan").attr("class", "infoBoxElevationValue")
+
+    // MOUSE IN / OUT EVENTS
+    svg
+      .append("rect")
+      .attr("class", "chartOverlay")
+      .attr("width", width)
+      .attr("height", height)
+      .on("mouseover", function(e) {
+        console.log("mouse in!", e)
+        crossBar.style("display", null)
+        infoBox.style("display", null)
+        // blip.style("display", null)
+      })
+      .on("mouseout", function(e) {
+        console.log("mouse out!", e)
+        crossBar.style("display", "none")
+        infoBox.style("display", "none")
+        // blip.style("display", "none")
+      })
+      .on("mousemove", mousemove)
+
+    //
+    const bisect = d3.bisector(function(d) {
+      return d.x
+    }).left
+
+    function mousemove() {
+      const x0 = xScale.invert(d3.mouse(this)[0])
+      const i = bisect(data, x0, 1)
+      const d0 = data[i - 1]
+      const d1 = data[i]
+      const d = !d1 ? d0 : x0 - d0.x > d1.x - x0 ? d1 : d0
+      crossBar.attr("transform", `translate(${xScale(d.x)}, 0)`)
+      crossBar.select("text").text(d3.format(".1f")(metersToMiles(d.x)) + " mi")
+      infoBox.attr("transform", `translate(${xScale(d.x) + 10}, 12.5)`)
+      infoBox
+        .select(".infoBoxElevationValue")
+        .text(d3.format(",.0f")(metersToFeet(d.y)) + " ft")
+      infoBox.select(".infoBoxGradeValue").text(d3.format(".1%")(d.grade))
+      // const { x: px, y: py } = fromLatLngToPoint(d.location, window.map)
+      // blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
+
+      // return null
+    }
+
+    // #chart5
+    if (this.props.data.length === 100) {
+      const area = d3
+        .area()
+        .x(d => xScale(d.x))
+        .y0(yScale(yScale.domain()[0]))
+        .y1(d => yScale(d.y))
+        .curve(d3.curveCatmullRom.alpha(0.005))
+      svg
+        .append("path")
+        .attr("d", area(data))
+        .attr("class", "chartLine")
+        .style("stroke", this.props.lineColor)
+        .style("stroke-opacity", 0.3)
+        .style("stroke-width", 1)
+        .style("fill", this.props.fillColor)
+        .style("fill-opacity", 0.25)
+      // adios, #chart5
       return
     }
 
