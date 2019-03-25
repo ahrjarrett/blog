@@ -104,7 +104,7 @@ const Card: React.FunctionComponent<Props> = ({ frontmatter, img }) => {
         <ImgWrapper>
           <Link to={`/posts${path}`}>
             {img ? (
-              <Img fixed={img.fixed} />
+              <Img fluid={img.fluid} />
             ) : (
               <img src={`/images/${image}`} alt="some alt" />
             )}
