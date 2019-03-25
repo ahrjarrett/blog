@@ -9,7 +9,6 @@ export const ChartStyles = styled.div`
   margin: 1.875rem auto 2.725rem;
   border-radius: 2px;
 
-
   background: ${({ background }) => background || "#fff"};
   line {
     stroke: ${({ lineColor }) => `rgba(${lineColor}, ${0.4})`};
@@ -36,10 +35,7 @@ export const ChartStyles = styled.div`
   path.domain {
     stroke: ${({ lineColor }) => `rgba(${lineColor}, ${0.5})`};
     fill: none;
-
-
-  /* #1d78af */
-
+  }
 
   text.crossBarText {
     fill: #666;
