@@ -16,7 +16,7 @@ class Map extends React.PureComponent {
   }
 
   componentDidMount() {
-    setTimeout(() => this.renderMap(), 500)
+    setTimeout(this.renderMap, 1000)
   }
 
   componentDidUpdate(prevProps) {
@@ -26,6 +26,8 @@ class Map extends React.PureComponent {
   }
 
   renderMap = () => {
+    console.log("calling render map!")
+
     const { title } = this.props
     const map = new window.google.maps.Map(this.mapRef.current, {
       center: this.props.center,

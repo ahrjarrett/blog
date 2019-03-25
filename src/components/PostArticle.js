@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import { Link } from "gatsby"
 import Img from "gatsby-image"
 import PropTypes from "prop-types"
-import styled from "styled-components"
 import MDXRenderer from "gatsby-mdx/mdx-renderer"
 
 import ArticleMeta from "./ArticleMeta"

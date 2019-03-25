@@ -1,6 +1,6 @@
 import React from "react"
 import * as d3 from "d3"
-import { data } from "../../pages/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react-pt-2/data"
+import { data } from "./data"
 import { ChartStyles } from "./Chart.styles"
 
 const margin = { top: 0, right: 0, bottom: 15, left: 50 }
@@ -11,13 +11,13 @@ export const numOfSamples = 100
 export const metersToMiles = m => m * 0.000621371
 export const metersToFeet = m => m * 3.28084
 
-const arraysEqual = (arr1, arr2) => {
-  if (arr1.length !== arr2.length) return false
-  for (let i = arr1.length; i--; ) {
-    if (arr1[i] !== arr2[i]) return false
-  }
-  return true
-}
+// const arraysEqual = (arr1, arr2) => {
+//   if (arr1.length !== arr2.length) return false
+//   for (let i = arr1.length; i--; ) {
+//     if (arr1[i] !== arr2[i]) return false
+//   }
+//   return true
+// }
 
 class Chart extends React.Component {
   constructor(props) {

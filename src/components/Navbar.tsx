@@ -164,7 +164,15 @@ class Navbar extends React.Component<NavbarProps, NavbarState> {
     this.setState({ y: window.scrollY })
     window.addEventListener("scroll", this.handleScroll)
   }
+
+  shouldComponentUpdate(nextProps: NavbarProps, nextState: NavbarState) {
+    if (7 > Math.abs(this.state.y - nextState.y)) return false
+    return true
+  }
+
   componentDidUpdate(prevProps: NavbarProps, prevState: NavbarState) {
+    console.log("component updated! y:", this.state.y)
+
     if (prevState.y !== window.scrollY) {
       if (this.state.y > 500)
         this.setState({ y: window.scrollY, showLogo: true })
