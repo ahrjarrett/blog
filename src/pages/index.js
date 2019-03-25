@@ -125,8 +125,8 @@ export const query = graphql`
         node {
           relativePath
           childImageSharp {
-            fluid {
-              ...GatsbyImageSharpFluid
+            fluid(traceSVG: { background: "#dbd4e2", color: "#fff" }) {
+              ...GatsbyImageSharpFluid_tracedSVG
             }
           }
         }

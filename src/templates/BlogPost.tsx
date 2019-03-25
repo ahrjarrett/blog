@@ -17,7 +17,7 @@ const Template: React.FunctionComponent<Props> = ({
   pageContext,
   location
 }) => {
-  const { mdx, img } = data
+  const { mdx, img, metadata } = data
   const { frontmatter } = mdx
   const { title, date, excerpt, tags } = frontmatter
   const { code } = mdx
@@ -46,6 +46,7 @@ const Template: React.FunctionComponent<Props> = ({
           body={code.body}
           next={next}
           prev={prev}
+          metadata={metadata.siteMetadata}
         />
       </s.BlogPostStyles>
     </Layout>
@@ -67,6 +68,15 @@ export const query = graphql`
           ...GatsbyImageSharpFluid_tracedSVG
           presentationHeight
           presentationWidth
+        }
+      }
+    }
+    metadata: site {
+      siteMetadata {
+        author {
+          name
+          minibio
+          image
         }
       }
     }
