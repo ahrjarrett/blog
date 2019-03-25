@@ -172,7 +172,7 @@ export const ArticleStyles = styled.article`
       left: 0;
       width: 100%;
       height: 100%;
-      background: url(${props => props.image});
+      /* background: url(${props => props.image}); */
       background-repeat: no-repeat;
       background-position: center center;
       background-size: cover;

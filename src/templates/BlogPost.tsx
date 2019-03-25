@@ -19,9 +19,12 @@ const Template: React.FunctionComponent<Props> = ({
 }) => {
   const { mdx } = data
   const { frontmatter } = mdx
-  const { title, date, excerpt, tags, image } = frontmatter
+  const { title, date, excerpt, tags } = frontmatter
   const { code } = mdx
-  const { prev, next } = pageContext
+  const { prev, next, img } = pageContext
+
+  console.log("pageContext:", pageContext)
+  console.log("data:", data)
 
   return (
     <Layout location={location}>
@@ -38,7 +41,7 @@ const Template: React.FunctionComponent<Props> = ({
           excerpt={excerpt}
           tags={tags}
           title={title}
-          image={image}
+          image={data.img}
           body={code.body}
           next={next}
           prev={prev}
@@ -49,12 +52,24 @@ const Template: React.FunctionComponent<Props> = ({
 }
 
 export const query = graphql`
-  query($pathSlug: String!) {
+  query($pathSlug: String!, $image: String!) {
     mdx(frontmatter: { path: { eq: $pathSlug } }) {
       code {
         body
       }
       ...FrontmatterFragment
+    }
+    img: file(relativePath: { eq: $image }) {
+      relativePath
+      childImageSharp {
+        fluid(
+          maxWidth: 1408
+        ) # traceSVG: { color: "#30866f", turnPolicy: TURNPOLICY_MINORITY }
+        {
+          tracedSVG
+          ...GatsbyImageSharpFluid
+        }
+      }
     }
   }
 `

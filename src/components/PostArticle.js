@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "gatsby"
+import Img from "gatsby-image"
 import PropTypes from "prop-types"
 import MDXRenderer from "gatsby-mdx/mdx-renderer"
 
@@ -16,6 +17,7 @@ const PostArticle = ({
   next
 }) => (
   <s.ArticleStyles image={image} className="article-content">
+    {console.log("POST ARTICLE image:", image)}
     <div className="section-stretch">
       <article>
         <div className="byline">
@@ -42,8 +44,9 @@ const PostArticle = ({
         <p className="lead-paragraph">{excerpt}</p>
 
         <div className="article-img">
-          <span className="img-overlay" />
           <div className="article-img-overlay">
+            <Img fluid={image.childImageSharp.fluid} />
+            {/* <span className="img-overlay" /> */}
             <h2>{title}</h2>
             <h3>
               tags:{" "}
@@ -85,7 +88,7 @@ PostArticle.propTypes = {
   excerpt: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string.isRequired,
-  image: PropTypes.string,
+  image: PropTypes.object,
   next: PropTypes.object,
   prev: PropTypes.object
 }

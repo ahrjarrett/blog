@@ -102,7 +102,7 @@ const Card: React.FunctionComponent<Props> = ({ frontmatter }) => {
       <CardContent>
         <ImgWrapper>
           <Link to={`/posts${path}`}>
-            <img src={image} alt="some alt" />
+            <img src={`/images/${image}`} alt="some alt" />
           </Link>
         </ImgWrapper>
         <CardMeta>
