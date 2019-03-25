@@ -12,6 +12,7 @@ published: true
 import * as d3 from "d3"
 import D3Version from "./D3Version"
 import Chart from "../../components/d3/Chart"
+import data from "../../components/d3/data"
 
 ## Drawing the Chart
 
@@ -186,7 +187,13 @@ _Aside:_ It’s almost _too_ easy with D3! We should be mindful of this, and onl
 
 Let’s call `drawChart` when the component has mounted, and voilà!
 
-<Chart style={{ paddingTop: "25px", paddingBottom: "10px" }} />
+<Chart
+  targetNode={"#chart1"}
+  data={data.fakeData1}
+  transform="translate(47.6, 7.5)"
+>
+  <div id="chart1" />
+</Chart>
 
 **Look, we did a thing!** We’re like, _artists_ or something.
 
@@ -255,3 +262,122 @@ export default class Chart extends React.Component {
 ```
 
 This is all pretty simple and stateful. We draw a chart by mutating the DOM and pass it our data. But how do we know what our x- and y-domains are without labels?
+
+Before we get into labelling the axes, let’s draw something first!!
+
+What if we gave our chart some data? Let’s pass it 3 points:
+
+```jsx
+const data = [
+  { x: 5, y: 15 },
+  { x: 15, y: 20 },
+  { x: 35, y: 5 }
+]
+<Chart data={data} />
+```
+
+Remember, the domains of our `xScale` and `yScale` are created by functions that are calculating the bounds of our chart.
+
+There’s nothing magical about `x` and `y` here, it’s just where I told the D3 functions to look:
+
+```javascript
+xScale.domain(d3.extent(data, d => d.x))
+
+yScale.domain([d3.min(data, co => co.y), d3.max(data, co => co.y)])
+```
+
+Before our chart will render, we need to tell D3 1.) what kind of visualization we want to draw, and 2.) where
+
+In this case, we decided to draw an area chart — basically a line chart with shading underneath.
+
+Here’s all we have to do!
+
+1. Configure our visualization & pass D3 our scales, so it knows where on the screen to plot each point:
+2. Append a path element to our SVG with a `d` attribute containing our data, along with how we want things to render:
+
+```javascript
+// 1.)
+const area = d3
+  .area()
+  .x(d => xScale(d.x))
+  .y0(yScale(yScale.domain()[0]))
+  .y1(d => yScale(d.y))
+
+// 2.)
+svg
+  .append("path")
+  .attr("d", area(data))
+  .attr("class", "chartLine")
+  .style("stroke", "#787979")
+  .style("stroke-opacity", 0.2)
+  .style("stroke-width", 1)
+  .style("fill", "#787979")
+  .style("fill-opacity", 0.2)
+```
+
+Input:
+
+```
+{ x: 5, y: 15 },
+{ x: 15, y: 20 },
+{ x: 35, y: 5 }
+```
+
+Let’s try it out:
+
+<!-- prettier-ignore -->
+<Chart
+  targetNode={"#chart2"}
+  data={data.fakeData2}
+  transform="translate(47.5, 5)"
+><div id="chart2" />
+</Chart>
+
+_Whoaaa! Who said we wanted labels?_
+
+D3 automatically created ticks for our axes. We’ll adjust these later, but for now we get those for free.
+
+Let’s feed it more data. Can we do something to soften those points a bit?
+
+We can use D3’s `curve` method across our y points and pass it a function name that none of us will ever remember, `curveCatmullRom`:
+
+While we’re there, let’s customize our ticks and add a grid for better visualization:
+
+```javascript
+d3.area()
+  .x(d => /* ... */)
+  .y0(yScale( /* ... */)
+  .y1(d => /* ... */)
+  .curve(d3.curveCatmullRom.alpha(0.005))
+
+// Let’s write functions that handle spacing our ticks out:
+const xAxisTicks = 8
+const yAxisTicks = 6
+const makeXGridlines = xScale => d3.axisBottom(xScale).ticks(xAxisTicks)
+const makeYGridlines = yScale => d3.axisLeft(yScale).ticks(yAxisTicks)
+
+d3.axisBottom(xScale)
+  // ...
+  .ticks(yAxisTicks)
+  .tickSize(0)
+  .tickPadding(9)
+
+d3.axisLeft(yScale)
+  // ...
+  .tickSize(0)
+  .tickPadding(8)
+  .ticks(yAxisTicks)
+```
+
+Cool! Let’s see how it looks.
+
+<Chart
+  targetNode={"#chart3"}
+  data={data.fakeData3}
+  transform="translate(47.5, 5)"
+  ticks={true}
+>
+  <div id="chart3" />
+</Chart>
+
+Blalkjlkj!

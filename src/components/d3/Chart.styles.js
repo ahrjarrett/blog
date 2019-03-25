@@ -3,9 +3,15 @@ import styled from "styled-components"
 export const ChartStyles = styled.div`
   display: flex;
   justify-content: center;
+  width: 508px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0.625rem 0px;
-  margin-top: 1.875rem;
-  margin-bottom: 2.725rem;
+  padding-top: 4px;
+  margin: 1.875rem auto 2.725rem;
+  /* background: yellow; */
+  background: rgba(51, 225, 208, 0.33);
+
+  svg {
+  }
 `
 
 // export const ChartStyles = styled.div`
