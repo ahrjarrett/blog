@@ -380,4 +380,51 @@ Cool! Let’s see how it looks.
   <div id="chart3" />
 </Chart>
 
-Blalkjlkj!
+Looking pretty good. What about those gridlines?
+
+If we’re feeling clever, we can just make another set of ticks that scale along the same x- and y-scales, only _these will stretch the entire height/width of the svg_.
+
+```javascript
+// Make X grid:
+svg
+  .append("g")
+  .attr("class", "chartGrid")
+  .attr("transform", `translate(0, ${height})`)
+  .call(
+    makeXGridlines(xScale)
+      // STRETCH IT PARALLEL TO Y:
+      .tickSize(-height)
+      // NO FORMAT, THESE JUST BE LINES:
+      .tickFormat("")
+  )
+
+// Make Y grid:
+svg
+  .append("g")
+  .attr("class", "chartGrid")
+  .call(
+    makeYGridlines(yScale)
+      // STRETCH IT PARALLEL TO X:
+      .tickSize(-width)
+      // NO FORMAT, THESE JUST BE LINES:
+      .tickFormat("")
+  )
+```
+
+You might be noticing a pattern: When we want to add a new feature or visualization,
+
+> _We start by 1.) appending to our SVG element (or “selecting” an existing one), then 2.) configure the appended/selected element by chaining the methods calls we need, 3.) occasionally using `.call` when we need to hook into a different context or functionality._
+
+Let’s see how the gridlines turn out:
+
+<Chart
+  targetNode={"#chart4"}
+  data={data.fakeData4}
+  transform="translate(47.5, 5)"
+  ticks={true}
+  gridslines={true}
+>
+  <div id="chart4" />
+</Chart>
+
+Hokay!

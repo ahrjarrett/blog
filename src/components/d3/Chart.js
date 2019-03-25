@@ -11,21 +11,14 @@ export const numOfSamples = 100
 export const metersToMiles = m => m * 0.000621371
 export const metersToFeet = m => m * 3.28084
 
-// NEW CONSTANTS:
+// NEW STUFF
+// Constants:
 const aspectRatio = width / height
 const xAxisTicks = 8
 const yAxisTicks = 6
-// NEW HELPER FUNCTIONS FOR DRAWING GRIDLINES:
+// Helper functions for drawing the gridlines:
 const makeXGridlines = xScale => d3.axisBottom(xScale).ticks(xAxisTicks)
 const makeYGridlines = yScale => d3.axisLeft(yScale).ticks(yAxisTicks)
-
-// const arraysEqual = (arr1, arr2) => {
-//   if (arr1.length !== arr2.length) return false
-//   for (let i = arr1.length; i--; ) {
-//     if (arr1[i] !== arr2[i]) return false
-//   }
-//   return true
-// }
 
 class Chart extends React.Component {
   constructor(props) {
@@ -34,19 +27,16 @@ class Chart extends React.Component {
       data: this.props.data ? this.props.data : data
     }
   }
-
   componentDidMount() {
     this.drawChart()
   }
 
   drawChart = () => {
-    const { data } = this.state
-
+    const { data } = this.props
     const xScale = d3
       .scaleLinear()
       .domain(d3.extent(data, d => d.x))
       .range([0, width])
-
     const yScale = d3
       .scaleLinear()
       .domain([d3.min(data, co => co.y), d3.max(data, co => co.y)])
@@ -67,12 +57,12 @@ class Chart extends React.Component {
       )
       .attr("preserveAspectRatio", "xMinYMid")
       .append("g")
-      // NOW WE CAN "NUDGE" OUR MAIN GROUP ELEMENT AS NEEDED VIA PROPS:
+      // WE CAN TWEAK OUR CHART’s POSITIONING IF NEEDED VIA PROPS:
       .attr("transform", this.props.transform)
 
-    /****************/
-    /*** NO TICKS ***/
-    /****************/
+    /*****************/
+    /*** NO TICKS? ***/
+    /*****************/
     if (!this.props.ticks) {
       svg
         .append("g")
@@ -129,8 +119,59 @@ class Chart extends React.Component {
         .tickPadding(8)
     )
 
-    // #chart3
-    if (this.props.data.length === 5) {
+    /*********************/
+    /*** NO GRIDLINES? ***/
+    /*********************/
+    if (!this.props.gridlines) {
+      // #chart3
+      if (this.props.data.length === 5) {
+        const area = d3
+          .area()
+          .x(d => xScale(d.x))
+          .y0(yScale(yScale.domain()[0]))
+          .y1(d => yScale(d.y))
+          .curve(d3.curveCatmullRom.alpha(0.005))
+        svg
+          .append("path")
+          .attr("d", area(data))
+          .attr("class", "elevationChartLine")
+          .style("stroke", "#787979")
+          .style("stroke-opacity", 0.2)
+          .style("stroke-width", 1)
+          .style("fill", "#787979")
+          .style("fill-opacity", 0.2)
+        // chart3? This is your last stop.
+        return
+      }
+      // No gridlines? This is your last stop.
+      if (!this.props.gridlines) return
+    }
+    /************************/
+    /*** END NO GRIDLINES ***/
+    /**********************I*/
+
+    // Make X grid:
+    svg
+      .append("g")
+      .attr("class", "elevationChartGrid")
+      .attr("transform", `translate(0, ${height})`)
+      .call(
+        makeXGridlines(xScale)
+          .tickSize(-height)
+          .tickFormat("")
+      )
+    // Make Y grid:
+    svg
+      .append("g")
+      .attr("class", "elevationChartGrid")
+      .call(
+        makeYGridlines(yScale)
+          .tickSize(-width)
+          .tickFormat("")
+      )
+
+    // #chart4
+    if (this.props.data.length === 10) {
       const area = d3
         .area()
         .x(d => xScale(d.x))
@@ -146,7 +187,11 @@ class Chart extends React.Component {
         .style("stroke-width", 1)
         .style("fill", "#787979")
         .style("fill-opacity", 0.2)
+      // chart4? This is your last stop.
+      return
     }
+
+    console.log("somehow hit default block??")
   }
 
   render() {
