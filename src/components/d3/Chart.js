@@ -14,8 +14,8 @@ export const metersToFeet = m => m * 3.28084
 // NEW STUFF
 // Constants:
 const aspectRatio = width / height
-const xAxisTicks = 8
-const yAxisTicks = 6
+const xAxisTicks = 9
+const yAxisTicks = 8
 // Helper functions for drawing the gridlines:
 const makeXGridlines = xScale => d3.axisBottom(xScale).ticks(xAxisTicks)
 const makeYGridlines = yScale => d3.axisLeft(yScale).ticks(yAxisTicks)
@@ -81,12 +81,12 @@ class Chart extends React.Component {
         svg
           .append("path")
           .attr("d", area(data))
-          .attr("class", "elevationChartLine")
-          .style("stroke", "#787979")
-          .style("stroke-opacity", 0.2)
+          .attr("class", "chartLine")
+          .style("stroke", this.props.lineColor)
+          .style("stroke-opacity", 0.3)
           .style("stroke-width", 1)
-          .style("fill", "#787979")
-          .style("fill-opacity", 0.2)
+          .style("fill", this.props.fillColor)
+          .style("fill-opacity", 0.25)
       }
 
       // No ticks? This is your last stop.
@@ -134,12 +134,12 @@ class Chart extends React.Component {
         svg
           .append("path")
           .attr("d", area(data))
-          .attr("class", "elevationChartLine")
-          .style("stroke", "#787979")
-          .style("stroke-opacity", 0.2)
+          .attr("class", "chartLine")
+          .style("stroke", this.props.lineColor)
+          .style("stroke-opacity", 0.3)
           .style("stroke-width", 1)
-          .style("fill", "#787979")
-          .style("fill-opacity", 0.2)
+          .style("fill", this.props.fillColor)
+          .style("fill-opacity", 0.25)
         // chart3? This is your last stop.
         return
       }
@@ -156,11 +156,13 @@ class Chart extends React.Component {
       .append("g")
       .attr("class", "chartGrid")
       .attr("transform", `translate(0, ${height})`)
+
       .call(
         makeXGridlines(xScale)
           .tickSize(-height)
           .tickFormat("")
       )
+
     // MAKE Y GRID:
     svg
       .append("g")
@@ -182,12 +184,12 @@ class Chart extends React.Component {
       svg
         .append("path")
         .attr("d", area(data))
-        .attr("class", "elevationChartLine")
-        .style("stroke", "#787979")
-        .style("stroke-opacity", 0.2)
+        .attr("class", "chartLine")
+        .style("stroke", this.props.lineColor)
+        .style("stroke-opacity", 0.3)
         .style("stroke-width", 1)
-        .style("fill", "#787979")
-        .style("fill-opacity", 0.2)
+        .style("fill", this.props.fillColor)
+        .style("fill-opacity", 0.25)
       // chart4? This is your last stop.
       return
     }

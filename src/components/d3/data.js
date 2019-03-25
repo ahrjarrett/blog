@@ -487,9 +487,10 @@ const stratifiedValues = [
 ]
 
 module.exports = {
-  fakeData1: allData
-    .slice(0, 3)
-    .map(d => ({ x: d.elevation, y: d.resolution })),
+  fakeData1: [],
+  // fakeData1: allData
+  //   .slice(0, 3)
+  //   .map(d => ({ x: d.elevation, y: d.resolution })),
 
   fakeData2: [{ x: 5, y: 15 }, { x: 15, y: 20 }, { x: 35, y: 5 }],
 

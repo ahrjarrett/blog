@@ -191,6 +191,8 @@ Let’s call `drawChart` when the component has mounted, and voilà!
   targetNode={"#chart1"}
   data={data.fakeData1}
   transform="translate(47.6, 7.5)"
+  background="rgb(242, 246, 233)"
+  lineColor="51, 51, 51"
 >
   <div id="chart1" />
 </Chart>
@@ -330,6 +332,9 @@ Let’s try it out:
   targetNode={"#chart2"}
   data={data.fakeData2}
   transform="translate(47.5, 5)"
+  lineColor="29, 29, 29"
+  fillColor="102, 173, 204"
+  background="rgb(239, 245, 250)"
 ><div id="chart2" />
 </Chart>
 
@@ -376,6 +381,9 @@ Cool! Let’s see how it looks.
   data={data.fakeData3}
   transform="translate(47.5, 5)"
   ticks={true}
+  lineColor="87, 64, 67"
+  fillColor="146, 105, 111"
+  background="rgb(217, 223, 234)"
 >
   <div id="chart3" />
 </Chart>
@@ -415,7 +423,7 @@ You might be noticing a pattern: When we want to add a new feature or visualizat
 
 > _We start by 1.) appending to our SVG element (or “selecting” an existing one), then 2.) configure the appended/selected element by chaining the methods calls we need, 3.) occasionally using `.call` when we need to hook into a different context or functionality._
 
-Let’s see how the gridlines turn out:
+Let’s see how our gridlines turned out:
 
 <Chart
   targetNode={"#chart4"}
@@ -423,8 +431,11 @@ Let’s see how the gridlines turn out:
   transform="translate(47.5, 5)"
   ticks={true}
   gridlines={true}
+  lineColor="63, 62, 62"
+  background="rgb(253, 250, 243)"
+  fillColor="15, 103, 36"
 >
   <div id="chart4" />
 </Chart>
 
-Hokay!
+This stuff isn’t super hard. Think of all the stuff we can draw. What if we could consume an API to paint a picture of how little crypto is worth today, compared to its market cap 2 years ago?
