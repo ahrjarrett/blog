@@ -144,17 +144,12 @@ class Chart extends React.Component {
         return
       }
 
-      console.log("here?", this.props.targetNode, this.props.gridlines)
-
       // No gridlines? This is your last stop.
       if (!this.props.gridlines) return
     }
-
     /************************/
     /*** END NO GRIDLINES ***/
     /**********************I*/
-
-    console.log("making grid!!")
 
     // MAKE X GRID:
     svg

@@ -474,46 +474,16 @@ const allData = [
 ]
 
 const stratifiedValues = [
-  {
-    elevation: 35.73416519165039,
-    resolution: 11119.08790397644043
-  },
-  {
-    elevation: 95.52785110473633,
-    resolution: 12519.08790397644043
-  },
-  {
-    elevation: 45.94047927856445,
-    resolution: 13219.08790397644043
-  },
-  {
-    elevation: 66.14678955078125,
-    resolution: 13919.08790397644043
-  },
-  {
-    elevation: 26.35310363769531,
-    resolution: 16919.08790397644043
-  },
-  {
-    elevation: 96.55941772460938,
-    resolution: 15319.08790397644043
-  },
-  {
-    elevation: 26.76573181152344,
-    resolution: 12519.08790397644043
-  },
-  {
-    elevation: 126.97470855712891,
-    resolution: 9919.08790397644043
-  },
-  {
-    elevation: 108.1783561706543,
-    resolution: 88919.08790397644043
-  },
-  {
-    elevation: 55.38467025756836,
-    resolution: 11119.08790397644043
-  }
+  { elevation: 9000, resolution: 13919.08790397644 },
+  { elevation: 10000, resolution: 11119.08790397644 },
+  { elevation: 11000, resolution: 15319.08790397644 },
+  { elevation: 12000, resolution: 12519.08790397644 },
+  { elevation: 13000, resolution: 15919.08790397644 },
+  { elevation: 14500, resolution: 14519.08790397644 },
+  { elevation: 15500, resolution: 17219.08790397644 },
+  { elevation: 17000, resolution: 13119.08790397644 },
+  { elevation: 18500, resolution: 12919.08790397644 },
+  { elevation: 19500, resolution: 18919.08790397644 }
 ]
 
 module.exports = {
