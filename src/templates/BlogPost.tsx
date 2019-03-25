@@ -17,6 +17,10 @@ const Template: React.FunctionComponent<Props> = ({
   pageContext,
   location
 }) => {
+  console.log("data:", data)
+  console.log("pageContext:", pageContext)
+  console.log("location:", location)
+
   const { mdx, img, metadata } = data
   const { frontmatter } = mdx
   const { title, date, excerpt, tags } = frontmatter

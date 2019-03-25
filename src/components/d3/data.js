@@ -1,6 +1,8 @@
 const _ = { P: null }
 
-export const data = [
+// function allData() {
+// return [
+const allData = [
   {
     elevation: 35.73416519165039,
     location: _.P,
@@ -41,7 +43,11 @@ export const data = [
     location: _.P,
     resolution: 19.08790397644043
   },
-  { elevation: 37.1783561706543, location: _.P, resolution: 19.08790397644043 },
+  {
+    elevation: 37.1783561706543,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
   {
     elevation: 37.38467025756836,
     location: _.P,
@@ -72,7 +78,11 @@ export const data = [
     location: _.P,
     resolution: 19.08790397644043
   },
-  { elevation: 38.6225471496582, location: _.P, resolution: 19.08790397644043 },
+  {
+    elevation: 38.6225471496582,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
   {
     elevation: 38.82886123657227,
     location: _.P,
@@ -93,7 +103,11 @@ export const data = [
     location: _.P,
     resolution: 19.08790397644043
   },
-  { elevation: 39.8898811340332, location: _.P, resolution: 19.08790397644043 },
+  {
+    elevation: 39.8898811340332,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
   { elevation: 40, location: _.P, resolution: 19.08790397644043 },
   { elevation: 40, location: _.P, resolution: 19.08790397644043 },
   {
@@ -207,7 +221,11 @@ export const data = [
     location: _.P,
     resolution: 19.08790397644043
   },
-  { elevation: 47.8580436706543, location: _.P, resolution: 19.08790397644043 },
+  {
+    elevation: 47.8580436706543,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
   {
     elevation: 48.35052871704102,
     location: _.P,
@@ -278,8 +296,16 @@ export const data = [
     location: _.P,
     resolution: 19.08790397644043
   },
-  { elevation: 55.1331901550293, location: _.P, resolution: 19.08790397644043 },
-  { elevation: 55.6163330078125, location: _.P, resolution: 19.08790397644043 },
+  {
+    elevation: 55.1331901550293,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
+  {
+    elevation: 55.6163330078125,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
   {
     elevation: 56.09947967529297,
     location: _.P,
@@ -305,7 +331,11 @@ export const data = [
     location: _.P,
     resolution: 19.08790397644043
   },
-  { elevation: 58.6907958984375, location: _.P, resolution: 19.08790397644043 },
+  {
+    elevation: 58.6907958984375,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
   {
     elevation: 59.45002746582031,
     location: _.P,
@@ -341,8 +371,16 @@ export const data = [
     location: _.P,
     resolution: 19.08790397644043
   },
-  { elevation: 63.7640495300293, location: _.P, resolution: 19.08790397644043 },
-  { elevation: 64.5946273803711, location: _.P, resolution: 19.08790397644043 },
+  {
+    elevation: 63.7640495300293,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
+  {
+    elevation: 64.5946273803711,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
   {
     elevation: 65.31182098388672,
     location: _.P,
@@ -353,7 +391,11 @@ export const data = [
     location: _.P,
     resolution: 19.08790397644043
   },
-  { elevation: 66.808349609375, location: _.P, resolution: 19.08790397644043 },
+  {
+    elevation: 66.808349609375,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
   {
     elevation: 67.59652709960938,
     location: _.P,
@@ -419,6 +461,46 @@ export const data = [
     location: _.P,
     resolution: 19.08790397644043
   },
-  { elevation: 78.8784408569336, location: _.P, resolution: 19.08790397644043 },
-  { elevation: 80.05186462402344, location: _.P, resolution: 19.08790397644043 }
+  {
+    elevation: 78.8784408569336,
+    location: _.P,
+    resolution: 19.08790397644043
+  },
+  {
+    elevation: 80.05186462402344,
+    location: _.P,
+    resolution: 19.08790397644043
+  }
 ]
+
+const stratifiedValues = [
+  { elevation: 9000, resolution: 13919.08790397644 },
+  { elevation: 10000, resolution: 11119.08790397644 },
+  { elevation: 11000, resolution: 15319.08790397644 },
+  { elevation: 12000, resolution: 12519.08790397644 },
+  { elevation: 13000, resolution: 15919.08790397644 },
+  { elevation: 14500, resolution: 14519.08790397644 },
+  { elevation: 15500, resolution: 17219.08790397644 },
+  { elevation: 17000, resolution: 13119.08790397644 },
+  { elevation: 18500, resolution: 12919.08790397644 },
+  { elevation: 19500, resolution: 18919.08790397644 }
+]
+
+module.exports = {
+  fakeData1: [],
+  // fakeData1: allData
+  //   .slice(0, 3)
+  //   .map(d => ({ x: d.elevation, y: d.resolution })),
+
+  fakeData2: [{ x: 5, y: 15 }, { x: 15, y: 20 }, { x: 35, y: 5 }],
+
+  fakeData3: [
+    { x: 5, y: 15000 },
+    { x: 10, y: 25000 },
+    { x: 15, y: 17500 },
+    { x: 20, y: 35000 },
+    { x: 25, y: 40000 }
+  ],
+
+  fakeData4: stratifiedValues.map(d => ({ x: d.elevation, y: d.resolution }))
+}
