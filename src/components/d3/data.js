@@ -1294,7 +1294,7 @@ const apiResult = [
 
 const elevationAndDistanceData = [
   {
-    distance: 0.3667629794741334,
+    distance: 0,
     elevation: 208.4654998779297
   },
   {
@@ -1302,11 +1302,11 @@ const elevationAndDistanceData = [
     elevation: 200.7415466308594
   },
   {
-    distance: 61.269751764980285,
+    distance: 41.269751764980285,
     elevation: 201.1540679931641
   },
   {
-    distance: 86.22719663274702,
+    distance: 66.22719663274702,
     elevation: 213.8980865478516
   },
   {
@@ -1318,379 +1318,379 @@ const elevationAndDistanceData = [
     elevation: 219.6124267578125
   },
   {
-    distance: 96.47205648773371,
+    distance: 101.47205648773371,
     elevation: 217.0588531494141
   },
   {
-    distance: 99.97661352097276,
+    distance: 129.97661352097276,
     elevation: 220.0540161132812
   },
   {
-    distance: 106.92840617764764,
+    distance: 147.92840617764764,
     elevation: 219.0448150634766
   },
   {
-    distance: 119.28090693641225,
+    distance: 160.28090693641225,
     elevation: 218.0700225830078
   },
   {
-    distance: 136.10812070816803,
+    distance: 176.10812070816803,
     elevation: 216.4536590576172
   },
   {
-    distance: 144.2707888644914,
+    distance: 190.2707888644914,
     elevation: 214.69873046875
   },
   {
-    distance: 146.58284353616492,
+    distance: 200.58284353616492,
     elevation: 213.4475402832031
   },
   {
-    distance: 155.1711128781672,
+    distance: 210,
     elevation: 214.6163787841797
   },
   {
-    distance: 156.07488661879043,
+    distance: 220,
     elevation: 215.3140716552734
   },
   {
-    distance: 163.78363354474712,
+    distance: 230,
     elevation: 215.7596435546875
   },
   {
-    distance: 169.15533032604202,
+    distance: 240,
     elevation: 221.52880859375
   },
   {
-    distance: 171.6394548580762,
+    distance: 250,
     elevation: 229.4952697753906
   },
   {
-    distance: 171.86541490599217,
+    distance: 260,
     elevation: 223.4015197753906
   },
   {
-    distance: 198.96787435648156,
+    distance: 270,
     elevation: 260.1188049316406
   },
   {
-    distance: 210.18218204007889,
+    distance: 280,
     elevation: 266.4439697265625
   },
   {
-    distance: 214.2227523866236,
+    distance: 290,
     elevation: 268.9220275878906
   },
   {
-    distance: 228.0791527892818,
+    distance: 300,
     elevation: 270.1494750976562
   },
   {
-    distance: 241.31327651340473,
+    distance: 310,
     elevation: 273.5252075195312
   },
   {
-    distance: 248.22073148230305,
+    distance: 320,
     elevation: 257.8143005371094
   },
   {
-    distance: 248.97227883635776,
+    distance: 330,
     elevation: 205.828369140625
   },
   {
-    distance: 255.48755046575366,
+    distance: 340,
     elevation: 216.2489929199219
   },
   {
-    distance: 261.4258711194248,
+    distance: 350,
     elevation: 214.1855163574219
   },
   {
-    distance: 261.5169957811023,
+    distance: 360,
     elevation: 223.9269409179688
   },
   {
-    distance: 308.98964168467603,
+    distance: 370,
     elevation: 214.7544097900391
   },
   {
-    distance: 315.63719683622526,
+    distance: 380,
     elevation: 241.7630157470703
   },
   {
-    distance: 316.2272481787056,
+    distance: 390,
     elevation: 261.9411315917969
   },
   {
-    distance: 321.7533089139164,
+    distance: 400,
     elevation: 274.4602661132812
   },
   {
-    distance: 330.35607492346884,
+    distance: 410,
     elevation: 275.052734375
   },
   {
-    distance: 341.34618973931197,
+    distance: 420,
     elevation: 266.6972045898438
   },
   {
-    distance: 346.8677069604826,
+    distance: 430,
     elevation: 229.7441101074219
   },
   {
-    distance: 352.9397368543179,
+    distance: 440,
     elevation: 234.2593536376953
   },
   {
-    distance: 360.747546847916,
+    distance: 450,
     elevation: 251.4486389160156
   },
   {
-    distance: 371.3272259278806,
+    distance: 460,
     elevation: 272.5596923828125
   },
   {
-    distance: 372.050792431555,
+    distance: 470,
     elevation: 268.5795288085938
   },
   {
-    distance: 395.190555640053,
+    distance: 480,
     elevation: 269.9117126464844
   },
   {
-    distance: 397.34461708891456,
+    distance: 490,
     elevation: 268.9659423828125
   },
   {
-    distance: 420.4571315869425,
+    distance: 500,
     elevation: 283.599609375
   },
   {
-    distance: 421.13216448287983,
+    distance: 511,
     elevation: 277.8869323730469
   },
   {
-    distance: 440.7481071542958,
+    distance: 520,
     elevation: 288.4001159667969
   },
   {
-    distance: 443.055299919257,
+    distance: 530,
     elevation: 288.5170593261719
   },
   {
-    distance: 459.74745996425105,
+    distance: 540,
     elevation: 297.2708435058594
   },
   {
-    distance: 472.3402637076046,
+    distance: 550,
     elevation: 307.6650695800781
   },
   {
-    distance: 490.2674007084815,
+    distance: 560,
     elevation: 310.9549865722656
   },
   {
-    distance: 492.28024089716985,
+    distance: 570,
     elevation: 310.1150512695312
   },
   {
-    distance: 492.68932085124504,
+    distance: 580,
     elevation: 309.1929321289062
   },
   {
-    distance: 494.93017922366,
+    distance: 590,
     elevation: 307.8855590820312
   },
   {
-    distance: 496.8966071563907,
+    distance: 600,
     elevation: 312.03466796875
   },
   {
-    distance: 501.2415231364442,
+    distance: 610,
     elevation: 325.5296020507812
   },
   {
-    distance: 521.1627198957565,
+    distance: 620,
     elevation: 336.2627258300781
   },
   {
-    distance: 523.3884042050146,
+    distance: 630,
     elevation: 340.0868835449219
   },
   {
-    distance: 537.1125698694079,
+    distance: 640,
     elevation: 341.5326232910156
   },
   {
-    distance: 537.5495025607073,
+    distance: 650,
     elevation: 344.9880676269531
   },
   {
-    distance: 545.5157403421582,
+    distance: 660,
     elevation: 345.6429748535156
   },
   {
-    distance: 557.4384369324695,
+    distance: 670,
     elevation: 343.9293823242188
   },
   {
-    distance: 563.3059657017718,
+    distance: 680,
     elevation: 344.9425964355469
   },
   {
-    distance: 578.7078179978231,
+    distance: 690,
     elevation: 346.2476196289062
   },
   {
-    distance: 596.9935191457629,
+    distance: 700,
     elevation: 348.6870727539062
   },
   {
-    distance: 600.5456872238018,
+    distance: 710,
     elevation: 346.3411865234375
   },
   {
-    distance: 612.0746781192292,
+    distance: 720,
     elevation: 345.3456115722656
   },
   {
-    distance: 623.3724463929269,
+    distance: 730,
     elevation: 349.5463256835938
   },
   {
-    distance: 629.7171621899622,
+    distance: 740,
     elevation: 348.4678039550781
   },
   {
-    distance: 645.3806435436138,
+    distance: 750,
     elevation: 348.3419494628906
   },
   {
-    distance: 647.9399793203282,
+    distance: 760,
     elevation: 349.2908325195312
   },
   {
-    distance: 655.8207874531635,
+    distance: 770,
     elevation: 328.1813659667969
   },
   {
-    distance: 663.4255433216593,
+    distance: 780,
     elevation: 344.2744445800781
   },
   {
-    distance: 679.1840859478104,
+    distance: 790,
     elevation: 345.4434814453125
   },
   {
-    distance: 680.9893318640762,
+    distance: 800,
     elevation: 346.9253540039062
   },
   {
-    distance: 711.6353191929438,
+    distance: 810,
     elevation: 349.0373229980469
   },
   {
-    distance: 740.9254741381044,
+    distance: 820,
     elevation: 350.1113586425781
   },
   {
-    distance: 751.4417459672001,
+    distance: 830,
     elevation: 354.5068664550781
   },
   {
-    distance: 763.2063255133244,
+    distance: 840,
     elevation: 355.889404296875
   },
   {
-    distance: 771.832312910596,
+    distance: 850,
     elevation: 356.2119445800781
   },
   {
-    distance: 773.9586553721633,
+    distance: 860,
     elevation: 357.7274169921875
   },
   {
-    distance: 780.7343609662927,
+    distance: 870,
     elevation: 357.0878601074219
   },
   {
-    distance: 786.9594092197356,
+    distance: 880,
     elevation: 357.943359375
   },
   {
-    distance: 792.3321170780478,
+    distance: 890,
     elevation: 359.6107177734375
   },
   {
-    distance: 792.8869554108984,
+    distance: 900,
     elevation: 359.7586364746094
   },
   {
-    distance: 802.5170571934059,
+    distance: 910,
     elevation: 365.0949401855469
   },
   {
-    distance: 818.8270439811309,
+    distance: 920,
     elevation: 361.3578186035156
   },
   {
-    distance: 819.6820747678402,
+    distance: 930,
     elevation: 359.1947937011719
   },
   {
-    distance: 830.9413643473691,
+    distance: 940,
     elevation: 347.1509094238281
   },
   {
-    distance: 831.2960619280485,
+    distance: 950,
     elevation: 351.8184204101562
   },
   {
-    distance: 857.0340875117244,
+    distance: 960,
     elevation: 358.4487609863281
   },
   {
-    distance: 859.9094247553268,
+    distance: 970,
     elevation: 361.7689514160156
   },
   {
-    distance: 873.0106714752743,
+    distance: 980,
     elevation: 362.6664428710938
   },
   {
-    distance: 876.7718092786351,
+    distance: 990,
     elevation: 361.4955444335938
   },
   {
-    distance: 889.8373619010875,
+    distance: 1000,
     elevation: 357.4148254394531
   },
   {
-    distance: 894.5153095764997,
+    distance: 1010,
     elevation: 351.9860534667969
   },
   {
-    distance: 903.1439980559079,
+    distance: 1020,
     elevation: 345.9800720214844
   },
   {
-    distance: 907.3694115620469,
+    distance: 1030,
     elevation: 340.2865600585938
   },
   {
-    distance: 912.0300058795956,
+    distance: 1040,
     elevation: 335.7144165039062
   },
   {
-    distance: 915.2820683915164,
+    distance: 1050,
     elevation: 331.9167785644531
   },
   {
-    distance: 943.6004482984299,
+    distance: 1060,
     elevation: 330.6151733398438
   },
   {
-    distance: 998.1042879404758,
+    distance: 1070,
     elevation: 328.937255859375
   }
 ]

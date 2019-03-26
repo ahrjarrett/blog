@@ -239,30 +239,48 @@ class Chart extends React.Component {
 
     infoBoxElevation.append("tspan").attr("class", "infoBoxElevationValue")
 
+    // BISECTUAL
+    const bisect = d3.bisector(function(d) {
+      return d.x
+    }).left
+
+    if (this.props.data.length === 100) {
+      const area = d3
+        .area()
+        .x(d => xScale(d.x))
+        .y0(yScale(yScale.domain()[0]))
+        .y1(d => yScale(d.y))
+        .curve(d3.curveCatmullRom.alpha(0.005))
+      svg
+        .append("path")
+        .attr("d", area(data))
+        .attr("class", "chartLine")
+        .style("stroke", this.props.lineColor)
+        .style("stroke-opacity", 0.3)
+        .style("stroke-width", 1)
+        .style("fill", this.props.fillColor)
+        .style("fill-opacity", 0.25)
+      // Adios, #chart5 ✌ ️
+      // return
+    }
+
     // MOUSE IN / OUT EVENTS
     svg
       .append("rect")
       .attr("class", "chartOverlay")
       .attr("width", width)
       .attr("height", height)
-      .on("mouseover", function(e) {
-        console.log("mouse in!", e)
+      .on("mouseover", function() {
         crossBar.style("display", null)
         infoBox.style("display", null)
         // blip.style("display", null)
       })
       .on("mouseout", function(e) {
-        console.log("mouse out!", e)
         crossBar.style("display", "none")
         infoBox.style("display", "none")
         // blip.style("display", "none")
       })
       .on("mousemove", mousemove)
-
-    //
-    const bisect = d3.bisector(function(d) {
-      return d.x
-    }).left
 
     function mousemove() {
       const x0 = xScale.invert(d3.mouse(this)[0])
@@ -284,26 +302,6 @@ class Chart extends React.Component {
     }
 
     // #chart5
-    if (this.props.data.length === 100) {
-      const area = d3
-        .area()
-        .x(d => xScale(d.x))
-        .y0(yScale(yScale.domain()[0]))
-        .y1(d => yScale(d.y))
-        .curve(d3.curveCatmullRom.alpha(0.005))
-      svg
-        .append("path")
-        .attr("d", area(data))
-        .attr("class", "chartLine")
-        .style("stroke", this.props.lineColor)
-        .style("stroke-opacity", 0.3)
-        .style("stroke-width", 1)
-        .style("fill", this.props.fillColor)
-        .style("fill-opacity", 0.25)
-      // Adios, #chart5 ✌ ️
-      return
-    }
-
     console.log("somehow hit default block??")
   }
 
