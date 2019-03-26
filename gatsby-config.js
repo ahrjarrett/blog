@@ -4,7 +4,7 @@ module.exports = {
     shortTitle: `grep™`,
     subtitle: `Global Search Regex + Print`,
     description: `Here’s where I write stuff. Mostly about functional programming. But also sometimes about a book that a friend has recommended, or a dumb thought that my brain had.`,
-    canonicalUrl: `https://blog.thegrepper.com`,
+    canonicalUrl: `https://ahrjarrett.com`,
     image: `/images/the-grepper-monkey-see-monkey-flew.jpg`,
     altImage: `/images/the-grepper-goldfish-brain.jpg`,
     author: {
