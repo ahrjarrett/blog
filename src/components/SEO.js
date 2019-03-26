@@ -30,10 +30,6 @@ class SEO extends React.Component {
   componentDidMount() {
     const pageTitle = this.getPageTitle(this.state.isVisible)
 
-    if (window && window.location) {
-      this.canonicalUrl = new window.URL(window.location.href).origin
-    }
-
     const titleTemplate = this.makeTitleTemplate(
       this.state.isVisible,
       pageTitle
@@ -82,7 +78,7 @@ class SEO extends React.Component {
                 shortTitle
                 subtitle
                 # description
-                # canonicalUrl
+                canonicalUrl
                 image
                 altImage
                 author {
@@ -94,7 +90,6 @@ class SEO extends React.Component {
         `}
         render={({ site: { siteMetadata } }) => {
           const { frontmatter } = this.props
-          const { canonicalUrl } = this
           this.isBlogPost = this.props.isBlogPost
           this.isHomePage = this.props.isHomePage
           this.frontmatter = frontmatter
@@ -115,12 +110,15 @@ class SEO extends React.Component {
               <Helmet>
                 <html lang="en" />
                 <meta name="description" content={description} />
-                <meta property="image" content={`${canonicalUrl}${image}`} />
+                <meta
+                  property="image"
+                  content={`${siteMetadata.canonicalUrl}${image}`}
+                />
                 <link
                   rel="canonical"
-                  href={`${canonicalUrl}${this.props.pathname}`}
+                  href={`${siteMetadata.canonicalUrl}${this.props.pathname}`}
                 />
-                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:url" content={siteMetadata.canonicalUrl} />
                 <meta
                   property="og:title"
                   content={
@@ -128,7 +126,10 @@ class SEO extends React.Component {
                   }
                 />
                 <meta property="og:description" content={description} />
-                <meta property="og:image" content={`${canonicalUrl}${image}`} />
+                <meta
+                  property="og:image"
+                  content={`${siteMetadata.canonicalUrl}${image}`}
+                />
                 <meta property="og:type" content="website" />
                 <meta property="og:locale" content="en" />
                 <meta property="og:site_name" content={siteMetadata.title} />

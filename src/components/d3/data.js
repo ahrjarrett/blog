@@ -1697,9 +1697,6 @@ const elevationAndDistanceData = [
 
 module.exports = {
   fakeData1: [],
-  // fakeData1: allData
-  //   .slice(0, 3)
-  //   .map(d => ({ x: d.elevation, y: d.resolution })),
 
   fakeData2: [{ x: 5, y: 15 }, { x: 15, y: 20 }, { x: 35, y: 5 }],
 
@@ -1713,7 +1710,6 @@ module.exports = {
 
   fakeData4: stratifiedValues.map(d => ({ x: d.elevation, y: d.resolution })),
 
-  // fakeData5: mapData.map(d => ({ x: d.distance, y: d.elevation }))
   fakeData5: elevationAndDistanceData.map(data => ({
     x: data.distance,
     y: data.elevation
