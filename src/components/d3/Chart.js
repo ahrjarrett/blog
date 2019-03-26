@@ -239,51 +239,11 @@ class Chart extends React.Component {
 
     infoBoxElevation.append("tspan").attr("class", "infoBoxElevationValue")
 
-    // MOUSE IN / OUT EVENTS
-    svg
-      .append("rect")
-      .attr("class", "chartOverlay")
-      .attr("width", width)
-      .attr("height", height)
-      .on("mouseover", function(e) {
-        console.log("mouse in!", e)
-        crossBar.style("display", null)
-        infoBox.style("display", null)
-        // blip.style("display", null)
-      })
-      .on("mouseout", function(e) {
-        console.log("mouse out!", e)
-        crossBar.style("display", "none")
-        infoBox.style("display", "none")
-        // blip.style("display", "none")
-      })
-      .on("mousemove", mousemove)
-
-    //
+    // BISECTUAL
     const bisect = d3.bisector(function(d) {
       return d.x
     }).left
 
-    function mousemove() {
-      const x0 = xScale.invert(d3.mouse(this)[0])
-      const i = bisect(data, x0, 1)
-      const d0 = data[i - 1]
-      const d1 = data[i]
-      const d = !d1 ? d0 : x0 - d0.x > d1.x - x0 ? d1 : d0
-      crossBar.attr("transform", `translate(${xScale(d.x)}, 0)`)
-      crossBar.select("text").text(d3.format(".1f")(metersToMiles(d.x)) + " mi")
-      infoBox.attr("transform", `translate(${xScale(d.x) + 10}, 12.5)`)
-      infoBox
-        .select(".infoBoxElevationValue")
-        .text(d3.format(",.0f")(metersToFeet(d.y)) + " ft")
-      infoBox.select(".infoBoxGradeValue").text(d3.format(".1%")(d.grade))
-      // const { x: px, y: py } = fromLatLngToPoint(d.location, window.map)
-      // blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
-
-      // return null
-    }
-
-    // #chart5
     if (this.props.data.length === 100) {
       const area = d3
         .area()
@@ -300,10 +260,48 @@ class Chart extends React.Component {
         .style("stroke-width", 1)
         .style("fill", this.props.fillColor)
         .style("fill-opacity", 0.25)
-      // adios, #chart5
-      return
+      // Adios, #chart5 ✌ ️
+      // return
     }
 
+    // MOUSE IN / OUT EVENTS
+    svg
+      .append("rect")
+      .attr("class", "chartOverlay")
+      .attr("width", width)
+      .attr("height", height)
+      .on("mouseover", function() {
+        crossBar.style("display", null)
+        infoBox.style("display", null)
+        // blip.style("display", null)
+      })
+      .on("mouseout", function(e) {
+        crossBar.style("display", "none")
+        infoBox.style("display", "none")
+        // blip.style("display", "none")
+      })
+      .on("mousemove", mousemove)
+
+    function mousemove() {
+      const x0 = xScale.invert(d3.mouse(this)[0])
+      const i = bisect(data, x0, 1)
+      const d0 = data[i - 1]
+      const d1 = data[i]
+      const d = !d1 ? d0 : x0 - d0.x > d1.x - x0 ? d1 : d0
+      crossBar.attr("transform", `translate(${xScale(d.x)}, 0)`)
+      crossBar.select("text").text(d3.format(".1f")(metersToMiles(d.x)) + " mi")
+      infoBox.attr("transform", `translate(${xScale(d.x) + 10}, 12.5)`)
+      infoBox
+        .select(".infoBoxElevationValue")
+        .text(d3.format(",.0f")(metersToFeet(d.y)) + " ft")
+
+      // infoBox.select(".infoBoxGradeValue").text(d3.format(".1%")(d.grade))
+      // const { x: px, y: py } = fromLatLngToPoint(d.location, window.map)
+      // blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
+      return null
+    }
+
+    // #chart5
     console.log("somehow hit default block??")
   }
 
