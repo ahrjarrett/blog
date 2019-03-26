@@ -276,11 +276,11 @@ class Chart extends React.Component {
       infoBox
         .select(".infoBoxElevationValue")
         .text(d3.format(",.0f")(metersToFeet(d.y)) + " ft")
-      infoBox.select(".infoBoxGradeValue").text(d3.format(".1%")(d.grade))
+
+      // infoBox.select(".infoBoxGradeValue").text(d3.format(".1%")(d.grade))
       // const { x: px, y: py } = fromLatLngToPoint(d.location, window.map)
       // blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
-
-      // return null
+      return null
     }
 
     // #chart5
@@ -300,7 +300,7 @@ class Chart extends React.Component {
         .style("stroke-width", 1)
         .style("fill", this.props.fillColor)
         .style("fill-opacity", 0.25)
-      // adios, #chart5
+      // Adios, #chart5 ✌ ️
       return
     }
 
