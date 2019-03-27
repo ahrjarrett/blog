@@ -23,7 +23,7 @@ const Template: React.FunctionComponent<Props> = ({
 
   const { mdx, img, metadata } = data
   const { frontmatter } = mdx
-  const { title, date, excerpt, tags } = frontmatter
+  const { title, date, excerpt, tags, imgOverlay } = frontmatter
   const { code } = mdx
   const { prev, next, image } = pageContext
 
@@ -45,8 +45,9 @@ const Template: React.FunctionComponent<Props> = ({
           excerpt={excerpt}
           tags={tags}
           title={title}
-          imagePath={`/images/${image}`}
+          imagePath={`/static_imgs/${image}`}
           sharpImage={img.childImageSharp ? img.childImageSharp.fluid : null}
+          imgOverlay={imgOverlay}
           body={code.body}
           next={next}
           prev={prev}
