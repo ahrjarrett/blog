@@ -121,7 +121,7 @@ const Card: React.FunctionComponent<Props> = ({ frontmatter, img }) => {
             {img ? (
               <SharpImg fluid={img.fluid} />
             ) : (
-              <img src={`/images/${image}`} alt="some alt" />
+              <img src={`/static_imgs/${image}`} alt="some alt" />
             )}
           </Link>
         </ImgWrapper>
