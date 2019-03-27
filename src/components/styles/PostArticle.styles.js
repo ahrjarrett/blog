@@ -168,10 +168,8 @@ export const ArticleStyles = styled.article`
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: ${props => `url(${props.imagePath})`};
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
+
+      background: ${props => props.imgOverlay || props.theme.tertiaryTrans};
     }
 
     ${media.newPhone`
@@ -192,7 +190,11 @@ export const ArticleStyles = styled.article`
     z-index: 2;
     top: 0;
     left: 0;
-    background: ${props => props.theme.tertiaryTrans};
+
+      background-image: ${props => `url(${props.imagePath})`};
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
 
     h2,
     h3 {
@@ -269,13 +271,20 @@ export const ArticleStyles = styled.article`
   }
 
   .sharp-img-overlay {
-    background: unset;
+    background: ${({ imgOverlay }) => imgOverlay || "unset"};
     h2 {
       position: absolute;
       /* top: calc(50% - 1.125rem); */
       margin: 0;
       padding: 0;
       line-height: 1.2;
+    }
+    span.sharp-img-overlay-span {
+      background: ${({ imgOverlay }) => imgOverlay || "unset"};
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
     }
   }
 

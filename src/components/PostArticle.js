@@ -14,6 +14,7 @@ const PostArticle = ({
   imagePath,
   metadata,
   sharpImage,
+  imgOverlay,
   tags,
   title,
   prev,
@@ -39,6 +40,7 @@ const PostArticle = ({
   return (
     <s.ArticleStyles
       sharpImage={sharpImage}
+      imgOverlay={imgOverlay}
       imagePath={imagePath}
       className="article-content"
     >
@@ -47,7 +49,6 @@ const PostArticle = ({
           <ArticleMeta date={date} author={metadata.author} />
           <p className="lead-paragraph">{excerpt}</p>
 
-          {console.log("WIDTH IN RENDER:", width)}
           {sharpImage ? (
             <div
               className="sharp-article-img"
@@ -62,6 +63,7 @@ const PostArticle = ({
             >
               <div className="article-img-overlay sharp-img-overlay">
                 <Img fluid={sharpImage} />
+                <span className="sharp-img-overlay-span" />
 
                 <h2
                   id="h2Size"

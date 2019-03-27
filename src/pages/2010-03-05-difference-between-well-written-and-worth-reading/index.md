@@ -1,9 +1,10 @@
 ---
-path: "/2019-03-05-2019-03-05-difference-between-well-written-and-worth-reading"
-date: "2019-03-05"
+path: "/2010-03-05-difference-between-well-written-and-worth-reading"
+date: "2010-03-05"
 title: "The Difference Between Well-Written & Worth Reading"
-image: "2019-03-05-numerology-in-bangkok.jpg"
+image: "2010-03-05-numerology-in-bangkok.jpg"
 sharpImage: true
+imgOverlay: null
 tags: ["writing", "books", "literature"]
 excerpt: "All the Google dev domain buzz annoyed me until I saw ishmael.dev & ahab.dev for sale for $12. Unfortunately borges.dev was taken, but quixote.dev & karamazov.dev were tempting. Presently that got me thinking about..."
 published: false

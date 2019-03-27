@@ -71,7 +71,7 @@ const ArticleMeta = ({ author, date }) => (
       <span className="by">By</span>
       <h4 className="byline-author">
         <a
-          href="https://thegrepper.com/"
+          href="https://ahrjarrett.com/"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -80,7 +80,7 @@ const ArticleMeta = ({ author, date }) => (
       </h4>
       <a
         className="author-img"
-        href="https://thegrepper.com/"
+        href="https://ahrjarrett.com/"
         target="_blank"
         rel="noopener noreferrer"
       >
