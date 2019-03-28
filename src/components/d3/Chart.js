@@ -308,8 +308,6 @@ class Chart extends React.Component {
       // return
     }
 
-    const mapId = this.props.map
-
     let blip
     const makeBlip = () => {
       const blip = d3
@@ -328,7 +326,6 @@ class Chart extends React.Component {
         .style("color", "black")
         .style("color", "black")
         .style("display", "none")
-
       return blip
     }
 
@@ -339,7 +336,7 @@ class Chart extends React.Component {
       .attr("width", width)
       .attr("height", height)
       .on("mouseover", function() {
-        if (!blip) blip = makeBlip()
+        if (!blip && this.props.map) blip = makeBlip()
         crossBar.style("display", null)
         infoBox.style("display", null)
         blip.style("display", null)
