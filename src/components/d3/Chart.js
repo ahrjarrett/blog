@@ -58,7 +58,7 @@ class Chart extends React.Component {
       setTimeout(() => {
         console.log("setting map!")
         this.setState({ map: window.__map__Prague })
-      }, 3000)
+      }, 1250)
       // if (window) this.setState({ map: window.__map__Prague })
     }
   }
@@ -336,7 +336,7 @@ class Chart extends React.Component {
       .attr("width", width)
       .attr("height", height)
       .on("mouseover", function() {
-        if (!blip && this.props.map) blip = makeBlip()
+        if (!blip) blip = makeBlip()
         crossBar.style("display", null)
         infoBox.style("display", null)
         blip.style("display", null)
@@ -370,7 +370,6 @@ class Chart extends React.Component {
 
       window.blip = blip
 
-      console.log("in mousemove:")
       console.log("blip:", blip)
       console.log("px:", px)
       console.log("py:", py)

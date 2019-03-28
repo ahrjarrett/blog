@@ -13,71 +13,23 @@ class MapDrawn extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      elevationForLocations: [],
-      elevationSamples: [],
-      markers: [],
       map: null,
-      showDeltas: props.showDeltas,
-      showMarkers: false,
-      showPath: false,
       theme: props.theme
     }
     this._polyline = null
   }
 
-  componentDidMount() {}
-
   componentDidUpdate(prevProps, prevState) {
-    console.log("COMPONENT UPDATED:")
-    console.log("prevState:", prevState)
-    console.log("this.state.map:", this.state.map)
-    console.log("this.props.markerPositions:", this.props.markerPositions)
     if (this.state.map && !prevState.map) {
-      console.log("HAVE MAP NOW!")
       this.addMarkers(this.state.map, this.props.markerPositions)
       this.drawPath(this.state.map, this.props.markerPositions)
     }
   }
 
-  drawPath = (map, markers) => () => {
+  addMarkers = (map, positions) => {
     if (!window) return
-    const path = markers.map(marker => ({
-      lat: marker.getPosition().lat(),
-      lng: marker.getPosition().lng()
-    }))
-    const polyline = new window.google.maps.Polyline({
-      path,
-      strokeColor: "#000c3c",
-      strokeOpacity: 1,
-      strokeWeight: 2.5
-    })
-    this._polyline = polyline
-    polyline.setMap(map)
-    this.setState({ showPath: true })
-  }
-
-  removePath = () => {
-    if (this._polyline) this._polyline.setMap(null)
-    this.setState({ showPath: false })
-  }
-
-  setMapBounds = (map, positions) => {
-    let bounds = new window.google.maps.LatLngBounds()
-    positions.forEach(p => {
-      const bound = p.position
-        ? { lat: p.position.lat(), lng: p.position.lng() }
-        : { lat: p.lat, lng: p.lng }
-      bounds.extend(bound)
-    })
-    map.fitBounds(bounds)
-  }
-
-  addMarkers = (map, positions) => () => {
-    if (!window) return
-
     const { maps } = window.google
     const markers = []
-
     const icon = {
       url: mapMarker,
       anchor: new maps.Point(15, 30),
@@ -86,11 +38,10 @@ class MapDrawn extends React.PureComponent {
     }
     const label = {
       color: "white",
-      fontFamily: "Tra, serif",
+      fontFamily: "Tik, sans-serif",
       fontSize: "14px",
       fontWeight: "700"
     }
-
     positions.forEach((position, index) => {
       const marker = new maps.Marker({
         position,
@@ -102,17 +53,30 @@ class MapDrawn extends React.PureComponent {
       })
       markers.push(marker)
     })
-
     this.setMapBounds(map, markers)
-    this.setState({ markers, showMarkers: true })
   }
 
-  removeMarkers = map => () => {
-    this.state.markers.forEach(marker => marker.setMap(null))
-    this.removePath()
-    map.setCenter(this.props.center)
-    map.setZoom(this.props.zoom)
-    this.setState({ showMarkers: false, showPath: false, markers: [] })
+  drawPath = (map, path) => {
+    if (!window) return
+    const polyline = new window.google.maps.Polyline({
+      path,
+      strokeColor: "#000c3c",
+      strokeOpacity: 1,
+      strokeWeight: 2.5
+    })
+    this._polyline = polyline
+    polyline.setMap(map)
+  }
+
+  setMapBounds = (map, positions) => {
+    let bounds = new window.google.maps.LatLngBounds()
+    positions.forEach(p => {
+      const bound = p.position
+        ? { lat: p.position.lat(), lng: p.position.lng() }
+        : { lat: p.lat, lng: p.lng }
+      bounds.extend(bound)
+    })
+    map.fitBounds(bounds)
   }
 
   getElevationForLocations = (map, markers) => () => {
@@ -127,30 +91,6 @@ class MapDrawn extends React.PureComponent {
         )
       } else console.log("ELEVATION FOR LOCATIONS ERROR")
     })
-  }
-
-  getElevationAlongPath = (map, polyline) => () => {
-    const { maps } = window.google
-    const elevator = new maps.ElevationService()
-    elevator.getElevationAlongPath(
-      { path: polyline.getPath().j, samples: 100 },
-      (results, status) => {
-        if (status === "OK") {
-          // Keep this log around so reader can see API response in her console:
-          console.info(
-            "%c GET ELEVATION ALONG PATH SUCCESS, RESULTS:",
-            "background: green; color: white;",
-            results
-          )
-          // Strip off `resolution` field, we don't need it:
-          const elevationSamples = results.map(({ elevation, location }) => ({
-            elevation,
-            location
-          }))
-          this.setState({ elevationSamples })
-        }
-      }
-    )
   }
 
   createElevationInfoWindows = (map, markers) => {
@@ -171,13 +111,7 @@ class MapDrawn extends React.PureComponent {
   getChildMap = map => this.setState({ map })
 
   render() {
-    const {
-      elevationForLocations,
-      showDeltas,
-      showMarkers,
-      showPath,
-      theme
-    } = this.state
+    const { theme } = this.state
     const { markerPositions, title, type } = this.props
     return (
       <Map {...this.props} {...this.state} propogateMap={this.getChildMap}>
@@ -187,6 +121,7 @@ class MapDrawn extends React.PureComponent {
               <div
                 className={`googleMap map_${normalizeTitle(title)}`}
                 ref={ref}
+                id={`__map__${normalizeTitle(title)}`}
               />
               {map === null ? <h3>Loading... </h3> : <h3>{title}</h3>}
             </div>
@@ -194,54 +129,6 @@ class MapDrawn extends React.PureComponent {
               theme={theme}
               handleThemeToggle={this.handleThemeToggle}
             />
-            {/* {markerPositions.length > 0 && (
-              <div className="map-buttons">
-                <h4>Actions:</h4>
-                <button
-                  onClick={
-                    showMarkers
-                      ? this.removeMarkers(map)
-                      : this.addMarkers(map, markerPositions)
-                  }
-                >
-                  {showMarkers ? "Hide Markers!" : "Show Markers!"}
-                </button>
-
-                {showMarkers && (
-                  <button
-                    onClick={
-                      showPath
-                        ? this.removePath
-                        : this.drawPath(map, this.state.markers)
-                    }
-                  >
-                    {showPath ? "Hide Path!" : "Draw Path!"}
-                  </button>
-                )}
-
-                {showPath &&
-                  showDeltas &&
-                  (elevationForLocations.length === 0 ? (
-                    <button
-                      onClick={this.getElevationForLocations(
-                        map,
-                        this.state.markers
-                      )}
-                    >
-                      Get Elevations
-                    </button>
-                  ) : (
-                    <span>Click on a marker, any marker!</span>
-                  ))}
-
-                {showPath && type === "elevationAlongPath" && (
-                  <button
-                    onClick={this.getElevationAlongPath(map, this._polyline)}
-                  >
-                    Elevation Samples
-                  </button>
-                )} 
-              </div> */}
           </s.MapStyles>
         )}
       </Map>
