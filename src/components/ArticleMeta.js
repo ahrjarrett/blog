@@ -84,7 +84,7 @@ const ArticleMeta = ({ author, date }) => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src={author.image} alt={author.minobio} />
+        <img src={`/` + author.image} alt={author.minobio} />
       </a>
       <h4 className="byline-date">{date}</h4>
       <ul className="byline-social">

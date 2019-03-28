@@ -112,7 +112,7 @@ class SEO extends React.Component {
                 <meta name="description" content={description} />
                 <meta
                   property="image"
-                  content={`${siteMetadata.canonicalUrl}${image}`}
+                  content={`${siteMetadata.canonicalUrl}/${image}`}
                 />
                 <link
                   rel="canonical"
@@ -128,7 +128,7 @@ class SEO extends React.Component {
                 <meta property="og:description" content={description} />
                 <meta
                   property="og:image"
-                  content={`${siteMetadata.canonicalUrl}${image}`}
+                  content={`${siteMetadata.canonicalUrl}/${image}`}
                 />
                 <meta property="og:type" content="website" />
                 <meta property="og:locale" content="en" />

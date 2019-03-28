@@ -1,5 +1,5 @@
 ---
-path: "/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react"
+path: "/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react-pt-2"
 date: "2019-02-16"
 title: "Draw an Interactive Elevation Chart with D3 & React, Part 2"
 image: "2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react-pt-2.gif"
@@ -15,9 +15,15 @@ import D3Version from "./D3Version"
 import Chart from "../../components/d3/Chart"
 import data from "../../components/d3/data"
 
+This is part 2 of a 3-part series about using Google Maps and D3 to create an elevation graph that responds dynamically with user interaction. Here are all 3 posts:
+
+- [Part 1: Google Maps](/posts/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react)
+- [Part 2: D3 for Data Visualization](/posts/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react)
+- [Part 3: Creating User Interaction](/posts/2019-03-27-draw-an-interactive-elevation-chart-with-d3-and-react-pt-3)
+
 ## Drawing the Chart
 
-This is a series on using D3, React and the Google Maps API to create data visualizations. We’ll be building an interactive, dynamic area chart that plots distance on the x-axis and elevation on the y-axis.
+In this part (part 2), we’ll be building an interactive, dynamic area chart that plots distance on the x-axis and elevation on the y-axis.
 
 #### [Catch up on part 1 here!](/posts/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react)
 
@@ -131,7 +137,7 @@ const yAxisTicks = 6
 
 This is the conventional way of creating margins around your chart in D3.
 
-Next week need to create our xScale and yScale. We will use a linear scale for both.
+Next we need to create our xScale and yScale. We will use a linear scale for both.
 
 > For continuous quantitative data, you typically want a linear scale.
 >
@@ -612,3 +618,9 @@ We already got our maps set up last time, but if you aren’t familiar with the 
 Almost done. We’ll put the finishing touches on our feature in Part 3.
 
 Until next time!
+
+**Note:** This is part 2 of a 3-part series about using Google Maps and D3 to create an elevation graph that responds dynamically with user interaction. Here are all 3 posts:
+
+- [Part 1: Google Maps](/posts/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react)
+- [Part 2: D3 for Data Visualization](/posts/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react)
+- [Part 3: Creating User Interaction](/posts/2019-03-27-draw-an-interactive-elevation-chart-with-d3-and-react-pt-3)

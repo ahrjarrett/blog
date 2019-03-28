@@ -7,16 +7,268 @@ sharpImage: false
 imgOverlay: "linear-gradient(to top, rgba(195, 20, 50, 0.75), rgba(36, 11, 54, 0.75))"
 tags: ["react", "d3", "javascript", "google maps", "data-visualization"]
 excerpt: "Part 3: Data visualization is too fun. My team made an app that consumes a user’s trip data and uses it to draw cool stuff. Here’s how we used React, D3 and Google Maps to do it."
-published: false
+published: true
 ---
 
 import * as d3 from "d3"
 import Chart from "../../components/d3/Chart"
+import LoadMapsApi from "../../components/maps/LoadMapsApi"
 import MapWithMarkers from "../../components/maps/MapWithMarkers"
+import MapDrawn from "../../components/maps/MapDrawn"
 
 import data from "../../components/d3/data"
-import { mapCenterNZ } from "../../components/maps/data"
+import {
+  mapCenterNZ,
+  mapCenterCZ,
+  markerPositionsNZ,
+  markerPositionsCZ
+} from "../../components/maps/data"
 
-> Image credit goes to [furryhead](https://www.behance.net/furryhead), see the [original creative here](https://www.behance.net/gallery/29307801/2001-A-Space-Odyssey-animated-Gif).
+Hey ho does this work yo!?
 
-## Part 3
+<LoadMapsApi />
+
+##### _Image credit above goes to [furryhead](https://www.behance.net/furryhead), see the [original creative here](https://www.behance.net/gallery/29307801/2001-A-Space-Odyssey-animated-Gif)._
+
+This is part 3 of a 3-part series about using Google Maps and D3 to create an elevation graph that responds dynamically with user interaction. Here are all 3 posts:
+
+- [Part 1: Google Maps](/posts/2019-02-11-draw-an-interactive-elevation-chart-with-d3-and-react)
+- [Part 2: D3 for Data Visualization](/posts/2019-02-16-draw-an-interactive-elevation-chart-with-d3-and-react)
+- [Part 3: Creating User Interaction](/posts/2019-03-27-draw-an-interactive-elevation-chart-with-d3-and-react-pt-3)
+
+In this section, we’ll finish building this. Try hovering over the graph to see how our users can interact with this component!
+
+<MapDrawn
+  type="withChart"
+  center={mapCenterCZ}
+  markerPositions={markerPositionsCZ}
+  title="Prague"
+  theme="retro"
+  zoom={10.9}
+  height={400}
+  width={553}
+/>
+
+<Chart
+  type="withMap"
+  targetNode={"#chart6"}
+  data={data.fakeData6}
+  transform="translate(47.5, 5)"
+  ticks={true}
+  gridlines={true}
+  lineColor="127, 54, 61"
+  fillColor="250, 104, 118"
+  background="rgba(255,163,85,0.15)"
+  map="__map__Prague"
+  height={200}
+  width={550}
+  viewBox="0 0 525 175"
+>
+  <div id="chart6" />
+</Chart>
+
+Alright. Let’s get started.
+
+## Creating User Interaction
+
+In this part (part 3), we’ll be connecting our Map and Graph components, updating them both dynamically based on user input.
+
+Here is where we left off in Part 1:
+
+<MapWithMarkers
+  type="elevationAlongPath"
+  center={mapCenterNZ}
+  markerPositions={markerPositionsNZ}
+  title="Baldwin St – Dunedin, NZ"
+  theme="night"
+  zoom={13.8}
+/>
+
+On the map above, go ahead and click:
+
+1. `Show Markers` –>
+2. `Draw Path` –>
+3. `Elevation Samples`
+
+and then check your console to see what the response from the Google API looks like.
+
+(In case you’re on mobile, here’s a sample of the elevations that the Google Maps API returns to us:)
+
+```javascript
+{elevation: 35.52785110473633, location: _.P, resolution: 19.08790397644043}
+{elevation: 35.73416519165039, location: _.P, resolution: 19.08790397644043}
+// 96 more...
+{elevation: 80.05186462402344, location: _.P, resolution: 19.08790397644043}
+```
+
+We can ignore the resolution field for now, and we’ll discuss what the `_.P` value means soon.
+
+> _Remember_: We asked for 100 samples along our pathline, so we’re working with 100 data points, not just the 6 markers that display in our map!
+
+And here is where we left off in Part 2:
+
+<Chart
+  targetNode={"#chart5"}
+  data={data.fakeData5}
+  transform="translate(47.5, 5)"
+  ticks={true}
+  gridlines={true}
+  lineColor="127, 54, 61"
+  fillColor="250, 104, 118"
+  background="rgba(255,163,85,0.15)"
+>
+  <div id="chart5" />
+</Chart>
+
+Cool! So what’s next?
+
+Next we’re going to connect our map and our elevation chart so when a user hovers over the chart, a “blip” appears dynamically on the map to show the user where on the map the user will experience that particular elevation.
+
+If that sounds confusing, here’s a quick demo of the feature we built:
+
+<iframe
+  className="youtube-video"
+  width="720"
+  height="480"
+  src="https://www.youtube.com/embed/9HXlmXwyuKk"
+  frameBorder="0"
+  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>
+
+Let’s jump right in! ✨
+
+## Getting Our Distances
+
+So we have our elevations, but how do we get distances? We need 100 of them to populate the x-axis so our every elevation on the y-axis maps to a corresponding value.
+
+For our purposes, each distances will represent how far that elevation sample is from the starting point, which is our first map marker.
+
+We will also need to keep a reference to the map around so we can ask it where a particular longitude and latitude is on the map (that way we know where on the screen to draw our “blip”).
+
+Our component’s signature should look like this when we’re done:
+
+```jsx
+<Chart
+  elevations={this.state.elevations}
+  markers={this.state.markers}
+  map={this.props.mapRef}
+/>
+```
+
+Where `map` is a reference to our Google Maps instance, `markers` are the Google Map Markers that together comprise our polyline, and elevations` is an array of 100 objects with the following shape:
+
+```javascript
+{
+  elevation: float!
+  location: LagLng
+  resolution: float!
+}
+```
+
+So how are we going to get those distances?
+
+First we have to talk about what the `_.P` thing is.
+
+### Getting an Elevation’s Coordinates
+
+The `_.P` value that you see at the `location` key is an instance of the Google Maps `LatLng` class [see the docs on LatLng (ADD!)](brokenlink).
+
+We can use this object to get an elevation’s corresponding latitude and longitude coordinates.
+
+> **That the Elevations API returns a `LatLng` instance is the key to making all of this work.**
+
+If we want to get the coordinates of our first object in our `Chart` component, we do:
+
+```jsx
+class Chart extends React.Component {
+  render() {
+    return (
+      <div>
+        <p>1st Elevation Latitude: {this.props.data[0].location.lat()}</p>
+        <p>1st Elevation Longitude: {this.props.data[0].location.lng()}</p>
+      </div>
+    )
+  }
+}
+```
+
+Among other things, the `LatLng` class comes with 2 methods that simply return the latitude or longitude value they’re holding.
+
+#### Test it out yourself!
+
+If you want to test it out yourself, I’ve added the map above to `window` at this address:
+
+`window.__map__Baldwin_St___Dunedin__NZ`
+
+If you open the console, you can run any method you’d like. Try running:
+
+```javascript
+window.__map__Baldwin_St___Dunedin__NZ.center.lat() // -45.849184470199674
+window.__map__Baldwin_St___Dunedin__NZ.center.lng() // 170.5342357575057
+```
+
+Those are the coordinates for the center of our map! `GoogleMap.center` is an instance of the `LatLng` class.
+
+Okay, so we can get coordinates. But we’re creating an area chart (basically a line graph with shading under the line), which means our x-axis needs to represent a scale (do you remember [what kind of scale?](https://github.com/d3/d3-scale#linear-scales)).
+
+Our `xScale` is distance from the polyline’s point of origin, _along the polyline_. This is important because we’re assuming that the polyline represents a user’s trip, and so a particular point on our graph tells us _how far along the trip_ the user can expect to encounter a particular elevation.
+
+**Scales:**
+
+- `x: distance from origin along polyline`
+- `y: elevation at point`
+
+### Getting Our Distances
+
+At first we struggled with this. The Google Maps API does allow you to pass an “array” of coordinate pairs and returns an array of distance results, _but we’d only be getting the beeline distance_, which is different than what we’re after.
+
+To get around this, we decided to calculate the distance between each marker to come up with the total distance along our pathline, then divide that number by 100.
+
+Although this isn’t 100% perfect, Google Maps’ `getElevationsAlongPath` function returns as many samples as you ask for along the polyline that you pass it.
+
+It’s not perfect because Google Maps approximates, rather than calculates the elevation, based on the surrounding topography (the `resolution` key gives us a sense of how accurate the return value is).
+
+But it’s pretty damn close, so we considered our users and decided that and we’re comfortable with the tradeoff:
+
+Lower app complexity, occasionally slight inaccuracies.
+
+That means we can divide our distance by our number of samples to get a unit, and then multiply the unit by the elevation’s index to get the distance from the point of origin.
+
+```javascript
+export const numOfSamples = 100
+const startDistance = 0
+const endDistance = distances.reduce((acc, curr) => acc + curr, startDistance)
+const sampleUnit = endDistance / numOfSamples
+
+const makeData = data =>
+  data.reduce((acc, curr, i) => {
+    const dist = sampleUnit * (i + 1)
+    return acc.concat({ x: dist, y: curr.elevation, ...curr })
+  }, [])
+```
+
+Calling `makeData` and passing in our array of elevations that we received on props, we get an array of data with this shape:
+
+```javascript
+{
+  x: float! // distance from origin in meters along path
+  y: float! // elevation in meters at point
+  location: LagLng!
+  resolution: float!
+}
+```
+
+There! We have our distances.
+
+## Getting Screen Coordinates from a Map Coordinate
+
+Cool. But there’s one big problem we haven’t solved:
+
+**How are we supposed to draw our “blip” on the map?**
+
+At first we tried using the Marker API to create a marker from a given location, only to destroy it and redraw a new one when the user’s mouse moves.
+
+I’ll spare you the code and show you the result:
+
+Sup sup!

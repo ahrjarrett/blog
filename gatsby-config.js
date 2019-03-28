@@ -5,12 +5,12 @@ module.exports = {
     subtitle: `Global Search Regex + Print`,
     description: `Here’s where I write stuff. Mostly about functional programming. But also sometimes about a book that a friend has recommended, or a dumb thought that my brain had.`,
     canonicalUrl: `https://ahrjarrett.com`,
-    image: `/static_imgs/the-grepper-monkey-see-monkey-flew.jpg`,
-    altImage: `/static_imgs/the-grepper-goldfish-brain.jpg`,
+    image: `static_imgs/the-grepper-monkey-see-monkey-flew.jpg`,
+    altImage: `static_imgs/the-grepper-goldfish-brain.jpg`,
     author: {
       name: `Andrew Jarrett`,
       minibio: `Andrew Jarrett is a React contractor and functional programming advocate who lives in Austin, Texas with his pomeranian Ash Nabisco.`,
-      image: `/static_imgs/headshot.jpeg`,
+      image: `static_imgs/headshot.jpeg`,
       social: {
         linkedin: `https://www.linkedin.com/in/andrewhjarrett/`,
         github: `https://github.com/ahrjarrett`,

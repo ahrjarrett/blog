@@ -170,6 +170,7 @@ class MapWithMarkers extends React.PureComponent {
               <div
                 className={`googleMap map_${normalizeTitle(title)}`}
                 ref={ref}
+                id={`__map__${normalizeTitle(title)}`}
               />
               {map === null ? <h3>Loading... </h3> : <h3>{title}</h3>}
             </div>

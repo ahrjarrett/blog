@@ -3,32 +3,74 @@ import * as d3 from "d3"
 import { data } from "./data"
 import { ChartStyles } from "./Chart.styles"
 
-const margin = { top: 25, right: 25, bottom: 25, left: 25 }
-const width = 550 - margin.left - margin.right
-const height = 300 - margin.top - margin.bottom
-
 export const numOfSamples = 100
 export const metersToMiles = m => m * 0.000621371
 export const metersToFeet = m => m * 3.28084
 
-// NEW STUFF
-// Constants:
-const aspectRatio = width / height
 const xAxisTicks = 9
 const yAxisTicks = 8
-// Helper functions for drawing the gridlines:
 const makeXGridlines = xScale => d3.axisBottom(xScale).ticks(xAxisTicks)
 const makeYGridlines = yScale => d3.axisLeft(yScale).ticks(yAxisTicks)
+
+const fromLatLngToPoint = (latLng, map) => {
+  const topRight = map
+    .getProjection()
+    .fromLatLngToPoint(map.getBounds().getNorthEast())
+  const bottomLeft = map
+    .getProjection()
+    .fromLatLngToPoint(map.getBounds().getSouthWest())
+  const scale = Math.pow(2, map.getZoom())
+  const worldPoint = map
+    .getProjection()
+    .fromLatLngToPoint(new window.google.maps.LatLng(latLng))
+  const point = new window.google.maps.Point(
+    (worldPoint.x - bottomLeft.x) * scale,
+    (worldPoint.y - topRight.y) * scale
+  )
+  return point
+}
 
 class Chart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: this.props.data ? this.props.data : data
+      data: this.props.data ? this.props.data : data,
+      map: null
     }
+
+    this.margin = { top: 25, right: 25, bottom: 25, left: 25 }
+    this.width =
+      (this.props.width || 550) - this.margin.left - this.margin.right
+    this.height =
+      (this.props.height || 300) - this.margin.top - this.margin.bottom
+    this.aspectRatio = this.width / this.height
+    this.viewBox =
+      this.props.viewBox ||
+      "0 0 " +
+        (this.width + this.margin.left + this.margin.right) +
+        " " +
+        (this.height +
+          (this.margin.top + this.margin.bottom) / this.aspectRatio)
   }
   componentDidMount() {
     this.drawChart()
+    if (this.props.map) {
+      setTimeout(() => {
+        console.log("setting map!")
+        this.setState({ map: window.__map__Prague })
+      }, 1250)
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    console.log("component updated!")
+    console.log("prevState:", prevState)
+    console.log("this.state:", this.state)
+    console.log("window.__map__Prague:", window.__map__Prague)
+
+    if (!prevState.map && window.__map__Prague) {
+      this.setState({ map: window.__map__Prague })
+    }
+    // if (window) this.setState({ map: window.__map_Prague })
   }
 
   drawChart = () => {
@@ -36,28 +78,21 @@ class Chart extends React.Component {
     const xScale = d3
       .scaleLinear()
       .domain(d3.extent(data, xResolver ? xResolver : d => d.x))
-      .range([0, width])
+      .range([0, this.width])
     const yScale = d3
       .scaleLinear()
       .domain([
         d3.min(data, yResolver ? yResolver : co => co.y),
         d3.max(data, yResolver ? yResolver : co => co.y)
       ])
-      .range([height, 0])
+      .range([this.height, 0])
 
     const svg = d3
       .select(this.props.targetNode)
       .append("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .attr(
-        "viewBox",
-        "0 0 " +
-          // NEW: VIEWBOX USES ASPECT RATIO TO FRAME OUR SVG:
-          (width + margin.left + margin.right) +
-          " " +
-          (height + (margin.top + margin.bottom) / aspectRatio)
-      )
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .attr("viewBox", this.viewBox)
       .attr("preserveAspectRatio", "xMinYMid")
       .append("g")
       // WE CAN TWEAK OUR CHART’s POSITIONING IF NEEDED VIA PROPS:
@@ -69,7 +104,7 @@ class Chart extends React.Component {
     if (!this.props.ticks) {
       svg
         .append("g")
-        .attr("transform", `translate(0, ${height})`)
+        .attr("transform", `translate(0, ${this.height})`)
         .call(d3.axisBottom(xScale))
 
       svg.append("g").call(d3.axisLeft(yScale))
@@ -101,13 +136,13 @@ class Chart extends React.Component {
 
     svg
       .append("g")
-      .attr("transform", `translate(0, ${height})`)
+      .attr("transform", `translate(0, ${this.height})`)
       .call(
         d3
           .axisBottom(xScale)
           // NEW: FORMAT X-TICKS TO DISPLAY MILES INSTEAD OF METERS
           .ticks(xAxisTicks)
-          .tickFormat(d => d3.format(".1f")(metersToMiles(d)) + " mi")
+          .tickFormat(d => d3.format(".1f")(metersToMiles(d)) + "mi")
           .tickSize(0)
           .tickPadding(9)
       )
@@ -117,7 +152,7 @@ class Chart extends React.Component {
         .axisLeft(yScale)
         // NEW: FORMAT Y-TICKS TO DISPLAY FEET INSTEAD OF METERS
         .ticks(yAxisTicks)
-        .tickFormat(d => d3.format(",.0f")(metersToFeet(d)) + " ft")
+        .tickFormat(d => d3.format(",.0f")(metersToFeet(d)) + "ft")
         .tickSize(0)
         .tickPadding(8)
     )
@@ -158,11 +193,11 @@ class Chart extends React.Component {
     svg
       .append("g")
       .attr("class", "chartGrid")
-      .attr("transform", `translate(0, ${height})`)
+      .attr("transform", `translate(0, ${this.height})`)
 
       .call(
         makeXGridlines(xScale)
-          .tickSize(-height)
+          .tickSize(-this.height)
           .tickFormat("")
       )
     // MAKE Y GRID:
@@ -171,7 +206,7 @@ class Chart extends React.Component {
       .attr("class", "chartGrid")
       .call(
         makeYGridlines(yScale)
-          .tickSize(-width)
+          .tickSize(-this.width)
           .tickFormat("")
       )
 
@@ -205,7 +240,7 @@ class Chart extends React.Component {
       .append("line")
       .attr("x1", 0)
       .attr("x2", 0)
-      .attr("y1", height)
+      .attr("y1", this.height)
       .attr("y2", 0)
 
     crossBar
@@ -264,21 +299,43 @@ class Chart extends React.Component {
       // return
     }
 
+    let blip
+    const makeBlip = () => {
+      const blip = d3
+        .select(`#${this.props.map}`)
+        .append("div")
+        .attr("class", "customBlip")
+        .style("margin-left", "-12.5px")
+        .style("margin-top", "-12.5px")
+        .style("position", "absolute")
+        .style("z-index", 5000)
+        .style("width", "20px")
+        .style("height", "20px")
+        .style("background", "#2da5ca")
+        .style("border", "2px solid white")
+        .style("border-radius", "50%")
+        .style("color", "black")
+        .style("color", "black")
+        .style("display", "none")
+      return blip
+    }
+
     // MOUSE IN / OUT EVENTS
     svg
       .append("rect")
       .attr("class", "chartOverlay")
-      .attr("width", width)
-      .attr("height", height)
+      .attr("width", this.width)
+      .attr("height", this.height)
       .on("mouseover", function() {
+        if (!blip) blip = makeBlip()
         crossBar.style("display", null)
         infoBox.style("display", null)
-        // blip.style("display", null)
+        blip.style("display", null)
       })
       .on("mouseout", function(e) {
         crossBar.style("display", "none")
         infoBox.style("display", "none")
-        // blip.style("display", "none")
+        blip.style("display", "none")
       })
       .on("mousemove", mousemove)
 
@@ -289,15 +346,21 @@ class Chart extends React.Component {
       const d1 = data[i]
       const d = !d1 ? d0 : x0 - d0.x > d1.x - x0 ? d1 : d0
       crossBar.attr("transform", `translate(${xScale(d.x)}, 0)`)
-      crossBar.select("text").text(d3.format(".1f")(metersToMiles(d.x)) + " mi")
+      crossBar.select("text").text(d3.format(".1f")(metersToMiles(d.x)) + "mi")
       infoBox.attr("transform", `translate(${xScale(d.x) + 10}, 12.5)`)
       infoBox
         .select(".infoBoxElevationValue")
-        .text(d3.format(",.0f")(metersToFeet(d.y)) + " ft")
+        .text(d3.format(",.0f")(metersToFeet(d.y)) + "ft")
 
       // infoBox.select(".infoBoxGradeValue").text(d3.format(".1%")(d.grade))
-      // const { x: px, y: py } = fromLatLngToPoint(d.location, window.map)
-      // blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
+      const { x: px, y: py } = fromLatLngToPoint(
+        d.location,
+        window.__map__Prague
+        // this.state.map
+      )
+
+      window.blip = blip
+      blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
       return null
     }
 
