@@ -20,15 +20,59 @@ const yAxisTicks = 8
 const makeXGridlines = xScale => d3.axisBottom(xScale).ticks(xAxisTicks)
 const makeYGridlines = yScale => d3.axisLeft(yScale).ticks(yAxisTicks)
 
+const fromLatLngToPoint = (latLng, map) => {
+  console.log("LATLNG:", latLng)
+
+  const topRight = map
+    .getProjection()
+    .fromLatLngToPoint(map.getBounds().getNorthEast())
+  const bottomLeft = map
+    .getProjection()
+    .fromLatLngToPoint(map.getBounds().getSouthWest())
+  const scale = Math.pow(2, map.getZoom())
+  const worldPoint = map
+    .getProjection()
+    .fromLatLngToPoint(new window.google.maps.LatLng(latLng))
+  const point = new window.google.maps.Point(
+    (worldPoint.x - bottomLeft.x) * scale,
+    (worldPoint.y - topRight.y) * scale
+  )
+
+  console.log("POINT:", point)
+
+  return point
+}
+
 class Chart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: this.props.data ? this.props.data : data
+      data: this.props.data ? this.props.data : data,
+      map: ""
     }
   }
   componentDidMount() {
     this.drawChart()
+    // if (window) this.setState({ map: "yo" })
+    if (this.props.map) {
+      setTimeout(() => {
+        console.log("setting map!")
+        this.setState({ map: window.__map__Prague })
+      }, 3000)
+      // if (window) this.setState({ map: window.__map__Prague })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("component updated!")
+    console.log("prevState:", prevState)
+    console.log("this.state:", this.state)
+    console.log("window.__map__Prague:", window.__map__Prague)
+
+    if (!prevState.map && window.__map__Prague) {
+      this.setState({ map: window.__map__Prague })
+    }
+    // if (window) this.setState({ map: window.__map_Prague })
   }
 
   drawChart = () => {
@@ -264,6 +308,30 @@ class Chart extends React.Component {
       // return
     }
 
+    const mapId = this.props.map
+
+    let blip
+    const makeBlip = () => {
+      const blip = d3
+        .select(`#${this.props.map}`)
+        .append("div")
+        .attr("class", "customBlip")
+        .style("margin-left", "-12.5px")
+        .style("margin-top", "-12.5px")
+        .style("position", "absolute")
+        .style("z-index", 5000)
+        .style("width", "20px")
+        .style("height", "20px")
+        .style("background", "#2da5ca")
+        .style("border", "2px solid white")
+        .style("border-radius", "50%")
+        .style("color", "black")
+        .style("color", "black")
+        .style("display", "none")
+
+      return blip
+    }
+
     // MOUSE IN / OUT EVENTS
     svg
       .append("rect")
@@ -271,14 +339,15 @@ class Chart extends React.Component {
       .attr("width", width)
       .attr("height", height)
       .on("mouseover", function() {
+        if (!blip) blip = makeBlip()
         crossBar.style("display", null)
         infoBox.style("display", null)
-        // blip.style("display", null)
+        blip.style("display", null)
       })
       .on("mouseout", function(e) {
         crossBar.style("display", "none")
         infoBox.style("display", "none")
-        // blip.style("display", "none")
+        blip.style("display", "none")
       })
       .on("mousemove", mousemove)
 
@@ -296,8 +365,20 @@ class Chart extends React.Component {
         .text(d3.format(",.0f")(metersToFeet(d.y)) + " ft")
 
       // infoBox.select(".infoBoxGradeValue").text(d3.format(".1%")(d.grade))
-      // const { x: px, y: py } = fromLatLngToPoint(d.location, window.map)
-      // blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
+      const { x: px, y: py } = fromLatLngToPoint(
+        d.location,
+        window.__map__Prague
+        // this.state.map
+      )
+
+      window.blip = blip
+
+      console.log("in mousemove:")
+      console.log("blip:", blip)
+      console.log("px:", px)
+      console.log("py:", py)
+
+      blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
       return null
     }
 

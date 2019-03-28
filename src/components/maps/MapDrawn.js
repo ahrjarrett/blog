@@ -9,19 +9,34 @@ import * as s from "../styles/MapWithMarkers.styles"
 
 export const normalizeTitle = str => str.replace(/[^a-zA-Z0-9]/g, "_")
 
-class MapWithMarkers extends React.PureComponent {
+class MapDrawn extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
       elevationForLocations: [],
       elevationSamples: [],
       markers: [],
+      map: null,
       showDeltas: props.showDeltas,
       showMarkers: false,
       showPath: false,
       theme: props.theme
     }
     this._polyline = null
+  }
+
+  componentDidMount() {}
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("COMPONENT UPDATED:")
+    console.log("prevState:", prevState)
+    console.log("this.state.map:", this.state.map)
+    console.log("this.props.markerPositions:", this.props.markerPositions)
+    if (this.state.map && !prevState.map) {
+      console.log("HAVE MAP NOW!")
+      this.addMarkers(this.state.map, this.props.markerPositions)
+      this.drawPath(this.state.map, this.props.markerPositions)
+    }
   }
 
   drawPath = (map, markers) => () => {
@@ -153,6 +168,8 @@ class MapWithMarkers extends React.PureComponent {
     this.setState({ theme: e.target.value })
   }
 
+  getChildMap = map => this.setState({ map })
+
   render() {
     const {
       elevationForLocations,
@@ -163,24 +180,21 @@ class MapWithMarkers extends React.PureComponent {
     } = this.state
     const { markerPositions, title, type } = this.props
     return (
-      <Map {...this.props} {...this.state}>
+      <Map {...this.props} {...this.state} propogateMap={this.getChildMap}>
         {({ map, ref }) => (
           <s.MapStyles>
             <div className="childrenWrapper">
               <div
                 className={`googleMap map_${normalizeTitle(title)}`}
                 ref={ref}
-                id={`__map__${normalizeTitle(title)}`}
               />
               {map === null ? <h3>Loading... </h3> : <h3>{title}</h3>}
             </div>
-
             <ThemeSelect
               theme={theme}
               handleThemeToggle={this.handleThemeToggle}
             />
-
-            {markerPositions.length > 0 && (
+            {/* {markerPositions.length > 0 && (
               <div className="map-buttons">
                 <h4>Actions:</h4>
                 <button
@@ -226,9 +240,8 @@ class MapWithMarkers extends React.PureComponent {
                   >
                     Elevation Samples
                   </button>
-                )}
-              </div>
-            )}
+                )} 
+              </div> */}
           </s.MapStyles>
         )}
       </Map>
@@ -236,7 +249,7 @@ class MapWithMarkers extends React.PureComponent {
   }
 }
 
-MapWithMarkers.propTypes = {
+MapDrawn.propTypes = {
   showDeltas: PropTypes.bool,
   width: PropTypes.number,
   height: PropTypes.number,
@@ -258,7 +271,7 @@ MapWithMarkers.propTypes = {
   zoom: PropTypes.number
 }
 
-MapWithMarkers.defaultProps = {
+MapDrawn.defaultProps = {
   title: "Cork, Ireland",
   width: 720,
   height: 480,
@@ -274,4 +287,4 @@ MapWithMarkers.defaultProps = {
   zoom: 15.5
 }
 
-export default MapWithMarkers
+export default MapDrawn

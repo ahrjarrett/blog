@@ -169,7 +169,13 @@ export const ArticleStyles = styled.article`
       width: 100%;
       height: 100%;
 
-      background: ${props => props.imgOverlay || props.theme.tertiaryTrans};
+      background: ${({ imgOverlay, theme }) =>
+        imgOverlay
+          ? imgOverlay
+          : imgOverlay === null
+          ? "unset"
+          : theme.tertiaryTrans};
+        /* imgOverlay || imgOverlay === null ? "unset" : theme.tertiaryTrans}; */
     }
 
     ${media.newPhone`

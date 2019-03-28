@@ -16,7 +16,10 @@ class Map extends React.PureComponent {
   }
 
   componentDidMount() {
-    setTimeout(this.renderMap, 1000)
+    setTimeout(() => {
+      this.renderMap()
+      if (this.props.propogateMap) this.props.propogateMap(this._map)
+    }, 1000)
   }
 
   componentDidUpdate(prevProps) {
