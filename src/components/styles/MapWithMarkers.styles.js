@@ -2,11 +2,15 @@ import styled from "styled-components"
 
 export const MapStyles = styled.div`
   position: relative;
+  margin: 0 auto;
   margin-top: 2.125rem;
-  margin-bottom: 4.25rem;
+  margin-bottom: ${({ type }) => (type === "withChart" ? 0 : "4.25rem")};
   box-shadow: 0 0.3125rem 0.0625rem 0 rgba(0, 0, 0, 0.05),
     0 0 0 0.0625rem rgba(0, 0, 0, 0.03), 0 0.0625rem 0 0 rgba(0, 0, 0, 0.05),
     0 0.0625rem 0.1875rem 0 rgba(0, 0, 0, 0.01);
+
+  height: ${({ height }) => (height ? height + "px" : "540px")};
+  width: ${({ width }) => (width ? width + "px" : "720px")};
 
   div.childrenWrapper {
     position: relative;
@@ -16,8 +20,10 @@ export const MapStyles = styled.div`
     div.googleMap {
       position: relative;
       /* width and height will be reset by Map props */
-      width: 720px;
-      height: 540px;
+      /* width: 720px;
+      height: 540px; */
+      height: ${({ height }) => (height ? height + "px" : "540px")};
+      width: ${({ width }) => (width ? width + "px" : "720px")};
       max-width: 100%;
       min-width: 100%;
       margin: 0 auto;
@@ -97,6 +103,14 @@ export const MapStyles = styled.div`
     input {
     }
     label {
+    }
+  }
+
+  .mapType.withChartType {
+    /* height: ${({ height }) => (height ? height + "px" : "900px")};
+    width: ${({ width }) => (width ? width + "px" : "600px")}; */
+    margin-bottom: 0;
+    .googleMap {
     }
   }
 `

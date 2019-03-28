@@ -7,6 +7,7 @@ export const ChartStyles = styled.div`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0.625rem 0px;
   padding: 30px 20px 15px 25px;
   margin: 1.875rem auto 2.725rem;
+  margin-top: ${({ type }) => (type === "withMap" ? 0 : "1.875rem")};
   border-radius: 2px;
 
   background: ${({ background }) => background || "#fff"};

@@ -53,7 +53,6 @@ class MapDrawn extends React.PureComponent {
       })
       markers.push(marker)
     })
-    this.setMapBounds(map, markers)
   }
 
   drawPath = (map, path) => {
@@ -68,42 +67,6 @@ class MapDrawn extends React.PureComponent {
     polyline.setMap(map)
   }
 
-  setMapBounds = (map, positions) => {
-    let bounds = new window.google.maps.LatLngBounds()
-    positions.forEach(p => {
-      const bound = p.position
-        ? { lat: p.position.lat(), lng: p.position.lng() }
-        : { lat: p.lat, lng: p.lng }
-      bounds.extend(bound)
-    })
-    map.fitBounds(bounds)
-  }
-
-  getElevationForLocations = (map, markers) => () => {
-    const { maps } = window.google
-    const elevator = new maps.ElevationService()
-    const locations = markers.map(marker => marker.getPosition())
-    elevator.getElevationForLocations({ locations }, (results, status) => {
-      if (status === "OK") {
-        const elevationForLocations = results.map(({ elevation }) => elevation)
-        this.setState({ elevationForLocations }, () =>
-          this.createElevationInfoWindows(map, markers)
-        )
-      } else console.log("ELEVATION FOR LOCATIONS ERROR")
-    })
-  }
-
-  createElevationInfoWindows = (map, markers) => {
-    const { maps } = window.google
-    const { elevationForLocations } = this.state
-    markers.forEach((m, i) => {
-      const infoWindow = new maps.InfoWindow({
-        content: `Elevation: ${elevationForLocations[i].toFixed(1)}m`
-      })
-      m.addListener("click", () => infoWindow.open(map, m))
-    })
-  }
-
   handleThemeToggle = e => {
     this.setState({ theme: e.target.value })
   }
@@ -112,12 +75,12 @@ class MapDrawn extends React.PureComponent {
 
   render() {
     const { theme } = this.state
-    const { markerPositions, title, type } = this.props
+    const { title, type } = this.props
     return (
       <Map {...this.props} {...this.state} propogateMap={this.getChildMap}>
         {({ map, ref }) => (
-          <s.MapStyles>
-            <div className="childrenWrapper">
+          <s.MapStyles {...this.props}>
+            <div className={`childrenWrapper ${type + "Type mapType"}`}>
               <div
                 className={`googleMap map_${normalizeTitle(title)}`}
                 ref={ref}
@@ -137,14 +100,12 @@ class MapDrawn extends React.PureComponent {
 }
 
 MapDrawn.propTypes = {
-  showDeltas: PropTypes.bool,
   width: PropTypes.number,
   height: PropTypes.number,
   center: PropTypes.shape({
     lat: PropTypes.number,
     lng: PropTypes.number
   }),
-  layer: PropTypes.string,
   title: PropTypes.string,
   mapTypeId: PropTypes.string,
   markerPositions: PropTypes.arrayOf(

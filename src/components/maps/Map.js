@@ -29,8 +29,6 @@ class Map extends React.PureComponent {
   }
 
   renderMap = () => {
-    console.log("calling render map!")
-
     const { title } = this.props
     const map = new window.google.maps.Map(this.mapRef.current, {
       center: this.props.center,

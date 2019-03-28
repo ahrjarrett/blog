@@ -59,13 +59,13 @@ export const mapCenterESP = {
   lat: 40.41823753663909,
   lng: -3.7147311000803462
 }
-
 export const mapCenterNZ = {
   lat: -45.85806843030581,
   lng: 170.51968535193052
 }
 
-export const mapCenterCZ = { lat: 50.01390148979486, lng: 14.114177167006119 }
+// export const mapCenterCZ = { lat: 50.01390148979486, lng: 14.114177167006119 }
+export const mapCenterCZ = {lat: 50.04608752561645, lng: 14.096449803888875}
 
 export const markerPositionsNZ = [
   { lat: -45.84830669087012, lng: 170.53305542533894 },
