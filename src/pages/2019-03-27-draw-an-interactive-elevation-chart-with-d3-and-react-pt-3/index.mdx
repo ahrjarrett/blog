@@ -144,7 +144,7 @@ Our component’s signature should look like this when we’re done:
 />
 ```
 
-Where `map` is a reference to our Google Maps instance, `markers` are the Google Map Markers that together comprise our polyline, and elevations` is an array of 100 objects with the following shape:
+Where `map` is a reference to our Google Maps instance, `markers` are the Google Map Markers that together comprise our polyline, and `elevations` is an array of 100 objects with the following shape:
 
 ```javascript
 {
@@ -156,11 +156,11 @@ Where `map` is a reference to our Google Maps instance, `markers` are the Google
 
 So how are we going to get those distances?
 
-First we have to talk about what the `_.P` thing is.
+First we have to talk about what this `_.P` thing is.
 
 ### Getting an Elevation’s Coordinates
 
-The `_.P` value that you see at the `location` key is an instance of the Google Maps `LatLng` class [see the docs on LatLng (ADD!)](brokenlink).
+The `_.P` value that you see at the `location` key is an instance of the Google Maps `LatLng` class ([see the docs on LatLng class](https://developers.google.com/maps/documentation/javascript/reference/coordinates#LatLng)).
 
 We can use this object to get an elevation’s corresponding latitude and longitude coordinates.
 
@@ -202,26 +202,30 @@ Okay, so we can get coordinates. But we’re creating an area chart (basically a
 
 Our `xScale` is distance from the polyline’s point of origin, _along the polyline_. This is important because we’re assuming that the polyline represents a user’s trip, and so a particular point on our graph tells us _how far along the trip_ the user can expect to encounter a particular elevation.
 
-**Scales:**
+**So our scales are:**
 
-- `x: distance from origin along polyline`
-- `y: elevation at point`
+1. `x` = distance from origin along polyline
+2. `y` = elevation at point
 
 ### Getting Our Distances
 
-At first we struggled with this. The Google Maps API does allow you to pass an “array” of coordinate pairs and returns an array of distance results, _but we’d only be getting the beeline distance_, which is different than what we’re after.
+At first my team struggled with this.
 
-To get around this, we decided to calculate the distance between each marker to come up with the total distance along our pathline, then divide that number by 100.
+Sure, the Google Maps API does allow you to pass an “array” of coordinate pairs and returns an array of distance results, _but we’d only be getting the beeline distance_, which is different than what we’re after.
 
-Although this isn’t 100% perfect, Google Maps’ `getElevationsAlongPath` function returns as many samples as you ask for along the polyline that you pass it.
+To get around this, we decided to calculate the distance between each marker to come up with the total distance along our pathline, then divide that number by 100 (the arbitrary number of samples we decided to take, saved as a constant).
 
-It’s not perfect because Google Maps approximates, rather than calculates the elevation, based on the surrounding topography (the `resolution` key gives us a sense of how accurate the return value is).
+Although this isn’t 100% perfect, the `getElevationAlongPath` function Google Maps provides returns as many samples as you ask for along the polyline that you pass it.
 
-But it’s pretty damn close, so we considered our users and decided that and we’re comfortable with the tradeoff:
+It’s not perfect because Google Maps approximates, rather than calculates, the elevation based on the surrounding topography (the `resolution` tells us how accurate the return value is).
 
-Lower app complexity, occasionally slight inaccuracies.
+But it’s pretty damn close (as you can see in the final product). So we considered our users and decided that and we’re comfortable with the tradeoff:
 
-That means we can divide our distance by our number of samples to get a unit, and then multiply the unit by the elevation’s index to get the distance from the point of origin.
+> **The tradeoff:** Less app complexity + fewer API calls in exchange for occasional, slight inaccuracies.
+
+That means we can divide our total distance by the number of elevation samples to create a unit, and then multiply that unit by the elevation’s index (plus 1) to get an elevation’s cumulative distance from the point of origin.
+
+Here’s the code:
 
 ```javascript
 export const numOfSamples = 100
@@ -236,32 +240,32 @@ const makeData = data =>
   }, [])
 ```
 
-Calling `makeData` and passing in our array of elevations that we received on props, we get an array of data with this shape:
+Calling `makeData` and passing in the array of elevations that we received on props, we get an array of objects with this shape:
 
 ```javascript
 {
-  x: float! // distance from origin in meters along path
+  x: float! // cululative distance from origin along path
   y: float! // elevation in meters at point
   location: LagLng!
   resolution: float!
 }
 ```
 
-There! We have our distances.
+Bingo. We have our distances.
 
 ## Get Screen Coordinates
 
-But there’s one big problem we haven’t solved:
+But there’s still one big problem we haven’t solved ye yett:
 
 **How are we supposed to draw our “blip” on the map?**
 
 At first we tried using the Marker API to create a marker from a given location, only to destroy it and redraw a new one when the user’s mouse moves.
 
-That ended up creating a very choppy user experience, not to mention the event handler was lossy -- the Markers API was not called, so sometimes a marker would render and sometimes it would not be deleted.
+That ended up creating a very choppy user experience, not to mention the event handler was lossy — the Markers API was not called, so sometimes a marker would render and sometimes it would not be deleted.
 
-However it wasn’t hard to do. Each elevation comes with coordinates, so it was as simple as doing `new google.maps.Marker(...)` and passing in the coordinates.
+However it wasn’t hard to implement, so we tried it out. Each elevation comes with a set coordinates, so all we do is `new google.maps.Marker(...)`, passing in the coordinate set.
 
-Video of our first iteration -- you can tell we were starting to have fun.
+Here a silly video of how our first iteration turned out — you can tell we were getting a little loopy from lack of sleep:
 
 <iframe
   className="youtube-video"
@@ -273,15 +277,19 @@ Video of our first iteration -- you can tell we were starting to have fun.
   allowFullScreen
 />
 
-So markers were out.
+So yeah. Markers were out.
 
-As far as we could ascertain, the Markers API was the only way to render an element at a particular point on the map. Sure, technically we could add other SVG elements to the map, but would all suffer from the same choppiness.
+### If not markers, how?
 
-We poured over the Google Maps documentation, looking for an escape hatch. Some way to “map” a set of coordinates that exist on the map canvas to its corresponding set of coordinates in the browser window.
+As far as we could ascertain, the Markers API was the only way to render an element at a particular point on the map. Sure, technically the API affords us other SVG options, but they all suffer from the same choppy UX.
 
-Finally we started playing around with the [Point class](https://developers.google.com/maps/documentation/javascript/reference/coordinates#Point), which represents a point on a two-dimensional plane.
+We poured over the Google Maps documentation, looking for an escape hatch. Some way to “map” a set of coordinates that exist on the map canvas to its corresponding set of screen-x and screen-y coordinates in the browser window.
 
-From there we found the `fromLatLngToPoint` class, and Googling for the docs led us to this short, wonderful [blog post by Krasimir Tsonev](http:// krasimirtsonev.com/blog/article/google-maps-api-v3-convert-latlng-object-to-actual-pixels-point-object).
+We were feeling pretty stuck until we stumbled across the [Point class](https://developers.google.com/maps/documentation/javascript/reference/coordinates#Point), which represents a point on a two-dimensional plane.
+
+From there we found the `fromLatLngToPoint` class, and Googling it led us to this short, wonderful [blog post by Krasimir Tsonev](https://developers.google.com/maps/documentation/javascript/reference/coordinates#LatLng).
+
+The magic function:
 
 ```javascript
 const fromLatLngToPoint = (latLng, map) => {
@@ -303,15 +311,15 @@ const fromLatLngToPoint = (latLng, map) => {
 }
 ```
 
-The `scale = Math.pow(2, map.getZoom())` was exactly what we needed to make the conversion.
+The `Math.pow(2, map.getZoom())` on line 8 was exactly what we needed to make the conversion.
 
-Because we pass the map as an argument each time, _even if the user drags or zooms the map between calls **we always get the fresh and current screen x- and y-coordinates at a given position**_.
+Because we pass the map as an argument each time, _even if the user drags or zooms the map mouse moves, **we always get the fresh and current screen x- and y-coordinates at a given position**_.
 
-Almost done. Now that we know _where_ to draw the blip, let’s draw it.
+Almost done. Now that we know _where_ to draw the blip, let’s draw the damn thing.
 
 ### Drawing the “Blip”
 
-We’ll draw the blip in our `mousemove` function:
+We’ll draw the blip inside our `mousemove` function:
 
 ```javascript
 function mousemove() {
@@ -327,16 +335,15 @@ function mousemove() {
     .select(".infoBoxElevationValue")
     .text(d3.format(",.0f")(metersToFeet(d.y)) + "ft")
 
-  /*** BEGIN NEW STUFF ***/
+  /*** NEW STUFF ***/
   const { x: px, y: py } = fromLatLngToPoint(d.location, this.state.map)
   blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
-  /*** END NEW STUFF ***/
 
   return null
 }
 ```
 
-Finally, we need to toggle the blip’s display in our `mouseover` and `mouseleave` events. We just have to add 2 lines of code to do it:
+And finally, we need to toggle the blip’s display in our `mouseover` and `mouseleave` events. Just 2 lines of code does the trick:
 
 ```javascript
 svg
@@ -347,19 +354,21 @@ svg
   .on("mouseover", function() {
     crossBar.style("display", null)
     infoBox.style("display", null)
-    /*** NEW LINE ***/
+    /*** NEW ***/
     blip.style("display", null)
   })
   .on("mouseout", function(e) {
     crossBar.style("display", "none")
     infoBox.style("display", "none")
-    /*** NEW LINE ***/
+    /*** NEW ***/
     blip.style("display", "none")
   })
   .on("mousemove", mousemove)
 ```
 
-And that’s it! We’ve done it 💯
+And we’re done it! That’s a wrap 💯
+
+Let’s take one last look at what we made together:
 
 <MapDrawn
   type="withChart"
@@ -390,6 +399,8 @@ And that’s it! We’ve done it 💯
   <div id="chart7" />
 </Chart>
 
-Check out the [component as we originally wrote it here](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/components/ElevationChart.js).
+Check out the [source code for the ElevationChart component here](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/components/ElevationChart.js).
 
-Thanks for reading! These components were part of our capstone project at Lambda School. If you have any questions about the project or my experience at Lambda School, feel free to reach out to me at <a href="mailto:ahrjarrett@gmail.com">ahrjarrett@gmail.com</a>.
+These components were part of our capstone project at Lambda School. If you have any questions about the project or my experience there, feel free to reach out to me at <a href="mailto:ahrjarrett@gmail.com">ahrjarrett@gmail.com</a>.
+
+Until next time.
