@@ -35,7 +35,7 @@ class Chart extends React.Component {
     super(props)
     this.state = {
       data: this.props.data ? this.props.data : data,
-      map: null
+      mapRef: null
     }
 
     this.margin = { top: 25, right: 25, bottom: 25, left: 25 }
@@ -53,11 +53,12 @@ class Chart extends React.Component {
           (this.margin.top + this.margin.bottom) / this.aspectRatio)
   }
   componentDidMount() {
-    this.drawChart()
-    if (this.props.map) {
+    this.drawChart(this.state, this.props)
+    if (this.props.mapName) {
       setTimeout(() => {
-        console.log("setting map!")
-        this.setState({ map: window.__map__Prague })
+        console.log("setting map!", window[`${this.props.mapName}`])
+        // this.setState({ mapRef: window.__map__Prague })
+        this.setState({ mapRef: window[`${this.props.mapName}`] })
       }, 1250)
     }
   }
@@ -67,13 +68,17 @@ class Chart extends React.Component {
     console.log("this.state:", this.state)
     console.log("window.__map__Prague:", window.__map__Prague)
 
-    if (!prevState.map && window.__map__Prague) {
-      this.setState({ map: window.__map__Prague })
+    if (window) {
+      if (this.state.mapRef !== prevState.mapRef) {
+        this.setState({ mapRef: window[this.props.mapName] })
+      }
     }
-    // if (window) this.setState({ map: window.__map_Prague })
   }
 
-  drawChart = () => {
+  drawChart = (state, props) => {
+    console.log("calling drawChart, state:", state)
+    console.log("calling drawChart, props:", props)
+
     const { data, xResolver, yResolver } = this.props
     const xScale = d3
       .scaleLinear()
@@ -227,7 +232,8 @@ class Chart extends React.Component {
         .style("stroke-width", 1)
         .style("fill", this.props.fillColor)
         .style("fill-opacity", 0.25)
-      // chart4? This is your last stop.
+      // Adios, #chart4 ✌ ️
+      // return
       return
     }
 
@@ -295,14 +301,12 @@ class Chart extends React.Component {
         .style("stroke-width", 1)
         .style("fill", this.props.fillColor)
         .style("fill-opacity", 0.25)
-      // Adios, #chart5 ✌ ️
-      // return
     }
 
     let blip
     const makeBlip = () => {
       const blip = d3
-        .select(`#${this.props.map}`)
+        .select(`#${this.props.mapName}`)
         .append("div")
         .attr("class", "customBlip")
         .style("margin-left", "-12.5px")
@@ -327,19 +331,25 @@ class Chart extends React.Component {
       .attr("width", this.width)
       .attr("height", this.height)
       .on("mouseover", function() {
-        if (!blip) blip = makeBlip()
         crossBar.style("display", null)
         infoBox.style("display", null)
+        // BAIL IF NO MAP CONNECTION
+        if (!props.mapName) return null
+        if (!blip) blip = makeBlip()
         blip.style("display", null)
       })
       .on("mouseout", function(e) {
         crossBar.style("display", "none")
         infoBox.style("display", "none")
+        // BAIL IF NO MAP CONNECTION
+        if (!props.mapName) return null
         blip.style("display", "none")
       })
       .on("mousemove", mousemove)
 
     function mousemove() {
+      console.log("calling mousemove, state:", state)
+      console.log("calling mousemove, props:", props)
       const x0 = xScale.invert(d3.mouse(this)[0])
       const i = bisect(data, x0, 1)
       const d0 = data[i - 1]
@@ -352,14 +362,13 @@ class Chart extends React.Component {
         .select(".infoBoxElevationValue")
         .text(d3.format(",.0f")(metersToFeet(d.y)) + "ft")
 
-      // infoBox.select(".infoBoxGradeValue").text(d3.format(".1%")(d.grade))
+      // BAIL OUT IF NO MAP CONNECTION
+      if (!props.mapName) return null
+
       const { x: px, y: py } = fromLatLngToPoint(
         d.location,
-        window.__map__Prague
-        // this.state.map
+        window[props.mapName]
       )
-
-      window.blip = blip
       blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
       return null
     }
