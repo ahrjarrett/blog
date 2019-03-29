@@ -20,8 +20,10 @@ import data from "../../components/d3/data"
 import {
   mapCenterNZ,
   mapCenterCZ,
+  mapCenterEverest,
   markerPositionsNZ,
-  markerPositionsCZ
+  markerPositionsCZ,
+  markerPositionsEverest
 } from "../../components/maps/data"
 
 <LoadMapsApi />
@@ -42,7 +44,7 @@ In this section, we’ll finish building this. Try hovering over the graph to se
   markerPositions={markerPositionsCZ}
   title="Prague"
   theme="retro"
-  zoom={10.9}
+  zoom={11}
   height={400}
   width={553}
 />
@@ -54,10 +56,10 @@ In this section, we’ll finish building this. Try hovering over the graph to se
   transform="translate(47.5, 5)"
   ticks={true}
   gridlines={true}
-  lineColor="127, 54, 61"
-  fillColor="250, 104, 118"
-  background="rgba(255,163,85,0.15)"
-  map="__map__Prague"
+  lineColor="84, 53, 16"
+  fillColor="131, 140, 94"
+  background="#fff"
+  mapName="__map__Prague"
   height={200}
   width={550}
   viewBox="0 0 525 175"
@@ -111,9 +113,9 @@ And here is where we left off in Part 2:
   transform="translate(47.5, 5)"
   ticks={true}
   gridlines={true}
-  lineColor="127, 54, 61"
-  fillColor="250, 104, 118"
-  background="rgba(255,163,85,0.15)"
+  lineColor="26, 44, 46"
+  fillColor="103, 148, 115"
+  background="rgb(144, 153, 167, 0.15)"
 >
   <div id="chart5" />
 </Chart>
@@ -121,18 +123,6 @@ And here is where we left off in Part 2:
 Cool! So what’s next?
 
 Next we’re going to connect our map and our elevation chart so when a user hovers over the chart, a “blip” appears dynamically on the map to show the user where on the map the user will experience that particular elevation.
-
-If that sounds confusing, here’s a quick demo of the feature we built:
-
-<iframe
-  className="youtube-video"
-  width="720"
-  height="480"
-  src="https://www.youtube.com/embed/9HXlmXwyuKk"
-  frameBorder="0"
-  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-/>
 
 Let’s jump right in! ✨
 
@@ -150,7 +140,7 @@ Our component’s signature should look like this when we’re done:
 <Chart
   elevations={this.state.elevations}
   markers={this.state.markers}
-  map={this.props.mapRef}
+  mapName={this.props.mapRef}
 />
 ```
 
@@ -259,14 +249,147 @@ Calling `makeData` and passing in our array of elevations that we received on pr
 
 There! We have our distances.
 
-## Getting Screen Coordinates from a Map Coordinate
+## Get Screen Coordinates
 
-Cool. But there’s one big problem we haven’t solved:
+But there’s one big problem we haven’t solved:
 
 **How are we supposed to draw our “blip” on the map?**
 
 At first we tried using the Marker API to create a marker from a given location, only to destroy it and redraw a new one when the user’s mouse moves.
 
-I’ll spare you the code and show you the result:
+That ended up creating a very choppy user experience, not to mention the event handler was lossy -- the Markers API was not called, so sometimes a marker would render and sometimes it would not be deleted.
 
-Sup sup!
+However it wasn’t hard to do. Each elevation comes with coordinates, so it was as simple as doing `new google.maps.Marker(...)` and passing in the coordinates.
+
+Video of our first iteration -- you can tell we were starting to have fun.
+
+<iframe
+  className="youtube-video"
+  width="720"
+  height="480"
+  src="https://www.youtube.com/embed/IKNc7kCjEc8"
+  frameBorder="0"
+  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>
+
+So markers were out.
+
+As far as we could ascertain, the Markers API was the only way to render an element at a particular point on the map. Sure, technically we could add other SVG elements to the map, but would all suffer from the same choppiness.
+
+We poured over the Google Maps documentation, looking for an escape hatch. Some way to “map” a set of coordinates that exist on the map canvas to its corresponding set of coordinates in the browser window.
+
+Finally we started playing around with the [Point class](https://developers.google.com/maps/documentation/javascript/reference/coordinates#Point), which represents a point on a two-dimensional plane.
+
+From there we found the `fromLatLngToPoint` class, and Googling for the docs led us to this short, wonderful [blog post by Krasimir Tsonev](http:// krasimirtsonev.com/blog/article/google-maps-api-v3-convert-latlng-object-to-actual-pixels-point-object).
+
+```javascript
+const fromLatLngToPoint = (latLng, map) => {
+  const topRight = map
+    .getProjection()
+    .fromLatLngToPoint(map.getBounds().getNorthEast())
+  const bottomLeft = map
+    .getProjection()
+    .fromLatLngToPoint(map.getBounds().getSouthWest())
+  const scale = Math.pow(2, map.getZoom())
+  const worldPoint = map
+    .getProjection()
+    .fromLatLngToPoint(new window.google.maps.LatLng(latLng))
+  const point = new window.google.maps.Point(
+    (worldPoint.x - bottomLeft.x) * scale,
+    (worldPoint.y - topRight.y) * scale
+  )
+  return point
+}
+```
+
+The `scale = Math.pow(2, map.getZoom())` was exactly what we needed to make the conversion.
+
+Because we pass the map as an argument each time, _even if the user drags or zooms the map between calls **we always get the fresh and current screen x- and y-coordinates at a given position**_.
+
+Almost done. Now that we know _where_ to draw the blip, let’s draw it.
+
+### Drawing the “Blip”
+
+We’ll draw the blip in our `mousemove` function:
+
+```javascript
+function mousemove() {
+  const x0 = xScale.invert(d3.mouse(this)[0])
+  const i = bisect(data, x0, 1)
+  const d0 = data[i - 1]
+  const d1 = data[i]
+  const d = !d1 ? d0 : x0 - d0.x > d1.x - x0 ? d1 : d0
+  crossBar.attr("transform", `translate(${xScale(d.x)}, 0)`)
+  crossBar.select("text").text(d3.format(".1f")(metersToMiles(d.x)) + "mi")
+  infoBox.attr("transform", `translate(${xScale(d.x) + 10}, 12.5)`)
+  infoBox
+    .select(".infoBoxElevationValue")
+    .text(d3.format(",.0f")(metersToFeet(d.y)) + "ft")
+
+  /*** BEGIN NEW STUFF ***/
+  const { x: px, y: py } = fromLatLngToPoint(d.location, this.state.map)
+  blip.style("transform", `translate3d(${px}px, ${py}px, 0px)`)
+  /*** END NEW STUFF ***/
+
+  return null
+}
+```
+
+Finally, we need to toggle the blip’s display in our `mouseover` and `mouseleave` events. We just have to add 2 lines of code to do it:
+
+```javascript
+svg
+  .append("rect")
+  .attr("class", "chartOverlay")
+  .attr("width", this.width)
+  .attr("height", this.height)
+  .on("mouseover", function() {
+    crossBar.style("display", null)
+    infoBox.style("display", null)
+    /*** NEW LINE ***/
+    blip.style("display", null)
+  })
+  .on("mouseout", function(e) {
+    crossBar.style("display", "none")
+    infoBox.style("display", "none")
+    /*** NEW LINE ***/
+    blip.style("display", "none")
+  })
+  .on("mousemove", mousemove)
+```
+
+And that’s it! We’ve done it 💯
+
+<MapDrawn
+  type="withChart"
+  center={mapCenterEverest}
+  markerPositions={markerPositionsEverest}
+  title="Mt. Everest"
+  theme="retro"
+  zoom={13}
+  height={400}
+  width={553}
+/>
+
+<Chart
+  type="withMap"
+  targetNode={"#chart7"}
+  data={data.fakeData7}
+  transform="translate(47.5, 5)"
+  ticks={true}
+  gridlines={true}
+  lineColor="84, 53, 16"
+  fillColor="131, 140, 94"
+  background="#fff"
+  mapName="__map__Mt__Everest"
+  height={200}
+  width={550}
+  viewBox="0 0 525 175"
+>
+  <div id="chart7" />
+</Chart>
+
+Check out the [component as we originally wrote it here](https://github.com/Lambda-School-Labs/LabsPT1_bkwds/blob/master/client/src/components/ElevationChart.js).
+
+Thanks for reading! These components were part of our capstone project at Lambda School. If you have any questions about the project or my experience at Lambda School, feel free to reach out to me at <a href="mailto:ahrjarrett@gmail.com">ahrjarrett@gmail.com</a>.
