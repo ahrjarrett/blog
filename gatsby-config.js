@@ -12,7 +12,7 @@ module.exports = {
       minibio: `Andrew Jarrett is a React contractor and functional programming advocate who lives in Austin, Texas with his pomeranian Ash Nabisco.`,
       image: `headshot.jpeg`,
       social: {
-        linkedin: `https://www.linkedin.com/in/andrewhjarrett/`,
+        linkedin: `https://www.linkedin.com/in/ahrjarrett/`,
         github: `https://github.com/ahrjarrett`,
         twitter: `https://twitter.com/ahrjarrett`
       }

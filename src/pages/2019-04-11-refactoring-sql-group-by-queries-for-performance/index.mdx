@@ -1,0 +1,116 @@
+---
+path: "/2019-04-11-refactoring-sql-queries-for-performance"
+date: "2019-04-11"
+title: "Refactoring SQL Queries for Performance"
+image: "2019-04-11-refactoring-sql-queries-for-performance.jpg"
+sharpImage: true
+imgOverlay: "linear-gradient(to bottom right, rgba(0, 47, 75,0.6), rgba(220, 66, 37, 0.6))"
+tags: ["SQL", "data-visualization", "refactoring"]
+excerpt: "This morning I wrote a SQL query that provided a useful abstraction over my company’s many data models. The query was simple enough to write, but performed poorly because of its group by statements. Here’s how I refactored it to run in a fraction of the time."
+published: true
+---
+
+Here was my original query:
+
+```sql
+select
+	c.name as publisher_name,
+	c.id as publisher_id,
+	c.uuid as publisher_uuid,
+	biz.name as business_name,
+	biz.id as business_id,
+	biz.id as business_uuid,
+	date_format(ad.created_at, "%Y-%m") as year_mo,
+	count(*) as origami_ad_count
+	from ads ad
+	inner join advertiser_sources biz on biz.id = ad.business_id
+	inner join customers c on c.id = ad.publisher_id
+	group by publisher_id, business_name, year_mo
+```
+
+Here is the refactored query:
+
+```sql
+select
+	c.name as publisher_name,
+	c.id as publisher_id,
+	b.name as business_name,
+	b.id as business_id,
+	a.year_mo as year_mo,
+	a.count as ad_count
+	from (
+		select
+			publisher_id,
+			business_id,
+			date_format(created_at, "%Y-%m") as year_mo,
+			count(*) as count
+			from ads
+			group by publisher_id, business_id, year_mo
+	) a
+	inner join advertiser_sources b on b.id = a.business_id
+	inner join customers c on c.id = a.publisher_id
+```
+
+1: 2:51.74 - no order by, no limit
+Returned: 1882211 rows (?)
+
+2: 30.23 - no order by, no limit
+Returned: 1913643 rows
+
+Sometimes I like to unnest the inner query when I’m having trouble visualizing what the outer table is selecting from.
+
+```sql
+select *
+	from (
+		select
+			publisher_id,
+			business_id,
+			date_format(created_at, "%Y-%m") as year_mo,
+			count(*) as count
+			from ads
+			group by publisher_id, business_id, year_mo
+) a
+```
+
+```csv
+0 20232081 2016-04 1
+0 20232568 2016-04 9
+0 22093088 2016-04 423
+0 22117577 2016-04 2
+0 22698644 2016-04 1
+0 22708191 2016-08 38
+0 22710579 2016-04 3
+0 22712425 2016-04 74
+0 22712482 2016-04 72
+0 22713041 2016-04 1
+```
+
+Table sizes:
+
+| table | rows    | columns |
+| ----- | ------- | ------- |
+| a     | 8032984 | 63      |
+| b     | 1878216 | 89      |
+| c     | 2852    | 97      |
+
+Resources:
+
+- Many-to-many relationships and "junction tables" (essentially what we’re doing in the slower query is creating unnecessary junction tables because of the order of operations).
+  https://support.airtable.com/hc/en-us/articles/218734758-A-beginner-s-guide-to-many-to-many-relationships
+
+- Original article about performance with multiple group bys
+  https://www.percona.com/blog/2015/06/15/speed-up-group-by-queries-with-subselects-in-mysql/
+
+.jpg
+
+<img src="/static/2019-04-11-refactoring-sql-queries-for-performance-762af18146e8e22613c55cd571ed9947.jpg" />
+
+-1.jpg
+
+<img src="/static/2019-04-11-refactoring-sql-queries-for-performance-1-1b2a0e73fd9a3b348b92c8e0cd42bdb8.jpg" />
+
+-2.jpg
+
+<img src="/static/2019-04-11-refactoring-sql-queries-for-performance-2-dbdd1df2bff868af296ff170ba57eafb.jpg" />
+
+STuff
