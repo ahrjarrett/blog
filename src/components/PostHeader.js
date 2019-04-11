@@ -115,7 +115,7 @@ const PostHeader = ({ next, prev }) => (
             <a href="https://thegrepper.com/">Portfolio</a>
           </li>
           <li>
-            <a href="https://thegrepper.com/resume">Résumé</a>
+            <a href="https://resume.ahrjarrett.com">Resume</a>
           </li>
           {prev && (
             <li>

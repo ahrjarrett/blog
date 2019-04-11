@@ -24,7 +24,7 @@ const links = [
   },
   {
     text: `Resume`,
-    url: `https://thegrepper.com/resume`,
+    url: `https://resume.ahrjarrett.com`,
     meta: { type: "external", newtab: true }
   }
 ]
