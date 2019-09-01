@@ -14,7 +14,7 @@ const links = [
   },
   {
     text: `Portfolio`,
-    url: `https://thegrepper.com/`,
+    url: `https://portfolio.ahrjarrett.com`,
     meta: { type: "external", newtab: false }
   },
   {
@@ -145,7 +145,7 @@ interface NavLogoProps {
 }
 
 const NavLogo: React.FunctionComponent<NavLogoProps> = ({ visible }) => (
-  <NavLogoStyles visible={visible}>the grepper</NavLogoStyles>
+  <NavLogoStyles visible={visible}>the logfile</NavLogoStyles>
 )
 
 interface NavbarProps {}
@@ -171,7 +171,6 @@ class Navbar extends React.Component<NavbarProps, NavbarState> {
   }
 
   componentDidUpdate(prevProps: NavbarProps, prevState: NavbarState) {
-    console.log("component updated! y:", this.state.y)
 
     if (prevState.y !== window.scrollY) {
       if (this.state.y > 500)
