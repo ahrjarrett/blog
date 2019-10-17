@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `the grepper`,
-    shortTitle: `grep™`,
+    title: `the logfile`,
+    shortTitle: `log💾`,
     subtitle: `Global Search Regex + Print`,
     description: `Here’s where I write stuff. Mostly about functional programming. But also sometimes about a book that a friend has recommended, or a dumb thought that my brain had.`,
     canonicalUrl: `https://ahrjarrett.com`,
@@ -52,7 +52,9 @@ module.exports = {
     },
     {
       resolve: `gatsby-plugin-google-analytics`,
-      options: { trackingId: `UA-146804079-1` }
+      options: {
+        trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID
+      }
     }
   ]
 }

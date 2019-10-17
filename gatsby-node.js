@@ -5,7 +5,8 @@ exports.onCreateWebpackConfig = ({ actions, plugins }) => {
     plugins: [
       // Inject environment variables for the client here:
       plugins.define({
-        MAPS_KEY: process.env.MAPS_KEY
+        MAPS_KEY: process.env.MAPS_KEY,
+        GOOGLE_ANALYTICS_TRACKING_ID: process.env.GOOGLE_ANALYTICS_TRACKING_ID
       })
     ]
   })
