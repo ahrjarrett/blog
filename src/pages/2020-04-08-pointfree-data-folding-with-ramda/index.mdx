@@ -1,0 +1,304 @@
+---
+path: "/2020-04-09-pointfree-data-folding-with-ramda"
+date: "2020-04-09"
+title: "Pointfree Data Folding with Ramda"
+image: "2020-04-09-data-pipeline.jpg"
+sharpImage: true
+imgOverlay: "linear-gradient(to top, rgba(195, 20, 50, 0.75), rgba(36, 11, 54, 0.75))"
+tags: ["functional-programming", "data-visualization", "ramda", "pointfree"]
+excerpt: "Say we're building a customer dashboard and need to accumulate a bunch of end user data for an 'Overview' visualization."
+published: true
+---
+
+Say we're building a customer dashboard and need to accumulate a bunch of end consumer or user data for an 'Overview' visualization.
+
+So that we have a concrete example to work with, let's pretend we work for a company that tracks email open- and click-through rates. When a recipient opens an email, our user gets an alert. These alerts happen in real-time.
+
+Basically our users pay us to creep on their users.
+
+> Somebody start a band called Real-Time Creeps please.
+
+The software works as intended but, naturally, our users also want access to historical data, metrics, KPI visualizations, your typical dashboard stuff.
+
+Our task is to accumulate that data and represent it in a format that is easy for our users to digests.
+
+But before we import D3 and start drawing stuff, first we need to figure out how to summarize that data.
+
+As a starting point, first let's deconstruct the larger problem of combining all of our data into a subproblem: How would we combine 2 pieces of data together?
+
+## Problem: Combining 2 Datapoints
+
+Say we have 2 email recipients:
+
+```javascript
+const recipientA = {
+  sent: 2,
+  received: 1,
+  replies: 0,
+  opens: 7,
+  clicks: 3,
+}
+
+const recipientB = {
+  sent: 20,
+  received: 15,
+  replies: 19,
+  opens: 80,
+  clicks: 9,
+}
+```
+
+We want to end up with something like this:
+
+```javascript
+const result = {
+  sent: 2 + 20,
+  received: 1 + 15,
+  replies: 0 + 19,
+  opens: 7 + 80,
+  clicks: 3 + 9,
+}
+```
+
+What we want seems simple enough... but our first implementation is a _little_ clunky:
+
+```javascript
+function add2(a, b) {
+  return {
+    sent: a.sent + b.sent,
+    received: a.received + b.received,
+    replies: a.replies + b.replies,
+    opens: a.opens + b.opens,
+    clicks: a.clicks + b.clicks,
+  }
+}
+```
+
+Not only that, __it's also brittle__: what if we start tracking attachment downloads, or how many times the email has been forwarded? In addition to changing our data model, we would also have to update our helper functions too.
+
+Here's the approach we took to make things more maintainable.
+
+Our project was using the Ramda utility library, which takes a more functional approach:
+
+> Rather than telling our program _how_ to add the data together (imperative), we used function composition to _describe_ the change we wanted to see.
+
+```javascript
+import * as R from 'ramda'
+
+const datapoint1 = { sent: 1, received: 1 }
+const datapoint2 = { sent: 10, received: 9 }
+
+const combineData = (datapoint1, datapoint2) =>
+  R.mergeWith(R.add, datapoint1, datapoint2)
+
+combineData(datapoint1, datapoint2)
+//=> { sent: 11, received: 10 }
+```
+
+[Try it in the REPL](https://ramdajs.com/repl/#?const%20datapoint1%20%3D%20%7B%20sent%3A%201%2C%20received%3A%201%20%7D%0Aconst%20datapoint2%20%3D%20%7B%20sent%3A%2010%2C%20received%3A%209%20%7D%0A%0Aconst%20combineData%20%3D%20%28point1%2C%20point2%29%20%3D%3E%0A%20%20R.mergeWith%28R.add%2C%20point1%2C%20point2%29%0A%0AcombineData%28datapoint1%2C%20datapoint2%29%0A)
+
+We just solved our subproblem. Let's look at what's happening here before we refactor `combineData` to be pointfree:
+
+`R.mergeWith` takes as its first argument the function to apply when merging. [From the Ramda docs](https://ramdajs.com/docs/#mergeWith):
+
+> mergeWith:
+> Creates a new object with the own properties of the two provided objects. If a key exists in both objects, the provided function is applied to the values associated with the key in each object, with the result being used as the value associated with the key in the returned object.
+
+One of the delicious things about the Ramda library is that its functions are _curried_ by default (named after the mathematician [Haskell Curry](https://en.wikipedia.org/wiki/Haskell_Curry).
+
+This just means that instead of simply taking both of its arguments at once, `R.add` can optionally take its arguments one at a time. So these are computationally equivalent:
+
+```javascript
+R.add(1, 2) === R.add(1)(2)
+//=> true
+```
+
+`R.mergeWith` can also take its arguments one at a time 👀
+
+```javascript
+const data = [{ sent: 1, received: 1 }, { sent: 10, received: 9 }]
+
+const result1 = ((p1, p2) => R.mergeWith(R.add, p1, p2))(...data)
+const result2 = ((p1, p2) => R.mergeWith(R.add)(p1, p2))(...data)
+const result3 = ((p1, p2) => R.mergeWith(R.add)(p1)(p2))(...data)
+
+const expected = { sent: 11, received: 10 }
+
+R.all(R.equals(expected))([result1, result2, result3])
+//=> true
+```
+
+[Try it in the REPL](https://ramdajs.com/repl/#?const%20data%20%3D%20%5B%7B%20sent%3A%201%2C%20received%3A%201%20%7D%2C%20%7B%20sent%3A%2010%2C%20received%3A%209%20%7D%5D%0A%0Aconst%20result1%20%3D%20%28%28p1%2C%20p2%29%20%3D%3E%20R.mergeWith%28R.add%2C%20p1%2C%20p2%29%29%28...data%29%0Aconst%20result2%20%3D%20%28%28p1%2C%20p2%29%20%3D%3E%20R.mergeWith%28R.add%29%28p1%2C%20p2%29%29%28...data%29%0Aconst%20result3%20%3D%20%28%28p1%2C%20p2%29%20%3D%3E%20R.mergeWith%28R.add%29%28p1%29%28p2%29%29%28...data%29%20%0A%0Aconst%20expected%20%3D%20%7B%20sent%3A%2011%2C%20received%3A%2010%20%7D%0A%0AR.all%28R.equals%28expected%29%29%28%5Bresult1%2C%20result2%2C%20result3%5D%29%0A)
+
+*Note:* We use `R.equals` here because the `===` comparison operator in JavaScript compares equality by reference, not by value. Knowing the difference is important when writing React code, not only for [performance reasons](https://react-cn.github.io/react/docs/advanced-performance.html), but also because React hooks like `useEffect` use identity by reference when determining whether or not to re-fire.
+
+This is the important bit:
+
+```javascript
+R.mergeWith(R.add, p1, p2))
+R.mergeWith(R.add)(p1, p2))
+R.mergeWith(R.add)(p1)(p2))
+```
+
+So, since `mergeWith(add, ...data)` and `mergeWith(add)(...data)` are computationally identical, we can refactor our `combineData` function to be pointfree:
+
+```javascript
+const combineData = R.mergeWith(add)
+```
+
+This version of `combineData` is no different than before: it is a function that expects two arguments, that it will implicitly pass to the `mergeWith` function (which is waiting to execute until it receives them).
+
+> **Quiz:** Why does this work?
+
+What does this accomplish?
+
+For starters, it is (arguably) more readable. I would argue that it is. I mean, look how declarative it is, especially when we put it next to our old `add2` function (let's rename it `combineData` so it's clear we're implementing the same functionality):
+
+```
+function combineData(a, b) {
+  return {
+    sent: a.sent, b.sent,
+    received: a.received, b.received,
+    replies: a.replies, b.replies,
+    opens: a.opens, b.opens,
+    clicks: a.clicks, b.clicks,
+  }
+}
+```
+
+Basically we are **building up new functions by combining other functions**, rather than declaring our program's arguments explicitly.
+
+That's also the tradeoff, of course. Looking at `combineData`, it's not immediately clear what arguments it expects to receive. This sounds like a job for TypeScript! (Maybe in a future post).
+
+Whether you adopt a pointfree style or not is really a matter of preference, and the level of comfort of your team; once you get used to it, it is pretty convenient never having to think up variable names, and with practice you begin to retrain yourself to write programs in terms of the transformations it performs, rather than the data that it is transforming.
+
+My next article will be a more in-depth look at how my team represented a much more complicated program as a pure data pipeline: no moving parts, no conveyor belts, no branching logic, just a composition of functions totally oblivious to the origin or state of the data that passes through it.
+
+So we've solved the subproblem, but what about aggregating _all_ our data?
+
+## Problem: How to Aggregate *All* Our Data
+
+We're actually almost done!
+
+If you know JavaScript Arrays, you probably know the native `reduce` method:
+
+```javascript
+const data = [1, 2, 3, 4, 5]
+
+data.reduce((total, current) => total + current, 0)
+//=> 15
+```
+
+`Array.prototype.reduce` might be the most versatile function in all of JavaScript (debatable, but certainly the most verstile of the built-in Array methods).
+
+Basically it lets you transform an Array into... literally anything you want. Anything, like, whatever you can think of, seriously. Go nuts.
+
+In the example above, we reduce an Array down to a sum of its values, which if you squint, is basically what we're trying to do.
+
+Reduce takes as its second argument an *initial value*. It then calls the function passed as its first argument on each successive value in the list, starting with the provided initial value and the array's first value.
+
+1. So the first time around, `total` is `0` and `current` is 1...
+
+2. The second time around, `total` is `1` and `current` is 2...
+
+3. The third time around, `total` is `3` and `current` is 3...
+
+Etcetera.
+
+Since that function tells `reduce` how to combine 2 values, we can simply use our `combineData` implementation, passing it as the first argument to `reduce` and an empty object literal as an initial value.
+
+Ramda's version of `reduce` takes the function, then an initial value, and finally the data to reduce. _The fact that we pass our data last every time is what allows our implementations to be pointfree_; passing our data last is the de facto default across the Ramda library:
+
+```javascript
+const combineData = data => R.reduce(R.mergeWith(R.add), {}, data)
+```
+
+[Try it in the REPL](https://ramdajs.com/repl/#?const%20combineData%20%3D%20data%20%3D%3E%20R.reduce%28R.mergeWith%28R.add%29%2C%20%7B%7D%29%28data%29%0A%0Aconst%20data%20%3D%20%5B%7B%0A%20%20sent%3A%202%2C%0A%20%20received%3A%201%2C%0A%20%20replies%3A%200%2C%0A%20%20opens%3A%207%2C%0A%20%20clicks%3A%203%2C%0A%7D%2C%20%7B%0A%20%20sent%3A%2020%2C%0A%20%20received%3A%2015%2C%0A%20%20replies%3A%2019%2C%0A%20%20opens%3A%2080%2C%0A%20%20clicks%3A%209%2C%0A%7D%2C%20%7B%0A%20%20sent%3A%20111%2C%0A%20%20received%3A%20100%2C%0A%20%20replies%3A%201%2C%0A%20%20opens%3A%2030%2C%0A%20%20clicks%3A%201%2C%0A%20%20%7D%0A%5D%0A%0AcombineData%28data%29)
+
+And with that, we have our pointfree aggregation function:
+
+```javascript
+const combineData = R.reduce(R.mergeWith(R.add), {})
+
+const data = [{
+  sent: 2,
+  received: 1,
+  replies: 0,
+  opens: 7,
+  clicks: 3,
+}, {
+  sent: 20,
+  received: 15,
+  replies: 19,
+  opens: 80,
+  clicks: 9,
+}, {
+  sent: 111,
+  received: 100,
+  replies: 1,
+  opens: 30,
+  clicks: 1,
+  }
+]
+
+combineData(data)
+//=> { sent: 133, received: 116, replies: 20, opens: 117, clicks: 13 }
+```
+
+[Try it in the REPL](https://ramdajs.com/repl/#?%2F%2F%20Source%3A%20https%3A%2F%2Fahrjarrett.com%2Fposts%2F2020-04-08-pointfree-data-folding-with-ramda%0A%0A%2F%2F%20Our%20final%20version%20of%20%60combineData%60%3A%0Aconst%20combineData%20%3D%20R.reduce%28R.mergeWith%28R.add%29%2C%20%7B%7D%29%0A%0Aconst%20data%20%3D%20%5B%7B%0A%20%20sent%3A%202%2C%0A%20%20received%3A%201%2C%0A%20%20replies%3A%200%2C%0A%20%20opens%3A%207%2C%0A%20%20clicks%3A%203%2C%0A%7D%2C%20%7B%0A%20%20sent%3A%2020%2C%0A%20%20received%3A%2015%2C%0A%20%20replies%3A%2019%2C%0A%20%20opens%3A%2080%2C%0A%20%20clicks%3A%209%2C%0A%7D%2C%20%7B%0A%20%20sent%3A%20111%2C%0A%20%20received%3A%20100%2C%0A%20%20replies%3A%201%2C%0A%20%20opens%3A%2030%2C%0A%20%20clicks%3A%201%2C%0A%20%20%7D%0A%5D%0A%0AcombineData%28data%29%0A%2F%2F%3D%3E%20%7B%20sent%3A%20133%2C%20received%3A%20116%2C%20replies%3A%2020%2C%20opens%3A%20117%2C%20clicks%3A%2013%20%7D%0A)
+
+## What Now?
+
+If you work with state reducers like you see in Redux, adding pointfree functions to your code is very clean, for example:
+
+```javascript
+function reducer(state, action) {
+  switch(action.type) {
+    case 'ACCUMULATE_VALUES':
+      return R.evolve({
+        kpis: R.reduce(R.mergeWith(R.add))
+      })
+  }
+}
+```
+
+That looks pretty similar to some of the code we've pushed to production. I personally like it, but I recommend you get buy-in from your team before you start shoving functions like this into your PRs, especially if your team isn't already familiar with and sold on functional programming in general.
+
+Thanks for reading! Next time we'll take a look at this functional pipeline, which is also pointfree:
+
+```javascript
+function castToArray(x) {
+  return !x ? [] : [...x]
+}
+
+export const getIssues = R.pipe(
+  R.path(['repository', 'issues', 'edges']),
+  castToArray,
+  R.pluck('node'),
+  R.indexBy(R.prop('id')),
+  R.map(
+    R.evolve({
+      comments: R.prop('totalCount'),
+      labels: R.pipe(
+        R.prop('edges'),
+        castToArray,
+        R.pluck('node'),
+        R.pluck('name'),
+      ),
+      participants: R.pipe(
+        R.prop('edges'),
+        castToArray,
+        R.pluck('node'),
+        R.pluck('avatarUrl'),
+        R.head,
+      ),
+    }),
+  ),
+)
+```
+
+What is this function doing? Can you guess where the data might be coming from?
+
+Until next time,
+
+*ahrjarrett*

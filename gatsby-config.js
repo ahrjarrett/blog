@@ -14,9 +14,9 @@ module.exports = {
       social: {
         linkedin: `https://www.linkedin.com/in/andrewhjarrett/`,
         github: `https://github.com/ahrjarrett`,
-        twitter: `https://twitter.com/ahrjarrett`
-      }
-    }
+        twitter: `https://twitter.com/ahrjarrett`,
+      },
+    },
   },
   //pathPrefix: `/test`,
   plugins: [
@@ -27,34 +27,34 @@ module.exports = {
     {
       resolve: `gatsby-mdx`,
       options: {
-        extensions: [`.mdx`, `.md`]
-      }
+        extensions: [`.mdx`, `.md`],
+      },
     },
     {
       resolve: `gatsby-plugin-styled-components`,
       options: {
-        displayName: true
-      }
+        displayName: true,
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `pages`,
-        path: `${__dirname}/src/pages`
-      }
+        path: `${__dirname}/src/pages`,
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
-        path: `${__dirname}/src/images`
-      }
+        path: `${__dirname}/src/images`,
+      },
     },
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID
-      }
-    }
-  ]
+        trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
+      },
+    },
+  ],
 }
